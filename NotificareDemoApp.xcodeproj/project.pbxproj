@@ -67,6 +67,7 @@
 		5D43D11E170EFD9B00E360E9 /* NotificareResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NotificareResources.bundle; sourceTree = "<group>"; };
 		5D43D13E170F6C3B00E360E9 /* NSString+FromBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FromBundle.h"; sourceTree = "<group>"; };
 		5D43D13F170F6C3B00E360E9 /* UIImage+FromBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FromBundle.h"; sourceTree = "<group>"; };
+		5D4EFA2F173D287800808504 /* NSDictionary+FromPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+FromPlist.h"; sourceTree = "<group>"; };
 		5D7737AC1727E7D20064F71B /* BlueTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BlueTheme.bundle; sourceTree = "<group>"; };
 		5D7737AD1727E7D30064F71B /* GreenTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GreenTheme.bundle; sourceTree = "<group>"; };
 		5D7737AE1727E7D30064F71B /* RedTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RedTheme.bundle; sourceTree = "<group>"; };
@@ -461,6 +462,7 @@
 		5DDC0FC316FCFAE70019E5CC /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				5D4EFA2F173D287800808504 /* NSDictionary+FromPlist.h */,
 				5DDA2883172EF62D008AED4F /* NSString+Utils.h */,
 				5D43D13E170F6C3B00E360E9 /* NSString+FromBundle.h */,
 				5D43D13F170F6C3B00E360E9 /* UIImage+FromBundle.h */,
