@@ -13,13 +13,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    //[[UITabBar appearance] setTintColor:[UIColor brownColor]];
-
-    //NSLog(@"didFinishLaunchingWithOptions");
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
     
-    //[[NotificarePushLib shared] registerForWebsockets];
 
     [[NotificarePushLib shared] registerForRemoteNotificationsTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
@@ -101,6 +97,13 @@
     [[NotificarePushLib shared] startLocationUpdates];
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    [[NotificarePushLib shared] openNotification:userInfo];
+    
+    //[[NotificarePushLib shared] clearNotification:[userInfo objectForKey:@"id"]];
+}
+
 
 - (void)notificarePushLib:(NotificarePushLib *)library willOpenNotification:(Notification *)notification{
     NSLog(@"%@",notification);
@@ -146,33 +149,6 @@
     NSLog(@"%@",error);
 }
 
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
-    [[NotificarePushLib shared] openNotification:userInfo];
-    
-    //[[NotificarePushLib shared] clearNotification:[userInfo objectForKey:@"id"]];
-}
-
--(void)notificarePushLib:(NotificarePushLib *)library didRegisterForWebsocketsNotifications:(NSString *)token{
-    
-    //[[NotificarePushLib shared] registerDeviceForWebsockets:token withUserID:@"1234567890" withUsername:@"Joel Oliveira"];
-}
-
--(void)notificarePushLib:(NotificarePushLib *)library didFailToRegisterWebsocketNotifications:(NSError *)error{
-    
-    NSLog(@"%@",error);
-}
-
--(void)notificarePushLib:(NotificarePushLib *)library didReceiveWebsocketNotification:(NSDictionary *)info{
-    
-    //[[NotificarePushLib shared] openNotification:info];
-}
-
--(void)notificarePushLib:(NotificarePushLib *)library didCloseWebsocketConnection:(NSString *)reason{
-    
-    //[[NotificarePushLib shared] registerForWebsockets];
-}
 
 
 -(void)goToSecondTab{
