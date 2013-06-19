@@ -658,6 +658,15 @@
 				CLASSPREFIX = TS;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Notificare;
+				TargetAttributes = {
+					5DDC0F5D16FCF9780019E5CC = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 5DDC0F5916FCF9780019E5CC /* Build configuration list for PBXProject "NotificareDemoApp" */;
 			compatibilityVersion = "Xcode 3.2";
