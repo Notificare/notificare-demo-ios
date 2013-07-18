@@ -784,8 +784,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -800,8 +800,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "27006BB7-536A-4ED7-895E-62DD8B3E8182";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "27006BB7-536A-4ED7-895E-62DD8B3E8182";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -819,8 +819,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Media Overview B.V.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Media Overview B.V.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -828,8 +828,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -839,8 +839,8 @@
 		5DDC0F9016FCF9790019E5CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NotificareDemoApp/NotificareDemoApp-Prefix.pch";
 				INFOPLIST_FILE = "NotificareDemoApp/NotificareDemoApp-Info.plist";
@@ -850,8 +850,8 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "27006BB7-536A-4ED7-895E-62DD8B3E8182";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "27006BB7-536A-4ED7-895E-62DD8B3E8182";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -859,8 +859,8 @@
 		5DDC0F9116FCF9790019E5CC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Media Overview B.V.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Media Overview B.V.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NotificareDemoApp/NotificareDemoApp-Prefix.pch";
 				INFOPLIST_FILE = "NotificareDemoApp/NotificareDemoApp-Info.plist";
@@ -870,8 +870,8 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -888,8 +888,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Media Overview B.V.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Media Overview B.V.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Media Overview B.V. (HY7WGYR4J7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Media Overview B.V. (HY7WGYR4J7)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -904,8 +904,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
+				PROVISIONING_PROFILE = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -914,8 +914,8 @@
 		5DDC0F9316FCF98A0019E5CC /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Media Overview B.V.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Media Overview B.V.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Media Overview B.V. (HY7WGYR4J7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Media Overview B.V. (HY7WGYR4J7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NotificareDemoApp/NotificareDemoApp-Prefix.pch";
 				INFOPLIST_FILE = "NotificareDemoApp/NotificareDemoApp-Info.plist";
@@ -925,8 +925,8 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BEDD4EE7-D9CE-461B-B63C-994F46843201";
+				PROVISIONING_PROFILE = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
 				WRAPPER_EXTENSION = app;
 			};
 			name = AdHoc;
