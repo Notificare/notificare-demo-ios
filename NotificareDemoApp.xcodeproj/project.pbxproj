@@ -221,16 +221,6 @@
 		5DDC0F5516FCF9780019E5CC = {
 			isa = PBXGroup;
 			children = (
-				5D43D0AA1708DB2500E360E9 /* QuartzCore.framework */,
-				5DDC0FEE16FCFB330019E5CC /* CFNetwork.framework */,
-				5DDC0FEC16FCFB2D0019E5CC /* Security.framework */,
-				5DDC0FEA16FCFB270019E5CC /* SystemConfiguration.framework */,
-				5DDC0FE816FCFB210019E5CC /* MapKit.framework */,
-				5DDC0FE616FCFB1B0019E5CC /* PassKit.framework */,
-				5DDC0FE416FCFB130019E5CC /* libicucore.dylib */,
-				5DDC0FE216FCFB0C0019E5CC /* MessageUI.framework */,
-				5DDC0FE016FCFB060019E5CC /* MobileCoreServices.framework */,
-				5DDC0FDE16FCFAFE0019E5CC /* CoreLocation.framework */,
 				5DDC0F6716FCF9780019E5CC /* NotificareDemoApp */,
 				5DDC0F6016FCF9780019E5CC /* Frameworks */,
 				5DDC0F5F16FCF9780019E5CC /* Products */,
@@ -248,6 +238,16 @@
 		5DDC0F6016FCF9780019E5CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5D43D0AA1708DB2500E360E9 /* QuartzCore.framework */,
+				5DDC0FEE16FCFB330019E5CC /* CFNetwork.framework */,
+				5DDC0FEC16FCFB2D0019E5CC /* Security.framework */,
+				5DDC0FEA16FCFB270019E5CC /* SystemConfiguration.framework */,
+				5DDC0FE816FCFB210019E5CC /* MapKit.framework */,
+				5DDC0FE616FCFB1B0019E5CC /* PassKit.framework */,
+				5DDC0FE416FCFB130019E5CC /* libicucore.dylib */,
+				5DDC0FE216FCFB0C0019E5CC /* MessageUI.framework */,
+				5DDC0FE016FCFB060019E5CC /* MobileCoreServices.framework */,
+				5DDC0FDE16FCFAFE0019E5CC /* CoreLocation.framework */,
 				5DDC0F6116FCF9780019E5CC /* UIKit.framework */,
 				5DDC0F6316FCF9780019E5CC /* Foundation.framework */,
 				5DDC0F6516FCF9780019E5CC /* CoreGraphics.framework */,
@@ -784,8 +784,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -800,8 +800,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "B1743235-E034-4877-9B5A-B7E11EF4AAD5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B1743235-E034-4877-9B5A-B7E11EF4AAD5";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -839,8 +839,8 @@
 		5DDC0F9016FCF9790019E5CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Joris Verbogt (QWNN2H6Y6W)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NotificareDemoApp/NotificareDemoApp-Prefix.pch";
 				INFOPLIST_FILE = "NotificareDemoApp/NotificareDemoApp-Info.plist";
@@ -850,8 +850,8 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "B1743235-E034-4877-9B5A-B7E11EF4AAD5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B1743235-E034-4877-9B5A-B7E11EF4AAD5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -904,8 +904,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
+				PROVISIONING_PROFILE = "5996254B-62DD-4FA3-884D-72ED116C4EDA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5996254B-62DD-4FA3-884D-72ED116C4EDA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -925,8 +925,8 @@
 				);
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "97AE0805-4964-4DBB-9A1E-99B7D9777875";
+				PROVISIONING_PROFILE = "5996254B-62DD-4FA3-884D-72ED116C4EDA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5996254B-62DD-4FA3-884D-72ED116C4EDA";
 				WRAPPER_EXTENSION = app;
 			};
 			name = AdHoc;

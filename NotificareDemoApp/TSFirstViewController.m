@@ -24,20 +24,20 @@
     
     [self setTwitterEngine:[[TwitterEngine alloc] initWithHostName:@"search.twitter.com" customHeaderFields:nil]];
     
-    [[self twitterEngine] getTweets:@"/search.json?q=%40notificare" completionHandler:^(NSDictionary* info){
-        
-        for (NSDictionary* tweet in [info objectForKey:@"results"]) {
-            [[self tweets] addObject:tweet];
-            
-        }
-        
-        [[self tableView] reloadData];
-        
-    }errorHandler:^(NSError* error){
-        
-        NSLog(@"ERROR FETCHING TWEETS");
-        
-    }];
+//    [[self twitterEngine] getTweets:@"/search.json?q=%40notificare" completionHandler:^(NSDictionary* info){
+//        
+//        for (NSDictionary* tweet in [info objectForKey:@"results"]) {
+//            [[self tweets] addObject:tweet];
+//            
+//        }
+//        
+//        [[self tableView] reloadData];
+//        
+//    }errorHandler:^(NSError* error){
+//        
+//        NSLog(@"ERROR FETCHING TWEETS");
+//        
+//    }];
 }
 
 
