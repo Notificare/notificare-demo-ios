@@ -95,6 +95,28 @@
     [[NotificarePushLib shared] registerDevice:[self theDeviceToken] withUserID:[settings objectForKey:@"user"] withUsername:[settings objectForKey:@"user"]];
     
     [[NotificarePushLib shared] startLocationUpdates];
+    
+    [[NotificarePushLib shared] addTags:@[@"aaa",@"aaa2"] completionHandler:^(NSDictionary *info) {
+        
+        NSLog(@"SUCCESS: %@",info);
+        
+    } errorHandler:^(NSError *error) {
+        
+        NSLog(@"ERROR: %@",error);
+        
+    }];
+    
+    [[NotificarePushLib shared] registerDevice:[self theDeviceToken] withUserID:[settings objectForKey:@"user"] withUsername:[settings objectForKey:@"user"]];
+    
+    [[NotificarePushLib  shared] getTags:^(NSDictionary *info) {
+        
+        NSLog(@"%@", info);
+        
+    } errorHandler:^(NSError *error) {
+        
+        NSLog(@"%@", error);
+        
+    }];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
