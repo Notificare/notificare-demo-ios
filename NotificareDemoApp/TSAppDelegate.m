@@ -10,9 +10,13 @@
   
 @implementation TSAppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [TestFlight takeOff:@"01f98ec4-0987-442d-ab26-6f453689d605"];
     
+    [self setTheLog:[NSMutableArray array]];
+    [self setTheBeacons:[NSMutableArray array]];
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
     
@@ -24,6 +28,13 @@
         
         [[NotificarePushLib shared] openNotification:[launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"]];
     }
+    
+    
+    if([launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]){
+        NSLog(@"%@",[launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]);
+        //[[NotificarePushLib shared] openNotification:[launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]];
+    }
+    
     
     // Override point for customization after application launch.
     return YES;
@@ -85,6 +96,8 @@
         [self registerTheDevice];
     }
     
+    
+    
 }
 
 
@@ -92,36 +105,44 @@
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     
-    [[NotificarePushLib shared] registerDevice:[self theDeviceToken] withUserID:[settings objectForKey:@"user"] withUsername:[settings objectForKey:@"user"]];
-    
-    [[NotificarePushLib shared] startLocationUpdates];
-    
-    [[NotificarePushLib shared] addTags:@[@"aaa",@"aaa2"] completionHandler:^(NSDictionary *info) {
-        
-        NSLog(@"SUCCESS: %@",info);
-        
+    [[NotificarePushLib shared] registerDevice:[self theDeviceToken] withUserID:[settings objectForKey:@"user"] withUsername:[settings objectForKey:@"user"] completionHandler:^(NSDictionary *info) {
+        //yeah
+        [[NotificarePushLib shared] startLocationUpdates];
     } errorHandler:^(NSError *error) {
-        
-        NSLog(@"ERROR: %@",error);
-        
+        //error?
     }];
     
-    [[NotificarePushLib shared] registerDevice:[self theDeviceToken] withUserID:[settings objectForKey:@"user"] withUsername:[settings objectForKey:@"user"]];
-    
-    [[NotificarePushLib  shared] getTags:^(NSDictionary *info) {
-        
-        NSLog(@"%@", info);
-        
-    } errorHandler:^(NSError *error) {
-        
-        NSLog(@"%@", error);
-        
-    }];
+}
+
+-(void)startMonitoringBeacons{
+    [[NotificarePushLib shared] startMonitoringBeaconRegion:[[NSUUID alloc] initWithUUIDString:@"f7826da6-4fa2-4e98-8024-bc5b71e0893e"]];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     [[NotificarePushLib shared] openNotification:userInfo];
+
+    
+    //[[NotificarePushLib shared] clearNotification:[userInfo objectForKey:@"id"]];
+}
+
+-(void)openNotification:(NSDictionary *)notification{
+    [[NotificarePushLib shared] openBeacon:notification];
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+
+    NSLog(@"APPPPPP %@", [[notification userInfo] objectForKey:@"id"]);
+    
+    UIAlertView * localNotification = [[UIAlertView alloc] initWithTitle:[[notification userInfo] objectForKey:@"title"]
+                                                message:[[notification userInfo] objectForKey:@"message"]
+                                               delegate:self
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil, nil];
+ //   [localNotification setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [localNotification show];
+    
+    //[[NotificarePushLib shared] openNotification:userInfo];
     
     //[[NotificarePushLib shared] clearNotification:[userInfo objectForKey:@"id"]];
 }
@@ -132,7 +153,7 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(Notification *)notification{
-    NSLog(@"%@",notification);
+    NSLog(@"didOpenNotification: %@",notification);
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCloseNotification:(Notification *)notification{
@@ -169,6 +190,169 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToExecuteAction:(NSError *)error{
     NSLog(@"%@",error);
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didReceiveLocationServiceAuthorizationStatus:(NSDictionary *)status{
+    NSLog(@"Location Services status: %@", status);
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didFailWithError:(NSError *)error{
+     NSLog(@"didFailWithError: %@", error);
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
+    
+    NSArray * monitoredRegions = [[[[NotificarePushLib shared] locationManager] monitoredRegions] allObjects];
+    NSLog(@"didUpdateLocations: %@", monitoredRegions);
+    [self setTheLocations:locations];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+}
+
+
+- (void)notificarePushLib:(NotificarePushLib *)library monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
+    NSLog(@"monitoringDidFailForRegion: %@ %@", region, error);
+    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+    [theTempDict setObject:@"monitoringDidFailForRegion" forKey:@"title"];
+    [theTempDict setObject:region forKey:@"region"];
+    [theTempDict setObject:[NSDate date] forKey:@"date"];
+    [theTempDict setObject:[error debugDescription] forKey:@"error"];
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        [theTempDict setObject:@"beacon" forKey:@"class"];
+    } else{
+        [theTempDict setObject:@"fence" forKey:@"class"];
+    }
+    
+    [[self theLog] addObject:theTempDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
+    NSLog(@"didDetermineState: %i %@", state, region);
+
+    NSString * stateText = @"";
+    switch (state) {
+        case CLRegionStateInside:
+            stateText = @"Entered Region";
+            break;
+            
+        case CLRegionStateOutside:
+            stateText = @"Exited Region";
+            break;
+            
+        case CLRegionStateUnknown:
+            stateText = @"Unknown state";
+            break;
+            
+        default:
+            stateText = @"No state";
+            break;
+    }
+    
+    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+    [theTempDict setObject:@"didDetermineState" forKey:@"title"];
+    [theTempDict setObject:region forKey:@"region"];
+    [theTempDict setObject:[NSDate date] forKey:@"date"];
+    [theTempDict setObject:stateText forKey:@"state"];
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        [theTempDict setObject:@"beacon" forKey:@"class"];
+    } else{
+        [theTempDict setObject:@"fence" forKey:@"class"];
+    }
+    [[self theLog] addObject:theTempDict];
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
+    NSLog(@"didEnterRegion: %@", region);
+//    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+//    [theTempDict setObject:@"didEnterRegion" forKey:@"title"];
+//    [theTempDict setObject:region forKey:@"region"];
+//    [[self theLog] addObject:theTempDict];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+    
+    //[self sendNotification:@"Welcome! You are invited to pass by our shop now and we check out our latest offers" forRegion:(CLRegion *)region];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didExitRegion:(CLRegion *)region{
+    
+    
+    NSLog(@"didExitRegion: %@", region);
+    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+    [theTempDict setObject:@"didExitRegion" forKey:@"title"];
+    [theTempDict setObject:region forKey:@"region"];
+    [theTempDict setObject:[NSDate date] forKey:@"date"];
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        [theTempDict setObject:@"beacon" forKey:@"class"];
+    } else{
+        [theTempDict setObject:@"fence" forKey:@"class"];
+    }
+    [[self theLog] addObject:theTempDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+    
+    //[self sendNotification:@"Bye! I hope you enjoyed." forRegion:region];
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
+    NSLog(@"rangingBeaconsDidFailForRegion: %@ %@", region, error);
+    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+    [theTempDict setObject:@"rangingBeaconsDidFailForRegion" forKey:@"title"];
+    [theTempDict setObject:region forKey:@"region"];
+    [theTempDict setObject:[NSDate date] forKey:@"date"];
+    [theTempDict setObject:@"beacon" forKey:@"class"];
+    [theTempDict setObject:[error debugDescription] forKey:@"error"];
+    [[self theLog] addObject:theTempDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
+    NSLog(@"didRangeBeacons: %@ %@", beacons, region);
+    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+    [theTempDict setObject:@"didRangeBeacons" forKey:@"title"];
+    [theTempDict setObject:region forKey:@"region"];
+    [theTempDict setObject:[NSDate date] forKey:@"date"];
+    [theTempDict setObject:beacons forKey:@"beacons"];
+    [theTempDict setObject:@"beacon" forKey:@"class"];
+    [[self theLog] addObject:theTempDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+
+    for (NSDictionary * beacon in beacons) {
+
+        if([beacon objectForKey:@"info"]){
+            
+            if([[self theBeacons] count] > 0){
+                for (NSDictionary * theBeacon in [self theBeacons]) {
+                    
+                    if(![[[theBeacon objectForKey:@"info"]  objectForKey:@"_id"] isEqualToString:[[beacon objectForKey:@"info"] objectForKey:@"_id"]]){
+                        [[self theBeacons] addObject:beacon];
+                    }
+                    
+                }
+            } else {
+                [[self theBeacons] addObject:beacon];
+            }
+            
+        }
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotBeacons" object:nil];
+    UITabBarController * tabBarController = (UITabBarController*)self.window.rootViewController;
+    [tabBarController setSelectedIndex:1];
+    
+
+}
+
+
+- (void)sendNotification:(NSString *)message forRegion:(CLRegion *)region {
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+
+    [notification setAlertBody:message];
+    [notification setAlertAction:@"OK"];
+    NSMutableDictionary * infoDict = [NSMutableDictionary dictionary];
+    [infoDict setObject:[region identifier] forKey:@"id"];
+    [infoDict setObject:@"Your App" forKey:@"title"];
+    [infoDict setObject:message forKey:@"message"];
+    [notification setUserInfo: infoDict];
+    [notification setSoundName:UILocalNotificationDefaultSoundName];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+
 }
 
 

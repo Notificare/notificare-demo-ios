@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TwitterEngine.h"
 
 
-@interface TSFirstViewController : UIViewController
+@interface TSFirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong,nonatomic) IBOutlet UITableView *tableView;
-@property (strong,nonatomic) NSMutableArray *tweets;
-@property (strong, nonatomic) TwitterEngine * twitterEngine;
+@property (strong,nonatomic) NSMutableArray *log;
 
 @end

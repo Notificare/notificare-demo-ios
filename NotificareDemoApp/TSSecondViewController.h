@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSSecondViewController : UIViewController
+@interface TSSecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (strong,nonatomic) IBOutlet UITableView *tableView;
+@property (strong,nonatomic) NSMutableArray *beacons;
+
+-(IBAction)startBeacons:(id)sender;
 
 @end

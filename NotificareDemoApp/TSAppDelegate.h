@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "NotificarePushLib.h"
+#import "TestFlight.h"
 
 @interface TSAppDelegate : UIResponder <UIApplicationDelegate,NotificarePushLibDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIWindow * window;
 @property (strong, nonatomic) NSData * theDeviceToken;
 @property (strong, nonatomic) UIAlertView *message;
+@property (strong, nonatomic) NSArray * theLocations;
+@property (strong, nonatomic) NSMutableArray * theLog;
+@property (strong, nonatomic) NSMutableArray * theBeacons;
+
+-(void)startMonitoringBeacons;
+-(void)openNotification:(NSDictionary *)notification;
 
 @end
