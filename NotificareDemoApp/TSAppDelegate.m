@@ -13,7 +13,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+    [TestFlight takeOff:@"01f98ec4-0987-442d-ab26-6f453689d605"];
     
     [self setTheLog:[NSMutableArray array]];
     [self setTheBeacons:[NSMutableArray array]];
@@ -332,9 +332,9 @@
         }
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotBeacons" object:nil];
-    UITabBarController * tabBarController = (UITabBarController*)self.window.rootViewController;
-    [tabBarController setSelectedIndex:1];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"gotBeacons" object:nil];
+    //UITabBarController * tabBarController = (UITabBarController*)self.window.rootViewController;
+    //[tabBarController setSelectedIndex:1];
     
 
 }

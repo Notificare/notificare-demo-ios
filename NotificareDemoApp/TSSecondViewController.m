@@ -37,6 +37,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList) name:@"gotBeacons" object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self setBeacons:[NSMutableArray arrayWithArray:[[self appDelegate] theBeacons]]];
+    NSLog(@"COUNT: %i",[[self beacons] count]);
+    [[self tableView] reloadData];
+}
+
 -(void)reloadList{
     [self setBeacons:[NSMutableArray arrayWithArray:[[self appDelegate] theBeacons]]];
     NSLog(@"COUNT: %i",[[self beacons] count]);
