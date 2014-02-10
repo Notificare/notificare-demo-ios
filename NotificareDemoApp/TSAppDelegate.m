@@ -114,16 +114,10 @@
     
 }
 
--(void)startMonitoringBeacons{
-    [[NotificarePushLib shared] startMonitoringBeaconRegion:[[NSUUID alloc] initWithUUIDString:@"f7826da6-4fa2-4e98-8024-bc5b71e0893e"]];
-}
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     [[NotificarePushLib shared] openNotification:userInfo];
-
-    
-    //[[NotificarePushLib shared] clearNotification:[userInfo objectForKey:@"id"]];
 }
 
 -(void)openNotification:(NSDictionary *)notification{
@@ -132,19 +126,15 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
 
-    NSLog(@"APPPPPP %@", [[notification userInfo] objectForKey:@"id"]);
     
     UIAlertView * localNotification = [[UIAlertView alloc] initWithTitle:[[notification userInfo] objectForKey:@"title"]
                                                 message:[[notification userInfo] objectForKey:@"message"]
                                                delegate:self
                                       cancelButtonTitle:@"OK"
                                       otherButtonTitles:nil, nil];
- //   [localNotification setAlertViewStyle:UIAlertViewStylePlainTextInput];
+
     [localNotification show];
     
-    //[[NotificarePushLib shared] openNotification:userInfo];
-    
-    //[[NotificarePushLib shared] clearNotification:[userInfo objectForKey:@"id"]];
 }
 
 
@@ -200,15 +190,15 @@
      NSLog(@"didFailWithError: %@", error);
 }
 
+
+
+//Use this delegate to get the location updates
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
-    
-    NSArray * monitoredRegions = [[[[NotificarePushLib shared] locationManager] monitoredRegions] allObjects];
-    NSLog(@"didUpdateLocations: %@", monitoredRegions);
     [self setTheLocations:locations];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 }
 
-
+//Use this delegate to know if any region failed to be monitored
 - (void)notificarePushLib:(NotificarePushLib *)library monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
     NSLog(@"monitoringDidFailForRegion: %@ %@", region, error);
     NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
@@ -224,7 +214,13 @@
     
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+    
+    
 }
+
+//iOS 7 only delegate. When on iOS7 this delegate will give a status of a monitored region
+// You can request a state of a region by doing [[[NotificarePushLib shared] locationManager] requestStateForRegion:(CLRegion *) region];
+
 - (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
     NSLog(@"didDetermineState: %i %@", state, region);
 
@@ -262,19 +258,18 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 }
+
+//Use this delegate to know when a user entered a region. Notificare will automatically handle the triggers.
+//According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
     NSLog(@"didEnterRegion: %@", region);
-//    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
-//    [theTempDict setObject:@"didEnterRegion" forKey:@"title"];
-//    [theTempDict setObject:region forKey:@"region"];
-//    [[self theLog] addObject:theTempDict];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
     
-    //[self sendNotification:@"Welcome! You are invited to pass by our shop now and we check out our latest offers" forRegion:(CLRegion *)region];
 }
+
+//Use this delegate to know when a user exited a region. Notificare will automatically handle the triggers.
+//According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didExitRegion:(CLRegion *)region{
-    
-    
+
     NSLog(@"didExitRegion: %@", region);
     NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
     [theTempDict setObject:@"didExitRegion" forKey:@"title"];
@@ -287,10 +282,14 @@
     }
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
-    
-    //[self sendNotification:@"Bye! I hope you enjoyed." forRegion:region];
 }
 
+- (void)notificarePushLib:(NotificarePushLib *)library didStartMonitoringForRegion:(CLRegion *)region{
+    
+}
+
+
+//iOS 7 only delegate. Use this delegate to know when ranging beacons for a CLBeaconRegion failed.
 - (void)notificarePushLib:(NotificarePushLib *)library rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
     NSLog(@"rangingBeaconsDidFailForRegion: %@ %@", region, error);
     NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
@@ -302,6 +301,13 @@
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 }
+
+//iOS 7 only delegate. Use this delegate to know when beacons have been found according to the proximity you set in the dashboard or API.
+//When found a beacon it will be included in the array as a NSDictionary with a root property called info
+//This will hold all the information of the beacon that is passed by Notificare like settings, content, etc.
+//With this object you can alays open the beacon content by doing:
+//[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
+
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
     NSLog(@"didRangeBeacons: %@ %@", beacons, region);
     NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
@@ -319,9 +325,15 @@
             
             if([[self theBeacons] count] > 0){
                 for (NSDictionary * theBeacon in [self theBeacons]) {
-                    
+                    //Let's just save if it's not there yet
                     if(![[[theBeacon objectForKey:@"info"]  objectForKey:@"_id"] isEqualToString:[[beacon objectForKey:@"info"] objectForKey:@"_id"]]){
                         [[self theBeacons] addObject:beacon];
+                        //We could also trigger Notificare to open the notification:
+                        //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
+                        
+                        //Maybe you want to trigger a remote or local notification?
+                        //Or maybe just quietly handle the beacons on the background?
+                        
                     }
                     
                 }
@@ -331,27 +343,6 @@
             
         }
     }
-    
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"gotBeacons" object:nil];
-    //UITabBarController * tabBarController = (UITabBarController*)self.window.rootViewController;
-    //[tabBarController setSelectedIndex:1];
-    
-
-}
-
-
-- (void)sendNotification:(NSString *)message forRegion:(CLRegion *)region {
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-
-    [notification setAlertBody:message];
-    [notification setAlertAction:@"OK"];
-    NSMutableDictionary * infoDict = [NSMutableDictionary dictionary];
-    [infoDict setObject:[region identifier] forKey:@"id"];
-    [infoDict setObject:@"Your App" forKey:@"title"];
-    [infoDict setObject:message forKey:@"message"];
-    [notification setUserInfo: infoDict];
-    [notification setSoundName:UILocalNotificationDefaultSoundName];
-    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 
 }
 

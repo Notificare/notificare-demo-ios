@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSMutableArray * theLog;
 @property (strong, nonatomic) NSMutableArray * theBeacons;
 
--(void)startMonitoringBeacons;
 -(void)openNotification:(NSDictionary *)notification;
 
 @end
