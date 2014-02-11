@@ -13,6 +13,5 @@
 @property (strong,nonatomic) IBOutlet UITableView *tableView;
 @property (strong,nonatomic) NSMutableArray *beacons;
 
--(IBAction)startBeacons:(id)sender;
 
 @end

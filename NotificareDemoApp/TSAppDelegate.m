@@ -17,6 +17,8 @@
     
     [self setTheLog:[NSMutableArray array]];
     [self setTheBeacons:[NSMutableArray array]];
+    [self setTheOpenedBeacons:[NSMutableArray array]];
+    [self setTheRangeLog:[NSMutableArray array]];
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
     
@@ -32,6 +34,7 @@
     
     if([launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]){
         NSLog(@"%@",[launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]);
+        [self goToSecondTab];
         //[[NotificarePushLib shared] openNotification:[launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]];
     }
     
@@ -112,6 +115,7 @@
         //error?
     }];
     
+
 }
 
 
@@ -126,14 +130,7 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
 
-    
-    UIAlertView * localNotification = [[UIAlertView alloc] initWithTitle:[[notification userInfo] objectForKey:@"title"]
-                                                message:[[notification userInfo] objectForKey:@"message"]
-                                               delegate:self
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil, nil];
-
-    [localNotification show];
+    [[NotificarePushLib shared] openNotification:@{@"id":[[notification userInfo] objectForKey:@"notification"]}];
     
 }
 
@@ -282,6 +279,11 @@
     }
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+    
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        [[self theBeacons] removeAllObjects];
+        [[self theRangeLog] removeAllObjects];
+    }
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didStartMonitoringForRegion:(CLRegion *)region{
@@ -319,32 +321,52 @@
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 
-    for (NSDictionary * beacon in beacons) {
-
-        if([beacon objectForKey:@"info"]){
+    if([beacons count] == 0){
+        if([[self theRangeLog] count] > 10){
+            NSLog(@"REMOVING ALL OBJECTS");
+            [[self theRangeLog] removeAllObjects];
+            [[self theOpenedBeacons] removeAllObjects];
+        } else {
             
-            if([[self theBeacons] count] > 0){
-                for (NSDictionary * theBeacon in [self theBeacons]) {
-                    //Let's just save if it's not there yet
-                    if(![[[theBeacon objectForKey:@"info"]  objectForKey:@"_id"] isEqualToString:[[beacon objectForKey:@"info"] objectForKey:@"_id"]]){
-                        [[self theBeacons] addObject:beacon];
-                        //We could also trigger Notificare to open the notification:
-                        //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
-                        
-                        //Maybe you want to trigger a remote or local notification?
-                        //Or maybe just quietly handle the beacons on the background?
-                        
-                    }
-                    
-                }
-            } else {
-                [[self theBeacons] addObject:beacon];
-            }
-            
+            [[self theRangeLog] addObject:region];
         }
     }
+   
+
+    for (NSDictionary * beacon in beacons) {
+
+        if([beacon objectForKey:@"info"] && ![[self theOpenedBeacons] containsObject:[beacon objectForKey:@"info"]]){
+
+            [[self theBeacons] addObject:beacon];
+            [[self theOpenedBeacons] addObject:[beacon objectForKey:@"info"]];
+            [[self theRangeLog] removeObject:region];
+            //We could also trigger Notificare to open the notification:
+            //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
+            
+            //Maybe you want to trigger a remote or local notification?
+            //Or maybe just quietly handle the beacons on the background?
+            [self createLocalNotification:[[beacon objectForKey:@"info"] objectForKey:@"notification"]];
+            
+        }
+        
+    }
+
 
 }
+
+-(void)createLocalNotification:(NSDictionary *)notification{
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    localNotif.alertBody = [notification objectForKey:@"message"];
+    localNotif.alertAction = @"OK";
+    
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
+    localNotif.applicationIconBadgeNumber = 1;
+    
+    localNotif.userInfo = [NSDictionary dictionaryWithObject:[notification objectForKey:@"_id"] forKey:@"notification"];
+    
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
+}
+
 
 
 -(void)goToSecondTab{

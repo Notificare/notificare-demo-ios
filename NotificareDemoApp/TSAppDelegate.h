@@ -18,6 +18,8 @@
 @property (strong, nonatomic) NSArray * theLocations;
 @property (strong, nonatomic) NSMutableArray * theLog;
 @property (strong, nonatomic) NSMutableArray * theBeacons;
+@property (strong, nonatomic) NSMutableArray * theOpenedBeacons;
+@property (strong, nonatomic) NSMutableArray * theRangeLog;
 
 -(void)openNotification:(NSDictionary *)notification;
 

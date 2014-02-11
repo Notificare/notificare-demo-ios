@@ -21,9 +21,6 @@
     return (TSAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
--(IBAction)startBeacons:(id)sender{
-    [[self appDelegate] startMonitoringBeacons];
-}
 
 
 - (void)viewDidLoad
