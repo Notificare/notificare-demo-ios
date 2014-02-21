@@ -37,13 +37,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setBeacons:[NSMutableArray arrayWithArray:[[self appDelegate] theBeacons]]];
-    NSLog(@"COUNT: %i",[[self beacons] count]);
+    //NSLog(@"COUNT: %i",[[self beacons] count]);
     [[self tableView] reloadData];
 }
 
 -(void)reloadList{
     [self setBeacons:[NSMutableArray arrayWithArray:[[self appDelegate] theBeacons]]];
-    NSLog(@"COUNT: %i",[[self beacons] count]);
+    //NSLog(@"COUNT: %i",[[self beacons] count]);
     [[self tableView] reloadData];
 }
 
@@ -95,7 +95,7 @@
     
 
     UILabel * titleLabel = (UILabel *)[cell viewWithTag:100];
-    titleLabel.text = [NSString stringWithFormat:@"%i",[beacon rssi]];
+    titleLabel.text = [NSString stringWithFormat:@"%li",(long)[beacon rssi]];
 
     UILabel * nameLabel = (UILabel *)[cell viewWithTag:101];
     nameLabel.text = [info objectForKey:@"name"];

@@ -183,7 +183,7 @@
     NSLog(@"Location Services status: %@", status);
 }
 
-- (void)notificarePushLib:(NotificarePushLib *)library didFailWithError:(NSError *)error{
+- (void)notificarePushLib:(NotificarePushLib *)library didFailToStartLocationServiceWithError:(NSError *)error{
      NSLog(@"didFailWithError: %@", error);
 }
 
@@ -191,6 +191,8 @@
 
 //Use this delegate to get the location updates
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
+    CLLocation * lastLocation = (CLLocation *)[[[NotificarePushLib shared] lastLocations] objectAtIndex:0];
+    NSLog(@"didUpdateLocations: %f %f", [lastLocation speed], [lastLocation course]);
     [self setTheLocations:locations];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 }
@@ -219,7 +221,7 @@
 // You can request a state of a region by doing [[[NotificarePushLib shared] locationManager] requestStateForRegion:(CLRegion *) region];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-    NSLog(@"didDetermineState: %i %@", state, region);
+   // NSLog(@"didDetermineState: %i %@", state, region);
 
     NSString * stateText = @"";
     switch (state) {
@@ -260,7 +262,17 @@
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
     NSLog(@"didEnterRegion: %@", region);
-    
+    NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
+    [theTempDict setObject:@"didEnterRegion" forKey:@"title"];
+    [theTempDict setObject:region forKey:@"region"];
+    [theTempDict setObject:[NSDate date] forKey:@"date"];
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        [theTempDict setObject:@"beacon" forKey:@"class"];
+    } else{
+        [theTempDict setObject:@"fence" forKey:@"class"];
+    }
+    [[self theLog] addObject:theTempDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 }
 
 //Use this delegate to know when a user exited a region. Notificare will automatically handle the triggers.
@@ -311,6 +323,7 @@
 //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
+    
     NSLog(@"didRangeBeacons: %@ %@", beacons, region);
     NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
     [theTempDict setObject:@"didRangeBeacons" forKey:@"title"];
@@ -336,7 +349,7 @@
     for (NSDictionary * beacon in beacons) {
 
         if([beacon objectForKey:@"info"] && ![[self theOpenedBeacons] containsObject:[beacon objectForKey:@"info"]]){
-
+            
             [[self theBeacons] addObject:beacon];
             [[self theOpenedBeacons] addObject:[beacon objectForKey:@"info"]];
             [[self theRangeLog] removeObject:region];
