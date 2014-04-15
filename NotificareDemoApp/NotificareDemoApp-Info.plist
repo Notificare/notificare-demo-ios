@@ -32,9 +32,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>55</string>
+	<string>60</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationUsageDescription</key>
+	<string>Your App would like to use your location in order to display relevant updates and improve your in-app experience.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

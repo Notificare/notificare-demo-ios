@@ -111,6 +111,7 @@
     [[NotificarePushLib shared] registerDevice:[self theDeviceToken] withUserID:[settings objectForKey:@"user"] withUsername:[settings objectForKey:@"user"] completionHandler:^(NSDictionary *info) {
         //yeah
         [[NotificarePushLib shared] startLocationUpdates];
+        
     } errorHandler:^(NSError *error) {
         //error?
     }];
@@ -227,6 +228,16 @@
     switch (state) {
         case CLRegionStateInside:
             stateText = @"Entered Region";
+            
+            if([region isKindOfClass:[CLBeaconRegion class]]){
+                //It's a beacon
+                //Open the beacons view
+                if ([CLLocationManager isRangingAvailable]) {
+                    [[NotificarePushLib shared] openBeacons];
+                }
+            }
+            
+            
             break;
             
         case CLRegionStateOutside:
@@ -273,6 +284,14 @@
     }
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
+    
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        //It's a beacon
+        //Open the beacons view
+        if ([CLLocationManager isRangingAvailable]) {
+            [[NotificarePushLib shared] openBeacons];
+        }
+    }
 }
 
 //Use this delegate to know when a user exited a region. Notificare will automatically handle the triggers.
@@ -292,10 +311,10 @@
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
     
-    if([region isKindOfClass:[CLBeaconRegion class]]){
-        [[self theBeacons] removeAllObjects];
-        [[self theRangeLog] removeAllObjects];
-    }
+//    if([region isKindOfClass:[CLBeaconRegion class]]){
+//        [[self theBeacons] removeAllObjects];
+//        [[self theRangeLog] removeAllObjects];
+//    }
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didStartMonitoringForRegion:(CLRegion *)region{
@@ -324,7 +343,7 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
     
-    NSLog(@"didRangeBeacons: %@ %@", beacons, region);
+   // NSLog(@"didRangeBeacons: %@ %@", beacons, region);
     NSMutableDictionary * theTempDict = [NSMutableDictionary dictionary];
     [theTempDict setObject:@"didRangeBeacons" forKey:@"title"];
     [theTempDict setObject:region forKey:@"region"];
@@ -334,35 +353,43 @@
     [[self theLog] addObject:theTempDict];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"gotData" object:nil];
 
-    if([beacons count] == 0){
-        if([[self theRangeLog] count] > 10){
-            NSLog(@"REMOVING ALL OBJECTS");
-            [[self theRangeLog] removeAllObjects];
-            [[self theOpenedBeacons] removeAllObjects];
-        } else {
-            
-            [[self theRangeLog] addObject:region];
-        }
+    NSLog(@"%i - %hhd  ",[beacons count],[[NotificarePushLib shared] ranging]);
+    
+    if([[NotificarePushLib shared] ranging] && [beacons count] > 0){
+        [[[NotificarePushLib shared] currentNotificare] sendData:beacons];
     }
-   
-
-    for (NSDictionary * beacon in beacons) {
-
-        if([beacon objectForKey:@"info"] && ![[self theOpenedBeacons] containsObject:[beacon objectForKey:@"info"]]){
-            
-            [[self theBeacons] addObject:beacon];
-            [[self theOpenedBeacons] addObject:[beacon objectForKey:@"info"]];
-            [[self theRangeLog] removeObject:region];
-            //We could also trigger Notificare to open the notification:
-            //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
-            
-            //Maybe you want to trigger a remote or local notification?
-            //Or maybe just quietly handle the beacons on the background?
-            [self createLocalNotification:[[beacon objectForKey:@"info"] objectForKey:@"notification"]];
-            
-        }
-        
-    }
+//    if([beacons count] == 0){
+//        if([[self theRangeLog] count] > 10){
+//            NSLog(@"REMOVING ALL OBJECTS");
+//            [[self theRangeLog] removeAllObjects];
+//            [[self theOpenedBeacons] removeAllObjects];
+//        } else {
+//            
+//            [[self theRangeLog] addObject:region];
+//        }
+//    }
+//   
+//
+//    for (NSDictionary * beacon in beacons) {
+//
+//        if([beacon objectForKey:@"info"] && ![[self theOpenedBeacons] containsObject:[beacon objectForKey:@"info"]]){
+//            
+//            [[self theBeacons] addObject:beacon];
+//            [[self theOpenedBeacons] addObject:[beacon objectForKey:@"info"]];
+//            [[self theRangeLog] removeObject:region];
+//            //We could also trigger Notificare to open the notification:
+//            //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
+//            
+//            //Maybe you want to trigger a remote or local notification?
+//            //Or maybe just quietly handle the beacons on the background?
+//            if(![[[beacon objectForKey:@"info"] objectForKey:@"notification"] isEqual:[NSNull null]]){
+//                [self createLocalNotification:[[beacon objectForKey:@"info"] objectForKey:@"notification"]];
+//            }
+//            
+//            
+//        }
+//        
+//    }
 
 
 }
