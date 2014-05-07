@@ -1,0 +1,15 @@
+"cancel" = "Cancel";
+
+"actions" = "Actions";
+
+"close" = "Close";
+
+"why_location_updates_text" = "Your App would like to use your location in order to display relevant updates and improve your in-app experience.";
+
+"pref_header_notifications" = "Notifications";
+
+"tag_something" = "Receive updates from category X";
+"tag_something2" = "Receive udpates from category Y";
+
+"pref_header_location_services" = "Location Services";
+"pref_location_services" = "Allow us to collect your location and enhance certains areas of this app like search, maps and relevant notifications";
