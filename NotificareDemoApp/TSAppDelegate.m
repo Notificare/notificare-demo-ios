@@ -13,7 +13,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [TestFlight takeOff:@"01f98ec4-0987-442d-ab26-6f453689d605"];
+    [TestFlight takeOff:@"xxxx"];
     
     [self setTheLog:[NSMutableArray array]];
     [self setTheBeacons:[NSMutableArray array]];
@@ -25,17 +25,12 @@
 
     [[NotificarePushLib shared] registerForRemoteNotificationsTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
+    [[NotificarePushLib shared] openNotification:launchOptions];
     
-    if([launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"]){
-        
-        [[NotificarePushLib shared] openNotification:[launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"]];
-    }
     
     
     if([launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]){
-        NSLog(@"%@",[launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]);
-        [self goToSecondTab];
-        //[[NotificarePushLib shared] openNotification:[launchOptions objectForKey:@"UIApplicationLaunchOptionsLocalNotificationKey"]];
+       [self goToSecondTab];
     }
     
     
