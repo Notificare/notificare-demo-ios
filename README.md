@@ -1,6 +1,6 @@
-app-ios
+notificare-demo-ios
 =========
-Starting point for an iOS demo app
+Demo for APNs, Websockets, Tags, Location Services and OAuth2 features of Notificare
 
 ##Setup
 
