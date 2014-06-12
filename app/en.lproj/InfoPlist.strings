@@ -1,0 +1,2 @@
+/* Localized versions of Info.plist keys */
+NSLocationUsageDescription = "We would like to use your location to easily provide you maps, directions, updates and relevant alerts.";

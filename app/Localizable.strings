@@ -1,0 +1,67 @@
+/* 
+  Localizable.strings
+  app
+
+  Created by Joel Oliveira on 17/04/14.
+  Copyright (c) 2014 Notificare. All rights reserved.
+*/
+
+"title_welcome" = "";
+"title_webview_load_fail" = "Error";
+"message_webview_load_fail" = "There was an error while loading this page. Please try again.";
+"title_list_beacons" = "iBeacon";
+"empty_beacons_text" = "This feature is available inside our locations. It requires Bluetooth.";
+"no_support_beacons_text" = "This feature requires an iPhone 4S/5/5S with iOS7.";
+"menu_item_home" = "Home";
+"menu_item_about" = "Over ons";
+"menu_item_location" = "Locaties";
+"menu_item_contact" = "Contact";
+"menu_item_settings" = "Settings";
+"menu_item_signin" = "Sign in";
+"menu_item_user" = "User profile";
+
+
+"placeholder_name" = "Name";
+"placeholder_email" = "Email";
+"placeholder_password" = "Password";
+"placeholder_confirm_password" = "Confirm Password";
+"placeholder_newpass" = "New Password";
+"placeholder_confirm_newpass" = "Confirm new Password";
+"button_signup" = "Sign up";
+"button_signin" = "Sign in";
+"button_forgotpass" = "Forgot your password";
+"button_resetpass" = "Change Password";
+"button_changepass" = "Save New Password";
+"button_generatetoken" = "Generate new email token";
+"button_logout" = "Sign out";
+
+"success_create_account" = "Account created successfully. Please check your mail box for more information.";
+"error_create_account" = "An error occured while creating an account. Please try again.";
+"error_create_account_invalid_email" = "Please fill in a valid email address.";
+"error_create_account_passwords_match" = "Passwords don't match.";
+"error_create_account_small_password" = "Password should contain more than 4 chars.";
+
+
+"success_forgotpass" = "Account found. Please check your mail box for more information.";
+"error_forgotpass" = "We could not find any account matching this criteria. Please try again.";
+"error_forgotpass_invalid_email" = "Please fill in a valid email address.";
+
+"success_signin" = "Authenticated";
+"error_signin_invalid_email" = "Please insert a valid email.";
+"error_signin_invalid_password" = "Please insert a valid password";
+"error_signin" = "Invalid email and password";
+
+
+"success_resetpass" = "Your account password is now update. You can now sign in.";
+"error_resetpass" = "We could not find any account matching this criteria. Please try again.";
+"error_resetpass_invalid_oldpass" = "Please provide your current password.";
+"error_resetpass_passwords_match" = "Passwords don't match.";
+"error_resetpass_small_password" = "Password should contain more than 4 chars.";
+
+
+"success_message_generate_token" = "A new email token was generated successfully.";
+"error_message_generate_token" = "An error occured while generating a new email token. Please try again.";
+
+"success_message_changepass"= "Your password was changed successfully.";
+"error_password_changepass"= "Please type the a new password twice to change your current password.";
+"error_message_changepass"= "An error occured while trying to change your password. Please try again.";

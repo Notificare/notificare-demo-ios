@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>testflight</key>
+	<string></string>
+	<key>url</key>
+	<string>http://www.domain.com</string>
+	<key>navigation</key>
+	<array>
+		<dict>
+			<key>label</key>
+			<string>menu_item_home</string>
+			<key>url</key>
+			<string>http://www.domain.com</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>menu_item_about</string>
+			<key>url</key>
+			<string>http://www.domain.com</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>menu_item_location</string>
+			<key>url</key>
+			<string>MKMapView:lat,long</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>menu_item_contact</string>
+			<key>url</key>
+			<string>http://www.domain.com</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>menu_item_signin</string>
+			<key>url</key>
+			<string>Auth:</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>menu_item_settings</string>
+			<key>url</key>
+			<string>IBAction:openPreferences</string>
+		</dict>
+	</array>
+	<key>host</key>
+	<string>api.domain.com</string>
+</dict>
+</plist>

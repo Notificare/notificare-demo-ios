@@ -1,2 +1,0 @@
-/* Localized version of location services purpose for Info.plist */
-NSLocationUsageDescription = "Your App would like to use your location in order to display relevant updates and improve your in-app experience.";
