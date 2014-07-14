@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BadgeLabel.h"
 
 @interface MainViewController : UIViewController <UIWebViewDelegate>
 
@@ -19,6 +20,10 @@
 @property (nonatomic, strong) UIView * loadingView;
 @property (nonatomic, strong) NSString * viewTitle;
 @property (nonatomic, strong) NSString * targetUrl;
+@property (nonatomic, strong) IBOutlet UIView * badge;
+@property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
+@property (nonatomic, strong) IBOutlet UIButton * badgeButton;
+@property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
 
 -(void)goToUrl;
 

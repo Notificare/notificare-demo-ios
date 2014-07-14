@@ -12,6 +12,7 @@
 #import "FormButton.h"
 #import "FormField.h"
 #import "InfoLabel.h"
+#import "BadgeLabel.h"
 
 @class SignUpViewController;
 @class LostPassViewController;
@@ -26,6 +27,10 @@
 @property (nonatomic, strong) IBOutlet InfoLabel * infoLabel;
 @property (nonatomic, strong) SignUpViewController * signUpView;
 @property (nonatomic, strong) LostPassViewController * lostpassView;
+@property (nonatomic, strong) IBOutlet UIView * badge;
+@property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
+@property (nonatomic, strong) IBOutlet UIButton * badgeButton;
+@property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
 
 -(IBAction)doLogin:(id)sender;
 -(IBAction)forgottenPassword:(id)sender;

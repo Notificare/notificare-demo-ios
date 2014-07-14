@@ -58,9 +58,18 @@
     
     
     UILabel * label = (UILabel *)[cell viewWithTag:100];
-
+    UILabel * badge = (UILabel *)[cell viewWithTag:101];
+    
     [label setText:LSSTRING([item objectForKey:@"label"])];
     [label setFont:DEFAULT_SYSTEM_FONT(18)];
+    
+    if([item objectForKey:@"badge"]){
+        [badge setText:[item objectForKey:@"badge"]];
+        [badge setFont:DEFAULT_SYSTEM_FONT(16)];
+    } else {
+        [badge setHidden:YES];
+    }
+    
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -131,12 +140,14 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"changedAccount" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"incomingNotification" object:nil];
+    
 }
 
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
+    
 }
 
 -(void)reloadData{
@@ -161,6 +172,16 @@
             } else {
                 [menuItems addObject:item];
             }
+            
+        }else if([[item objectForKey:@"url"] isEqualToString:@"IBAction:openInbox"]){
+            
+            NSMutableDictionary * theItem = [NSMutableDictionary dictionaryWithDictionary:item];
+            if([[self notificare] myBadge] > 0){
+                [theItem setValue:[NSString stringWithFormat:@"%i", [[self notificare] myBadge]] forKey:@"badge"];
+            }
+            
+            [menuItems addObject:theItem];
+            
             
         } else {
             [menuItems addObject:item];

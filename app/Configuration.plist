@@ -40,6 +40,12 @@
 		</dict>
 		<dict>
 			<key>label</key>
+			<string>item_menu_inbox</string>
+			<key>url</key>
+			<string>IBAction:openInbox</string>
+		</dict>
+		<dict>
+			<key>label</key>
 			<string>menu_item_settings</string>
 			<key>url</key>
 			<string>IBAction:openPreferences</string>

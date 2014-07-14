@@ -10,6 +10,7 @@
 #import "InfoLabel.h"
 #import "FormButton.h"
 #import "FormField.h"
+#import "BadgeLabel.h"
 
 @interface UserDetailsViewController : UIViewController <UITextFieldDelegate>
 
@@ -21,6 +22,10 @@
 @property (nonatomic, strong) IBOutlet FormButton * changePassButton;
 @property (nonatomic, strong) IBOutlet FormButton * generateTokenButton;
 @property (nonatomic, strong) IBOutlet FormButton * logoutButton;
+@property (nonatomic, strong) IBOutlet UIView * badge;
+@property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
+@property (nonatomic, strong) IBOutlet UIButton * badgeButton;
+@property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
 
 -(IBAction)generateToken:(id)sender;
 -(IBAction)changePass:(id)sender;

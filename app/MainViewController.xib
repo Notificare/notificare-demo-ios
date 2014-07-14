@@ -8,6 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
                 <outlet property="backButton" destination="mgu-iU-lyv" id="hcZ-4I-qhv"/>
+                <outlet property="badge" destination="qF0-ac-P3J" id="Ova-wu-sJ6"/>
+                <outlet property="badgeButton" destination="yfn-tk-JHU" id="5pe-mP-RdZ"/>
+                <outlet property="badgeNr" destination="jnL-Ng-m9i" id="Hef-tC-hM9"/>
+                <outlet property="buttonIcon" destination="vmh-7f-bF8" id="hsh-Hi-EMJ"/>
                 <outlet property="forwardButton" destination="9g6-fP-aMb" id="HAv-PC-a8j"/>
                 <outlet property="refreshButton" destination="Wee-Mu-rbQ" id="hJS-os-3YN"/>
                 <outlet property="toolbar" destination="c2o-Yd-6rc" id="LLB-GL-c45"/>
@@ -66,10 +70,37 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
+        <view contentMode="scaleToFill" id="qF0-ac-P3J">
+            <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="vmh-7f-bF8">
+                    <rect key="frame" x="0.0" y="3" width="24" height="24"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnL-Ng-m9i" customClass="BadgeLabel">
+                    <rect key="frame" x="10" y="0.0" width="22" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfn-tk-JHU">
+                    <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+        </view>
     </objects>
     <resources>
         <image name="BackButton.png" width="12" height="21"/>
         <image name="ForwardButton.png" width="12" height="21"/>
+        <image name="LeftMenuIcon.png" width="24" height="24"/>
         <image name="RefreshButton.png" width="24" height="21"/>
     </resources>
 </document>

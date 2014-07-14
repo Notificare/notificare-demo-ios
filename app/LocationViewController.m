@@ -43,17 +43,7 @@
     
     [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
     
-    UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
-    
-    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
-    
-    [leftButton setTintColor:[UIColor blackColor]];
-    [rightButton setTintColor:[UIColor blackColor]];
-    
-    [[self navigationItem] setLeftBarButtonItem:leftButton];
-    [[self navigationItem] setRightBarButtonItem:rightButton];
-    
-    //
+    [self setupNavigationBar];
     
     
     [[self mapView] setDelegate:self];
@@ -77,7 +67,52 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateMap) name:@"gotRegions" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
 }
+
+
+-(void)setupNavigationBar{
+    int count = [[[self appDelegate] notificarePushLib] myBadge];
+ 
+    if(count > 0){
+        [[self buttonIcon] setTintColor:[UIColor whiteColor]];
+        [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        
+        NSString * badge = [NSString stringWithFormat:@"%i", count];
+        [[self badgeNr] setText:badge];
+        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
+        [leftButton setTarget:[self viewDeckController]];
+        [leftButton setAction:@selector(toggleLeftView)];
+        [leftButton setTintColor:[UIColor blackColor]];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
+    } else {
+        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
+        
+        [leftButton setTintColor:[UIColor blackColor]];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
+    }
+    
+    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
+    
+    
+    [rightButton setTintColor:[UIColor blackColor]];
+    
+   
+    [[self navigationItem] setRightBarButtonItem:rightButton];
+    
+}
+
+-(void)changeBadge{
+    
+    [self setupNavigationBar];
+    
+}
+
+    
 
 -(void)populateMap{
     

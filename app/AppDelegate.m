@@ -19,40 +19,38 @@
 #import "TestFlight.h"
 #import "Configuration.h"
 
+
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+    
     [TestFlight takeOff:[[Configuration shared] getProperty:@"testflight"]];
     
-//    [self setApiEngine:[[ApiEngine alloc] initWithHostName:[[Configuration shared] getProperty:@"host"]
-//                                        customHeaderFields:nil]];
-//    
-//    [[self apiEngine] useCache];
-//    
-//    [UIImageView setDefaultEngine:[self apiEngine]];
+    //    [self setApiEngine:[[ApiEngine alloc] initWithHostName:[[Configuration shared] getProperty:@"host"]
+    //                                        customHeaderFields:nil]];
+    //
+    //    [[self apiEngine] useCache];
+    //
+    //    [UIImageView setDefaultEngine:[self apiEngine]];
     
-
+    
     
     [self setCachedNotifications:[NSMutableArray array]];
     [self setBeacons:[NSMutableArray array]];
     [self setRegions:[NSMutableArray array]];
-    
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
+    [[NotificarePushLib shared] setShouldAlwaysLogBeacons:YES];
     
-#if TARGET_IPHONE_SIMULATOR
-    //On iOS Simulator let's use Websockets and still be able to test notifications
-    [[NotificarePushLib shared] registerForWebsockets];
-#else
+    
     [self registerForAPNS];
-#endif
     
     [[NotificarePushLib shared] handleOptions:launchOptions];
     
     [self setNotificarePushLib:[NotificarePushLib shared]];
- 
+    
     IIViewDeckController* deckController = [self generateControllerStack];
     self.leftController = deckController.leftController;
     self.centerController = deckController.centerController;
@@ -74,11 +72,11 @@
     [self setDeckController:[[IIViewDeckController alloc] initWithCenterViewController:[self centerController]
                                                                     leftViewController:[self leftController]
                                                                    rightViewController:[self rightController]]];
-        //deckController.rightSize = 100;
-        
-        [[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
-        return [self deckController];
-
+    //deckController.rightSize = 100;
+    
+    [[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
+    return [self deckController];
+    
 }
 
 
@@ -99,21 +97,21 @@
             [[self deckController] setCenterController:[self centerController]];
             
         } else {
-            //Check which Native view to use
+            //Check which Native Action to perform
             
             if ([[item objectForKey:@"url"] hasPrefix:@"IBAction:"]){
                 //Call a method in delegate (used for the settings)
-
+                
                 NSString * method = [[item objectForKey:@"url"] stringByReplacingOccurrencesOfString:@"IBAction:" withString:@""];
                 SEL mySelector = NSSelectorFromString(method);
                 if([self respondsToSelector:mySelector]){
                     Suppressor([self performSelector:mySelector]);
                 }
-  
+                
             } else if ([[item objectForKey:@"url"] hasPrefix:@"Auth:"]){
                 //Call a method in delegate (used for the settings)
                 
-
+                
                 if([[NotificarePushLib shared] isLoggedIn]){
                     
                     UserDetailsViewController * userDetails = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
@@ -133,7 +131,7 @@
                 
                 
                 LocationViewController * map = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
-
+                
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:map]];
                 [[self deckController] setCenterController:[self centerController]];
                 
@@ -144,12 +142,12 @@
         
     }];
     
-
+    
 }
 
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-   // ////NSLog(@"handleOpenURL");
+    [[NotificarePushLib shared]  applicationInfo];
 	[[NotificarePushLib shared]  handleOpenURL:url];
     return YES;
 }
@@ -163,6 +161,14 @@
 
 -(void)openPreferences{
     [[NotificarePushLib shared] openUserPreferences];
+}
+
+-(void)openInbox{
+    [[NotificarePushLib shared] openInbox];
+}
+
+-(void)openBeacons{
+    [[NotificarePushLib shared] openBeacons];
 }
 
 -(void)openBeacon:(NSDictionary *)info{
@@ -216,7 +222,7 @@
 #pragma APNS Delegates
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
-
+    
     //If you don't identify users you can just use this
     [[NotificarePushLib shared] registerDevice:deviceToken completionHandler:^(NSDictionary *info) {
         
@@ -225,6 +231,8 @@
         
     } errorHandler:^(NSError *error) {
         //
+        //  [self registerForAPNS];
+        
     }];
     
 }
@@ -232,66 +240,38 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
     
-    //NSLog(@"%@",error);
+    // [self registerForAPNS];
 }
 
-
+//For iOS6 - No inbox
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     [[NotificarePushLib shared] openNotification:userInfo];
+    
 }
 
-/*
- 
- If you implement this delegate please add a remote-notification to your UIBackgroundModes in app's plist
- 
- - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
- 
- 
- [[NotificarePushLib shared] getNotification:[userInfo objectForKey:@"id"] completionHandler:^(NSDictionary *info) {
- //
- 
- //At this point the notification can be safely open with the contents of info
- //You can then use this to update UI or call directly openNotification
- [[self cachedNotifications] addObject:info];
- completionHandler(UIBackgroundFetchResultNewData);
- 
- 
- } errorHandler:^(NSError *error) {
- //
- completionHandler(UIBackgroundFetchResultFailed);
- }];
- 
- 
- }
- */
 
-#pragma WEBSOCKETS
--(void)notificarePushLib:(NotificarePushLib *)library didRegisterForWebsocketsNotifications:(NSString *)token{
+
+
+// If you implement this delegate please add a remote-notification to your UIBackgroundModes in app's plist
+// For iOS7 up - No inbox
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     
-    //If you don't identify users you can just use this
-    [[NotificarePushLib shared] registerDeviceForWebsockets:token completionHandler:^(NSDictionary *info) {
-        [self addTags];
+    [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
+        //
+        completionHandler(UIBackgroundFetchResultNewData);
     } errorHandler:^(NSError *error) {
         //
+        completionHandler(UIBackgroundFetchResultNoData);
     }];
     
 }
 
--(void)notificarePushLib:(NotificarePushLib *)library didFailToRegisterWebsocketNotifications:(NSError *)error{
-    //You might want to reconnect again
-    [[NotificarePushLib shared] registerForWebsockets];
+- (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"incomingNotification" object:nil];
 }
 
--(void)notificarePushLib:(NotificarePushLib *)library didCloseWebsocketConnection:(NSString *)reason{
-    //You might want to reconnect again
-    [[NotificarePushLib shared] registerForWebsockets];
-}
 
--(void)notificarePushLib:(NotificarePushLib *)library didReceiveWebsocketNotification:(NSDictionary *)info{
-    
-    [[NotificarePushLib shared] openNotification:info];
-}
 
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
@@ -375,7 +355,7 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
-
+    
 }
 
 //Use this delegate to know if any region failed to be monitored
@@ -387,7 +367,7 @@
 // You can request a state of a region by doing [[[NotificarePushLib shared] locationManager] requestStateForRegion:(CLRegion *) region];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-   // NSLog(@"didDetermineState: %i %@", state, region);
+    // NSLog(@"didDetermineState: %i %@", state, region);
     
 }
 
@@ -437,9 +417,11 @@
 //[[NotificarePushLib shared] openNotification:[beacon objectForKey:@"info"]];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
-
+    
+    //NSLog(@"%@", beacons);
+    
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
-
+    
 }
 
 
@@ -451,7 +433,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

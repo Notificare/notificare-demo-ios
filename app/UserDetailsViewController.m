@@ -40,15 +40,7 @@
     [super viewDidLoad];
     [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
     
-    UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
-    
-    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
-    
-    [leftButton setTintColor:[UIColor blackColor]];
-    [rightButton setTintColor:[UIColor blackColor]];
-    
-    [[self navigationItem] setLeftBarButtonItem:leftButton];
-    [[self navigationItem] setRightBarButtonItem:rightButton];
+    [self setupNavigationBar];
     
     //For iOS6
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
@@ -97,12 +89,55 @@
     [[self generateTokenButton] setTitle:LSSTRING(@"button_generatetoken") forState:UIControlStateNormal];
     [[self logoutButton] setTitle:LSSTRING(@"button_logout") forState:UIControlStateNormal];
     [[self logoutButton] setBackgroundColor:[UIColor redColor]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
 }
+
+
+-(void)setupNavigationBar{
+    int count = [[[self appDelegate] notificarePushLib] myBadge];
+ 
+    if(count > 0){
+        [[self buttonIcon] setTintColor:[UIColor whiteColor]];
+        [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        
+        NSString * badge = [NSString stringWithFormat:@"%i", count];
+        [[self badgeNr] setText:badge];
+        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
+        [leftButton setTarget:[self viewDeckController]];
+        [leftButton setAction:@selector(toggleLeftView)];
+        [leftButton setTintColor:[UIColor blackColor]];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
+    } else {
+        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
+        [leftButton setTintColor:[UIColor blackColor]];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
+        
+    }
+    
+    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
+
+    [rightButton setTintColor:[UIColor blackColor]];
+
+    [[self navigationItem] setRightBarButtonItem:rightButton];
+    
+}
+
+-(void)changeBadge{
+    
+    [self setupNavigationBar];
+    
+}
+
 
 
 -(IBAction)generateToken:(id)sender{
     [[self generateTokenButton] setEnabled:NO];
-    [[self notificare] generateEmailToken:^(NSDictionary *info) {
+    [[self notificare] generateAccessToken:^(NSDictionary *info) {
         //
         NSDictionary * user = [info objectForKey:@"user"];
         [[self userToken] setText:[NSString stringWithFormat:@"%@@pushmail.notifica.re",[user objectForKey:@"accessToken"]]];

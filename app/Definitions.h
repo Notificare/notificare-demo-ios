@@ -53,6 +53,14 @@
 #define LABEL_BORDER_WIDTH 1.0f
 #define LABEL_CORNER_RADIUS 5.0f
 
+
+#define BADGE_TEXT [UIFont fontWithName:@"Lato-Regular" size:10]
+#define BADGE_TEXT_COLOR [UIColor whiteColor]
+#define BADGE_BACKGROUND_COLOR [UIColor colorWithRed:165.0/255.0 green:71.0/255 blue:71.0/255.0 alpha:1.0]
+#define BADGE_BORDER_COLOR [UIColor whiteColor]
+#define BADGE_BORDER_WIDTH 0.0f
+#define BADGE_CORNER_RADIUS 10.0f
+
 /**
  * LOC STRINGS
  */
