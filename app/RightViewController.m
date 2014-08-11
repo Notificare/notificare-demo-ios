@@ -100,8 +100,14 @@
             [name setFont:MONTSERRAT_BOLD_FONT(14)];
             
             UILabel * message = (UILabel *)[cell viewWithTag:101];
-            [message setText:[[[item objectForKey:@"info"] objectForKey:@"notification"] objectForKey:@"message"]];
             [message setFont:MONTSERRAT_FONT(12)];
+            
+            if([[item objectForKey:@"info"] objectForKey:@"notification"] != [NSNull null]){
+                [message setText:[[[item objectForKey:@"info"] objectForKey:@"notification"] objectForKey:@"message"]];
+                
+            } else {
+                [message setText:@""];
+            }
             
             UIImageView * signal = (UIImageView *)[cell viewWithTag:102];
             
