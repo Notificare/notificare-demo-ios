@@ -42,11 +42,7 @@
     [self setRegions:[NSMutableArray array]];
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
-    [[NotificarePushLib shared] setShouldAlwaysLogBeacons:YES];
-    
-    
-    [self registerForAPNS];
-    
+    [[NotificarePushLib shared] setShouldAlwaysLogBeacons:NO];
     [[NotificarePushLib shared] handleOptions:launchOptions];
     
     [self setNotificarePushLib:[NotificarePushLib shared]];
@@ -58,6 +54,13 @@
     
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+
+- (void)notificarePushLib:(NotificarePushLib *)library onReady:(NSDictionary *)info{
+    
+    [[NotificarePushLib shared] registerForRemoteNotificationsTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    
 }
 
 
@@ -154,9 +157,7 @@
 
 
 #pragma General Methods
--(void)registerForAPNS{
-    [[NotificarePushLib shared] registerForRemoteNotificationsTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-}
+
 
 
 -(void)openPreferences{
