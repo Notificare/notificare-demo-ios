@@ -37,6 +37,8 @@
 	<true/>
 	<key>NSLocationUsageDescription</key>
 	<string>We would like to use your location to easily provide you maps, directions, updates and alerts based on your location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We will need to make use of your location to present relevant information about offers around you.</string>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>

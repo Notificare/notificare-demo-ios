@@ -59,9 +59,33 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library onReady:(NSDictionary *)info{
     
-    [[NotificarePushLib shared] registerForRemoteNotificationsTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    [[NotificarePushLib shared] registerForNotifications];
     
 }
+
+
+/////////////////////////////////
+///New iOS8 delgates
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    
+    
+    
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completion{
+    
+    [[NotificarePushLib shared] handleAction:identifier forNotification:userInfo withData:nil completionHandler:^(NSDictionary *info) {
+        completion();
+    } errorHandler:^(NSError *error) {
+        completion();
+    }];
+    
+}
+#endif
+/////////////////////////////////
+///New iOS8 delgates
+/////////////////////////////////
 
 
 - (IIViewDeckController*)generateControllerStack {
@@ -77,7 +101,7 @@
                                                                    rightViewController:[self rightController]]];
     //deckController.rightSize = 100;
     
-    [[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
+    //[[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
     return [self deckController];
     
 }
@@ -295,27 +319,27 @@
 
 #pragma Notificare delegates
 
-- (void)notificarePushLib:(NotificarePushLib *)library willOpenNotification:(Notification *)notification{
+- (void)notificarePushLib:(NotificarePushLib *)library willOpenNotification:(NotificareNotification *)notification{
     //NSLog(@"willOpenNotification%@",notification);
 }
 
-- (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(Notification *)notification{
+- (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(NotificareNotification *)notification{
     //NSLog(@"didOpenNotification%@",notification);
     
 }
 
-- (void)notificarePushLib:(NotificarePushLib *)library didCloseNotification:(Notification *)notification{
+- (void)notificarePushLib:(NotificarePushLib *)library didCloseNotification:(NotificareNotification *)notification{
     //NSLog(@"didCloseNotification%@",notification);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closedNotification" object:nil];
 }
 
-- (void)notificarePushLib:(NotificarePushLib *)library didFailToOpenNotification:(Notification *)notification{
+- (void)notificarePushLib:(NotificarePushLib *)library didFailToOpenNotification:(NotificareNotification *)notification{
     //NSLog(@"didFailToOpenNotification%@",notification);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closedNotification" object:nil];
 }
 
 
-- (void)notificarePushLib:(NotificarePushLib *)library willExecuteAction:(Notification *)notification{
+- (void)notificarePushLib:(NotificarePushLib *)library willExecuteAction:(NotificareNotification *)notification{
     //NSLog(@"%@",notification);
 }
 
