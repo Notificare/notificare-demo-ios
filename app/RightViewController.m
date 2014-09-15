@@ -174,7 +174,7 @@
         
         NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
         
-        if([[item objectForKey:@"info"] objectForKey:@"notification"]){
+         if(![[[item objectForKey:@"info"] objectForKey:@"notification"] isKindOfClass:[NSNull class]]){
             [[self appDelegate] openBeacon:[[item objectForKey:@"info"] objectForKey:@"notification"]];
             [self showLoadingScreen];
         }
