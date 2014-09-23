@@ -26,14 +26,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [TestFlight takeOff:[[Configuration shared] getProperty:@"testflight"]];
+    if([[Configuration shared] getProperty:@"testflight"]){
+        [TestFlight takeOff:[[Configuration shared] getProperty:@"testflight"]];
+    }
     
-    //    [self setApiEngine:[[ApiEngine alloc] initWithHostName:[[Configuration shared] getProperty:@"host"]
-    //                                        customHeaderFields:nil]];
-    //
-    //    [[self apiEngine] useCache];
-    //
-    //    [UIImageView setDefaultEngine:[self apiEngine]];
+    if([[Configuration shared] getProperty:@"host"]){
+        [self setApiEngine:[[ApiEngine alloc]
+                            initWithHostName:[[Configuration shared] getProperty:@"host"]
+                            customHeaderFields:nil]];
+        
+        [[self apiEngine] useCache];
+        
+        //[UIImageView setDefaultEngine:[self apiEngine]];
+    }
     
     
     
