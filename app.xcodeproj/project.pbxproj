@@ -113,7 +113,10 @@
 		40BF79B119035BF000622FA5 /* SignalUnkown.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BF79AF19035BF000622FA5 /* SignalUnkown.png */; };
 		40BF79B219035BF000622FA5 /* SignalUnkown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BF79B019035BF000622FA5 /* SignalUnkown@2x.png */; };
 		40F1F2421903E31B00204BA5 /* Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 40F1F2411903E31B00204BA5 /* Transparent.png */; };
-		40F1F2461903F24B00204BA5 /* Blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 40F1F2451903F24B00204BA5 /* Blue.png */; };
+		40F1F2461903F24B00204BA5 /* Bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 40F1F2451903F24B00204BA5 /* Bg.png */; };
+		40F7876219D5CB1B009D1E51 /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 40F7876019D5CB1B009D1E51 /* LaunchImage.png */; };
+		40F7876319D5CB1B009D1E51 /* LaunchImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40F7876119D5CB1B009D1E51 /* LaunchImage@2x.png */; };
+		40F7876519D5CB2D009D1E51 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40F7876419D5CB2D009D1E51 /* Launch Screen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -343,7 +346,10 @@
 		40BF79AF19035BF000622FA5 /* SignalUnkown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignalUnkown.png; sourceTree = "<group>"; };
 		40BF79B019035BF000622FA5 /* SignalUnkown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SignalUnkown@2x.png"; sourceTree = "<group>"; };
 		40F1F2411903E31B00204BA5 /* Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Transparent.png; sourceTree = "<group>"; };
-		40F1F2451903F24B00204BA5 /* Blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue.png; sourceTree = "<group>"; };
+		40F1F2451903F24B00204BA5 /* Bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bg.png; sourceTree = "<group>"; };
+		40F7876019D5CB1B009D1E51 /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImage.png; sourceTree = "<group>"; };
+		40F7876119D5CB1B009D1E51 /* LaunchImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LaunchImage@2x.png"; sourceTree = "<group>"; };
+		40F7876419D5CB2D009D1E51 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +444,7 @@
 		4083849018FF015C000DC352 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				40F7876419D5CB2D009D1E51 /* Launch Screen.xib */,
 				4083857418FF1262000DC352 /* ApiEngine */,
 				4083856618FF11F4000DC352 /* Resources */,
 				408384D518FF0A14000DC352 /* Libs */,
@@ -630,7 +637,9 @@
 		4083859018FF3563000DC352 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				40F1F2451903F24B00204BA5 /* Blue.png */,
+				40F7876019D5CB1B009D1E51 /* LaunchImage.png */,
+				40F7876119D5CB1B009D1E51 /* LaunchImage@2x.png */,
+				40F1F2451903F24B00204BA5 /* Bg.png */,
 				40F1F2411903E31B00204BA5 /* Transparent.png */,
 				40BF79AF19035BF000622FA5 /* SignalUnkown.png */,
 				40BF79B019035BF000622FA5 /* SignalUnkown@2x.png */,
@@ -1070,6 +1079,7 @@
 				4083857118FF11F4000DC352 /* Montserrat-Regular.ttf in Resources */,
 				40937D6A192B931F0004499F /* LostPassViewController.xib in Resources */,
 				4083857318FF11F4000DC352 /* OleoScript.ttf in Resources */,
+				40F7876519D5CB2D009D1E51 /* Launch Screen.xib in Resources */,
 				40937D6D192B931F0004499F /* SignUpViewController.xib in Resources */,
 				40BF79AA19035A1B00622FA5 /* SignalNear.png in Resources */,
 				40BF79B119035BF000622FA5 /* SignalUnkown.png in Resources */,
@@ -1079,6 +1089,7 @@
 				40BF798E1902B2C300622FA5 /* ForwardButton@2x.png in Resources */,
 				40BF79AB19035A1B00622FA5 /* SignalImmediate.png in Resources */,
 				40BF79AE19035A1B00622FA5 /* SignalImmediate@2x.png in Resources */,
+				40F7876319D5CB1B009D1E51 /* LaunchImage@2x.png in Resources */,
 				4083858618FF2192000DC352 /* Configuration.plist in Resources */,
 				40A4175419D4CC15007B9735 /* DefaultTheme.bundle in Resources */,
 				40BF79A1190319A700622FA5 /* MapUserMarker@2x.png in Resources */,
@@ -1090,7 +1101,7 @@
 				40BF798619028E9D00622FA5 /* LocationViewController.xib in Resources */,
 				40937D6B192B931F0004499F /* ResetPassViewController.xib in Resources */,
 				40BF79811901535300622FA5 /* BeaconCell.xib in Resources */,
-				40F1F2461903F24B00204BA5 /* Blue.png in Resources */,
+				40F1F2461903F24B00204BA5 /* Bg.png in Resources */,
 				4083856E18FF11F4000DC352 /* Arvo.ttf in Resources */,
 				40F1F2421903E31B00204BA5 /* Transparent.png in Resources */,
 				40BF79AD19035A1B00622FA5 /* SignalNear@2x.png in Resources */,
@@ -1103,6 +1114,7 @@
 				4083859718FF3563000DC352 /* RightMenuIcon.png in Resources */,
 				4083858218FF152E000DC352 /* DefaultCell.xib in Resources */,
 				40BF79B219035BF000622FA5 /* SignalUnkown@2x.png in Resources */,
+				40F7876219D5CB1B009D1E51 /* LaunchImage.png in Resources */,
 				40BF79A2190319A700622FA5 /* MapUserMarker.png in Resources */,
 				40A4175719D4CC15007B9735 /* NotificareTags.plist in Resources */,
 				40BF79AC19035A1B00622FA5 /* SignalFar@2x.png in Resources */,
