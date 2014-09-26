@@ -99,7 +99,7 @@
       "orientation" : "portrait",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
-      "filename" : "Default-Portrait.png",
+      "filename" : "Default-Portrait-Statusbar.png",
       "scale" : "1x"
     },
     {
@@ -113,7 +113,7 @@
       "orientation" : "landscape",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
-      "filename" : "Default-Landscape.png",
+      "filename" : "Default-Landscape-Statusbar.png",
       "scale" : "1x"
     },
     {
@@ -126,7 +126,7 @@
       "orientation" : "portrait",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
-      "filename" : "Default-Portrait@2x.png",
+      "filename" : "Default-Portrait-Statusbar@2x.png",
       "scale" : "2x"
     },
     {
@@ -140,7 +140,7 @@
       "orientation" : "landscape",
       "idiom" : "ipad",
       "extent" : "to-status-bar",
-      "filename" : "Default-Landscape@2x.png",
+      "filename" : "Default-Landscape-Statusbar@2x.png",
       "scale" : "2x"
     },
     {
