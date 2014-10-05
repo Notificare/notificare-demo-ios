@@ -11,8 +11,12 @@
 #import "FormButton.h"
 #import "FormField.h"
 #import "BadgeLabel.h"
+#import "SignInViewController.h"
 
-@interface UserDetailsViewController : UIViewController <UITextFieldDelegate>
+
+@class SignInViewController;
+
+@interface UserDetailsViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, strong) IBOutlet InfoLabel * userName;
 @property (nonatomic, strong) IBOutlet InfoLabel * userToken;
@@ -26,6 +30,15 @@
 @property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
 @property (nonatomic, strong) IBOutlet UIButton * badgeButton;
 @property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
+@property (nonatomic, strong) IBOutlet UITableView * tableView;
+@property (nonatomic, strong) IBOutlet UITableViewController * tableViewController;
+@property (nonatomic, strong) NSMutableArray * navSections;
+@property (nonatomic, strong) NSMutableArray * sectionTitles;
+@property (nonatomic, strong) NSMutableArray * segments;
+@property (nonatomic, strong) NSDictionary * user;
+@property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
+@property (nonatomic, strong) UIView * loadingView;
+@property (nonatomic, strong) SignInViewController * signInView;
 
 -(IBAction)generateToken:(id)sender;
 -(IBAction)changePass:(id)sender;

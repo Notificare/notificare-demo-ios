@@ -23,6 +23,11 @@
 "menu_item_beacons" = "Inbox";
 
 
+
+"title_section_user" = "User Info";
+"title_section_segments" = "Segmentation";
+
+
 "placeholder_name" = "Name";
 "placeholder_email" = "Email";
 "placeholder_password" = "Password";
