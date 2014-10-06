@@ -175,19 +175,19 @@
 
     [userCell addObject:@{@"name":[[self user] objectForKey:@"userName"],
                           @"email":[[self user] objectForKey:@"userID"],
-                          @"token":[[self user] objectForKey:@"accessToken"],
+                          @"token":([[self user] objectForKey:@"accessToken"]) ? [[self user] objectForKey:@"accessToken"] : @"",
                           @"label":LSSTRING(@"avatar"),
                           @"action":@""}];
     
     [userCell addObject:@{@"name":[[self user] objectForKey:@"userName"],
                           @"email":[[self user] objectForKey:@"userID"],
-                          @"token":[[self user] objectForKey:@"accessToken"],
+                          @"token":([[self user] objectForKey:@"accessToken"]) ? [[self user] objectForKey:@"accessToken"] : @"",
                           @"label":LSSTRING(@"button_resetpass"),
                           @"action":@""}];
     
     [userCell addObject:@{@"name":[[self user] objectForKey:@"userName"],
                           @"email":[[self user] objectForKey:@"userID"],
-                          @"token":[[self user] objectForKey:@"accessToken"],
+                          @"token":([[self user] objectForKey:@"accessToken"]) ? [[self user] objectForKey:@"accessToken"] : @"",
                           @"label":LSSTRING(@"button_generatetoken"),
                           @"action":@""}];
     
@@ -400,7 +400,11 @@
             [email setFont:MONTSERRAT_BOLD_FONT(14)];
             
             UILabel * token = (UILabel *)[cell viewWithTag:102];
-            [token setText:[NSString stringWithFormat:@"%@@pushmail.notifica.re", [item objectForKey:@"token"]]];
+            if([item objectForKey:@"token"]){
+                [token setText:[NSString stringWithFormat:@"%@@pushmail.notifica.re", [item objectForKey:@"token"]]];
+            } else {
+                [token setText:@""];
+            }
             [token setFont:MONTSERRAT_FONT(8)];
             
             UIImageView * image = (UIImageView *)[cell viewWithTag:103];

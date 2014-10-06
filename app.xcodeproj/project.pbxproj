@@ -14,6 +14,8 @@
 		4025DA4919E1E1200071BA74 /* libNotificarePushLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4025D9DF19E1E11F0071BA74 /* libNotificarePushLib.a */; };
 		4025DA4A19E1E1200071BA74 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4025DA4419E1E1200071BA74 /* Notificare.plist */; };
 		4025DA4B19E1E1200071BA74 /* NotificareTags.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4025DA4519E1E1200071BA74 /* NotificareTags.plist */; };
+		4025DAC419E338100071BA74 /* IconSignOut.png in Resources */ = {isa = PBXBuildFile; fileRef = 4025DAC219E338100071BA74 /* IconSignOut.png */; };
+		4025DAC519E338100071BA74 /* IconSignOut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4025DAC319E338100071BA74 /* IconSignOut@2x.png */; };
 		4083848B18FF015C000DC352 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4083848A18FF015C000DC352 /* Foundation.framework */; };
 		4083848D18FF015C000DC352 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4083848C18FF015C000DC352 /* CoreGraphics.framework */; };
 		4083848F18FF015C000DC352 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4083848E18FF015C000DC352 /* UIKit.framework */; };
@@ -213,6 +215,8 @@
 		4025DA4319E1E1200071BA74 /* NotificareWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareWebView.h; sourceTree = "<group>"; };
 		4025DA4419E1E1200071BA74 /* Notificare.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
 		4025DA4519E1E1200071BA74 /* NotificareTags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareTags.plist; sourceTree = "<group>"; };
+		4025DAC219E338100071BA74 /* IconSignOut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconSignOut.png; sourceTree = "<group>"; };
+		4025DAC319E338100071BA74 /* IconSignOut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconSignOut@2x.png"; sourceTree = "<group>"; };
 		4083848718FF015C000DC352 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4083848A18FF015C000DC352 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4083848C18FF015C000DC352 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -984,6 +988,8 @@
 		4083859018FF3563000DC352 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4025DAC219E338100071BA74 /* IconSignOut.png */,
+				4025DAC319E338100071BA74 /* IconSignOut@2x.png */,
 				40F7876019D5CB1B009D1E51 /* LaunchImage.png */,
 				40F7876119D5CB1B009D1E51 /* LaunchImage@2x.png */,
 				40F1F2451903F24B00204BA5 /* Bg.png */,
@@ -1120,10 +1126,12 @@
 				40BF798619028E9D00622FA5 /* LocationViewController.xib in Resources */,
 				40937D6B192B931F0004499F /* ResetPassViewController.xib in Resources */,
 				40BF79811901535300622FA5 /* BeaconCell.xib in Resources */,
+				4025DAC519E338100071BA74 /* IconSignOut@2x.png in Resources */,
 				40F1F2461903F24B00204BA5 /* Bg.png in Resources */,
 				4083856E18FF11F4000DC352 /* Arvo.ttf in Resources */,
 				40F1F2421903E31B00204BA5 /* Transparent.png in Resources */,
 				40BF79AD19035A1B00622FA5 /* SignalNear@2x.png in Resources */,
+				4025DAC419E338100071BA74 /* IconSignOut.png in Resources */,
 				4083857218FF11F4000DC352 /* Museo.otf in Resources */,
 				4025DA4A19E1E1200071BA74 /* Notificare.plist in Resources */,
 				4083859B18FF3778000DC352 /* Logo.png in Resources */,
