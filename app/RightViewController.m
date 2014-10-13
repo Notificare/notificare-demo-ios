@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "BeaconCell.h"
 #import "EmptyBeaconsCell.h"
+#import "NotificareBeacon.h"
 
 
 @interface RightViewController ()
@@ -82,14 +83,36 @@
         }
         
         
-        if([[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] isKindOfClass:[CLBeaconRegion class]]){
+        if([[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] isKindOfClass:[NotificareBeacon class]]){
             
-            CLBeaconRegion * item = (CLBeaconRegion *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+            NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
             
             
-            UILabel * label = (UILabel *)[cell viewWithTag:100];
-            [label setText:[item identifier]];
-            [label setFont:MONTSERRAT_BOLD_FONT(14)];
+            UILabel * name = (UILabel *)[cell viewWithTag:100];
+            [name setText:[item name]];
+            [name setFont:MONTSERRAT_BOLD_FONT(14)];
+            
+            UILabel * message = (UILabel *)[cell viewWithTag:101];
+            [message setFont:MONTSERRAT_FONT(12)];
+            
+            
+            if(![[item notification] isKindOfClass:[NSNull class]] && [[item notification] objectForKey:@"message"]){
+                [message setText:[[item notification] objectForKey:@"message"]];
+            } else {
+                [message setText:@""];
+            }
+            
+            UIImageView * signal = (UIImageView *)[cell viewWithTag:102];
+            
+            if([[item beacon] proximity] == CLProximityImmediate){
+                [signal setImage:[UIImage imageNamed:@"SignalImmediate"]];
+            } else if ([[item beacon] proximity] == CLProximityNear) {
+                [signal setImage:[UIImage imageNamed:@"SignalNear"]];
+            } else if ([[item beacon] proximity] == CLProximityFar) {
+                [signal setImage:[UIImage imageNamed:@"SignalFar"]];
+            } else {
+                [signal setImage:[UIImage imageNamed:@"SignalUnkown"]];
+            }
             
         } else {
             
@@ -108,6 +131,7 @@
             } else {
                 [message setText:@""];
             }
+            
             
             UIImageView * signal = (UIImageView *)[cell viewWithTag:102];
             
@@ -170,17 +194,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    
     if([[self navSections] count] > 0){
         
-        NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+        NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
         
-         if(![[[item objectForKey:@"info"] objectForKey:@"notification"] isKindOfClass:[NSNull class]]){
-            [[self appDelegate] openBeacon:[[item objectForKey:@"info"] objectForKey:@"notification"]];
+        if(![[item notification] isKindOfClass:[NSNull class]]){
+            [[self appDelegate] openBeacon:[item notification]];
             [self showLoadingScreen];
         }
-        
+
     }
     
+}
+
+
+-(void)showLoadingScreen {
+    [[self view] addSubview:[self loadingScreen]];
+}
+
+-(void)hideLoadingScreen {
+    [[self loadingScreen] removeFromSuperview];
 }
 
 
@@ -217,14 +251,6 @@
         [[self navSections] removeAllObjects];
         [[self tableView] reloadData];
     }
-}
-
--(void)showLoadingScreen {
-    [[self view] addSubview:[self loadingScreen]];
-}
-
--(void)hideLoadingScreen {
-    [[self loadingScreen] removeFromSuperview];
 }
 
 - (NSTimer*)createTimer {

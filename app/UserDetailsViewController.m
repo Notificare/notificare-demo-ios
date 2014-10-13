@@ -13,6 +13,9 @@
 #import "UserCell.h"
 #import "SegmentCell.h"
 #import "GravatarHelper.h"
+#import "NotificareUser.h"
+#import "NotificareUserPreference.h"
+#import "NotificareSegment.h"
 
 @interface UserDetailsViewController ()
 
@@ -46,6 +49,7 @@
     [self setNavSections:[NSMutableArray array]];
     [self setSectionTitles:[NSMutableArray array]];
     
+    
     [[self sectionTitles] addObject:LSSTRING(@"title_section_user")];
     [[self sectionTitles] addObject:LSSTRING(@"title_section_segments")];
     
@@ -65,20 +69,7 @@
     }
 
     
-    [self loadAccount];
-
-
-    [self setActivityIndicatorView:[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
-    
-    [[self activityIndicatorView]  setCenter:CGPointMake( self.view.frame.size.width /2-5, self.view.frame.size.height /2-5)];
-    [[self activityIndicatorView]  setContentMode:UIViewContentModeCenter];
-    [[self activityIndicatorView] setHidden:NO];
-    [[self activityIndicatorView] startAnimating];
-    
-    [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)]];
-    [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
-    [[self loadingView] addSubview:[self activityIndicatorView]];
-    [[self view] addSubview:[self loadingView]];
+    //[self loadAccount];
 
     
     [self resetForm];
@@ -97,14 +88,31 @@
     [[self logoutButton] setBackgroundColor:[UIColor redColor]];
 
     [self setSignInView:[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil]];
+    [self setOptionsView:[[UserDetailsOptionsViewController alloc] initWithNibName:@"UserDetailsOptionsViewController" bundle:nil]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self loadAccount];
+    [self setActivityIndicatorView:[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
+    
+    [[self activityIndicatorView]  setCenter:CGPointMake( self.view.frame.size.width /2-5, self.view.frame.size.height /2-5)];
+    [[self activityIndicatorView]  setContentMode:UIViewContentModeCenter];
+    [[self activityIndicatorView] setHidden:NO];
+    [[self activityIndicatorView] startAnimating];
+    
+    [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)]];
+    [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
+    [[self loadingView] addSubview:[self activityIndicatorView]];
+    [[self view] addSubview:[self loadingView]];
 }
 
 -(void)loadAccount{
     [[self notificare] fetchAccountDetails:^(NSDictionary *info) {
         //
-        NSLog(@"%@", info);
         NSDictionary * user = [info objectForKey:@"user"];
         [[self userName] setText:[user objectForKey:@"userName"]];
         [[self userEmail] setText:[user objectForKey:@"userID"]];
@@ -127,27 +135,12 @@
     
     [self setSegments:[NSMutableArray array]];
     
-    [[self notificare] getSegments:^(NSDictionary *info) {
+    [[self notificare] fetchUserPreferences:^(NSArray *info) {
         
-        for (NSDictionary * segment in [info objectForKey:@"userSegments"]) {
-
-                if([self checkSegment:[segment objectForKey:@"_id"]]){
-                    
-                    NSMutableDictionary * tmpSegment = [NSMutableDictionary dictionaryWithDictionary:segment];
-                    
-                    [tmpSegment setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
-                    [[self segments] addObject:tmpSegment];
-  
-                } else {
-                    NSMutableDictionary * tmpSegment = [NSMutableDictionary dictionaryWithDictionary:segment];
-                    
-                    [tmpSegment setObject:[NSNumber numberWithBool:NO] forKey:@"selected"];
-                    [[self segments] addObject:tmpSegment];
-                }
-
+        for (NotificareUserPreference * preference in info){
+            [[self segments] addObject:preference];
         }
         
-
         [self setupTable];
         
     } errorHandler:^(NSError *error) {
@@ -199,8 +192,6 @@
 
 -(void)setupNavigationBar{
     int count = [[[self appDelegate] notificarePushLib] myBadge];
-    UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] init];
-    
     
     if(count > 0){
         [[self buttonIcon] setTintColor:[UIColor whiteColor]];
@@ -211,23 +202,22 @@
         NSString * badge = [NSString stringWithFormat:@"%i", count];
         [[self badgeNr] setText:badge];
         
-        leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
         [leftButton setTarget:[self viewDeckController]];
         [leftButton setAction:@selector(toggleLeftView)];
-        
+        [leftButton setTintColor:[UIColor whiteColor]];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
     } else {
         
-        leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
-        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
+        [leftButton setTintColor:[UIColor whiteColor]];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
         
     }
     
     UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
     
-    [leftButton setTintColor:[UIColor whiteColor]];
     [rightButton setTintColor:[UIColor whiteColor]];
-    
-    [[self navigationItem] setLeftBarButtonItem:leftButton];
     [[self navigationItem] setRightBarButtonItem:rightButton];
     
 }
@@ -443,20 +433,51 @@
             cell = (SegmentCell*)[nib objectAtIndex:0];
         }
         
-        NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+        NotificareUserPreference * item = (NotificareUserPreference *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
         
-        [[cell textLabel] setText:[item objectForKey:@"name"]];
+        [[cell textLabel] setText:[item preferenceLabel]];
         [[cell textLabel] setFont:MONTSERRAT_BOLD_FONT(14)];
         
-        UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-        [cell setAccessoryView:mySwitch];
-        [mySwitch setTag:(([indexPath section] * 100) + [indexPath row])];
         
-        if([item objectForKey:@"selected"] && [[item objectForKey:@"selected"] boolValue]){
-            [mySwitch setOn:YES];
+        if([[item preferenceType] isEqualToString:@"single"]){
+            NotificareSegment * seg = (NotificareSegment *)[[item preferenceOptions] firstObject];
+            [[cell detailTextLabel] setText:[seg segmentLabel]];
+            [[cell detailTextLabel] setFont:MONTSERRAT_BOLD_FONT(14)];
+            UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [cell setAccessoryView:mySwitch];
+            [mySwitch setTag:(([indexPath section] * 100) + [indexPath row])];
+            
+            if([seg selected]){
+                [mySwitch setOn:YES];
+            }
+            
+            [mySwitch addTarget:self action:@selector(OnSegmentsChanged:) forControlEvents:UIControlEventValueChanged];
+
         }
-         
-         [mySwitch addTarget:self action:@selector(OnSegmentsChanged:) forControlEvents:UIControlEventValueChanged];
+        
+        if([[item preferenceType] isEqualToString:@"choice"]){
+
+            UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width /2, cell.frame.size.height /2)];
+            
+            for (NotificareSegment * seg in [item preferenceOptions]) {
+                //
+                if([seg selected]){
+                    [label setText:[seg segmentLabel]];
+                    [label setTextAlignment:NSTextAlignmentRight];
+                    [label setTextColor:[UIColor grayColor]];
+                    [label setFont:[UIFont systemFontOfSize:12.0]];
+                    [cell setAccessoryView:label];
+                }
+            }
+
+        }
+        
+        if([[item preferenceType] isEqualToString:@"select"]){
+
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            
+        }
+
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
@@ -474,7 +495,9 @@
             return SEGMENT_CELLHEIGHT;
         }
     } else {
+        
         return SEGMENT_CELLHEIGHT;
+        
     }
     
 }
@@ -532,62 +555,93 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
     
-    if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"button_resetpass")]){
+    if([[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] isKindOfClass:[NotificareUserPreference class]]){
         
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"] message:LSSTRING(@"button_resetpass") delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-        [av setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+        NotificareUserPreference * item = (NotificareUserPreference *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
         
-        // Alert style customization
-        [[av textFieldAtIndex:1] setSecureTextEntry:YES];
-        [[av textFieldAtIndex:0] setSecureTextEntry:YES];
-        [[av textFieldAtIndex:0] setPlaceholder:@"new password"];
-        [[av textFieldAtIndex:1] setPlaceholder:@"confirm password"];
-        [av show];
+        if(![[item preferenceType] isEqualToString:@"single"]){
+            [[self optionsView] setPreference:item];
+            [[self navigationController] pushViewController:[self optionsView] animated:YES];
+        }
         
-    } else if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"button_generatetoken")]){
-    
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         
-        UIActivityIndicatorView * activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell setAccessoryView:activityView];
-        [activityView startAnimating];
+    } else {
         
-        [cell setUserInteractionEnabled:NO];
-        [self generateNewToken];
-
+        
+        NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+        
+        if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"button_resetpass")]){
+            
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"] message:LSSTRING(@"button_resetpass") delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+            [av setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+            
+            [[av textFieldAtIndex:1] setSecureTextEntry:YES];
+            [[av textFieldAtIndex:0] setSecureTextEntry:YES];
+            [[av textFieldAtIndex:0] setPlaceholder:@"new password"];
+            [[av textFieldAtIndex:1] setPlaceholder:@"confirm password"];
+            [av show];
+            
+        } else if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"button_generatetoken")]){
+            
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            
+            UIActivityIndicatorView * activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell setAccessoryView:activityView];
+            [activityView startAnimating];
+            
+            [cell setUserInteractionEnabled:NO];
+            [self generateNewToken];
+            
+        }
+        
     }
+    
+    
     
 }
 
+-(NSDictionary *)checkIfActivePicker:(NSIndexPath *)indexPath{
+    
+    for (NSDictionary * row in [[self navSections] objectAtIndex:[indexPath section]]) {
+
+        if([row objectForKey:@"activePicker"]){
+            return row;
+        }
+    }
+    
+    return nil;
+}
 
 
 -(void)OnSegmentsChanged:(id)sender{
     
     UISwitch *tempSwitch = (UISwitch *)sender;
-    NSDictionary * segment = [[[self navSections] objectAtIndex:[tempSwitch tag] / 100] objectAtIndex:[tempSwitch tag] % 100];
+    NotificareUserPreference * item = [[[self navSections] objectAtIndex:[tempSwitch tag] / 100] objectAtIndex:[tempSwitch tag] % 100];
 
-    if([tempSwitch isOn]){
-
-        [[self notificare] addSegment:[segment objectForKey:@"_id"] completionHandler:^(NSDictionary *info) {
-            //
-
-        } errorHandler:^(NSError *error) {
-            //
-            NSLog(@"%@", error);
-        }];
+    
+    if([[item preferenceType] isEqualToString:@"single"]){
         
-    }else{
-        
-        
-        [[self notificare] removeSegment:[segment objectForKey:@"_id"] completionHandler:^(NSDictionary *info) {
             
-
-        } errorHandler:^(NSError *error) {
-            //
-            NSLog(@"%@", error);
-        }];
+        NotificareSegment * seg = [[item preferenceOptions] objectAtIndex:0];
+        
+        if([tempSwitch isOn]){
+            
+            [[self notificare] addSegment:seg toPreference:item completionHandler:^(NSDictionary *info) {
+                //
+            } errorHandler:^(NSError *error) {
+                //
+            }];
+            
+        }else{
+            
+            [[self notificare] removeSegment:seg fromPreference:item completionHandler:^(NSDictionary *info) {
+                //
+            } errorHandler:^(NSError *error) {
+                //
+            }];
+            
+        }
         
     }
     

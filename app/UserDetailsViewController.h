@@ -12,9 +12,11 @@
 #import "FormField.h"
 #import "BadgeLabel.h"
 #import "SignInViewController.h"
+#import "UserDetailsOptionsViewController.h"
 
 
 @class SignInViewController;
+@class UserDetailsOptionsViewController;
 
 @interface UserDetailsViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -38,7 +40,9 @@
 @property (nonatomic, strong) NSDictionary * user;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
 @property (nonatomic, strong) UIView * loadingView;
+
 @property (nonatomic, strong) SignInViewController * signInView;
+@property (nonatomic, strong) UserDetailsOptionsViewController * optionsView;
 
 -(IBAction)generateToken:(id)sender;
 -(IBAction)changePass:(id)sender;
