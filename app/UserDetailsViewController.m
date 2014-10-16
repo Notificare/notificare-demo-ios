@@ -111,24 +111,9 @@
 }
 
 -(void)loadAccount{
-    [[self notificare] fetchAccountDetails:^(NSDictionary *info) {
-        //
-        NSDictionary * user = [info objectForKey:@"user"];
-        [[self userName] setText:[user objectForKey:@"userName"]];
-        [[self userEmail] setText:[user objectForKey:@"userID"]];
-        
-        if([user objectForKey:@"accessToken"]){
-            
-            [[self userToken] setText:[NSString stringWithFormat:@"%@@pushmail.notifica.re",[user objectForKey:@"accessToken"]]];
-            
-        }
-        
-        [self setUser:user];
-        
-        [self loadSegments];
-    } errorHandler:^(NSError *error) {
-        [[self navigationController] pushViewController:[self signInView] animated:YES];
-    }];
+    [self setUser:[[self notificare] user]];
+    
+    [self loadSegments];
 }
 
 -(void)loadSegments{
@@ -148,14 +133,6 @@
     }];
 }
 
--(BOOL)checkSegment:(NSString * )segmentId{
-    for (NSString * userSegment in [[self user] objectForKey:@"segments"]) {
-        if([segmentId isEqualToString:userSegment]){
-            return YES;
-        }
-    }
-    return NO;
-}
 
 -(void)setupTable{
     
@@ -166,21 +143,21 @@
     
     NSMutableArray * userCell = [NSMutableArray array];
 
-    [userCell addObject:@{@"name":[[self user] objectForKey:@"userName"],
-                          @"email":[[self user] objectForKey:@"userID"],
-                          @"token":([[self user] objectForKey:@"accessToken"]) ? [[self user] objectForKey:@"accessToken"] : @"",
+    [userCell addObject:@{@"name":[[self user] userName],
+                          @"email":[[self user] userID],
+                          @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
                           @"label":LSSTRING(@"avatar"),
                           @"action":@""}];
     
-    [userCell addObject:@{@"name":[[self user] objectForKey:@"userName"],
-                          @"email":[[self user] objectForKey:@"userID"],
-                          @"token":([[self user] objectForKey:@"accessToken"]) ? [[self user] objectForKey:@"accessToken"] : @"",
+    [userCell addObject:@{@"name":[[self user] userName],
+                          @"email":[[self user] userID],
+                          @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
                           @"label":LSSTRING(@"button_resetpass"),
                           @"action":@""}];
     
-    [userCell addObject:@{@"name":[[self user] objectForKey:@"userName"],
-                          @"email":[[self user] objectForKey:@"userID"],
-                          @"token":([[self user] objectForKey:@"accessToken"]) ? [[self user] objectForKey:@"accessToken"] : @"",
+    [userCell addObject:@{@"name":[[self user] userName],
+                          @"email":[[self user] userID],
+                          @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
                           @"label":LSSTRING(@"button_generatetoken"),
                           @"action":@""}];
     

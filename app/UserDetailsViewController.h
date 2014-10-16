@@ -13,6 +13,7 @@
 #import "BadgeLabel.h"
 #import "SignInViewController.h"
 #import "UserDetailsOptionsViewController.h"
+#import "NotificareUser.h"
 
 
 @class SignInViewController;
@@ -37,7 +38,7 @@
 @property (nonatomic, strong) NSMutableArray * navSections;
 @property (nonatomic, strong) NSMutableArray * sectionTitles;
 @property (nonatomic, strong) NSMutableArray * segments;
-@property (nonatomic, strong) NSDictionary * user;
+@property (nonatomic, strong) NotificareUser * user;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
 @property (nonatomic, strong) UIView * loadingView;
 

@@ -57,7 +57,7 @@
 "error_signin_invalid_email" = "Please insert a valid email.";
 "error_signin_invalid_password" = "Please insert a valid password";
 "error_signin" = "Invalid email and password";
-
+"error_fetching_account" = "Your session was terminated. Please sign in again.";
 
 "success_resetpass" = "Your account password is now update. You can now sign in.";
 "error_resetpass" = "We could not find any account matching this criteria. Please try again.";
