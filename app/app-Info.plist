@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>BUNDLEIDHERE</string>
+	<string>re.notifica.xamarin</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -35,10 +35,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationUsageDescription</key>
-	<string>We would like to use your location to easily provide you maps, directions, updates and alerts based on your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We will need to make use of your location to present relevant information about offers around you.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>We would like to use your location to easily provide you maps, directions, updates and alerts based on your location.</string>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>
@@ -50,15 +50,15 @@
 		<string>Museo.otf</string>
 		<string>OleoScript.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

@@ -153,7 +153,7 @@
     [annotationView setAnnotation:annotation];
     [annotationView setRightCalloutAccessoryView:[UIButton buttonWithType:UIButtonTypeDetailDisclosure]];
     
-    [self setRegion:mapView];
+    //[self setRegion:mapView];
     
     return annotationView;
     
