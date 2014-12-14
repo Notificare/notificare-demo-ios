@@ -41,7 +41,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:LSSTRING(@"title_locations")];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
+    
     
     [self setupNavigationBar];
     
@@ -50,7 +56,7 @@
     [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
     [[self mapView] setShowsUserLocation:YES];
     [[self mapView] setMapType:MKMapTypeStandard];
-    
+
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         
         [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
@@ -68,14 +74,14 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateMap) name:@"gotRegions" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
 }
-
 
 -(void)setupNavigationBar{
     int count = [[[self appDelegate] notificarePushLib] myBadge];
- 
+    
     if(count > 0){
-        [[self buttonIcon] setTintColor:[UIColor whiteColor]];
+        [[self buttonIcon] setTintColor:ICONS_COLOR];
         [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
         
         
@@ -86,23 +92,27 @@
         UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
         [leftButton setTarget:[self viewDeckController]];
         [leftButton setAction:@selector(toggleLeftView)];
-        [leftButton setTintColor:[UIColor blackColor]];
+        [leftButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setLeftBarButtonItem:leftButton];
     } else {
         
         UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
-        
-        [leftButton setTintColor:[UIColor blackColor]];
+        [leftButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setLeftBarButtonItem:leftButton];
+        
     }
+    
+    
     
     UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
     
+    [rightButton setTintColor:ICONS_COLOR];
     
-    [rightButton setTintColor:[UIColor blackColor]];
-    
-   
-    [[self navigationItem] setRightBarButtonItem:rightButton];
+    if([[[self appDelegate] beacons] count] > 0){
+        [[self navigationItem] setRightBarButtonItem:rightButton];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:nil];
+    }
     
 }
 
@@ -112,11 +122,10 @@
     
 }
 
-    
-
 -(void)populateMap{
     
     NSMutableArray * markers = [NSMutableArray array];
+    NSMutableArray * regions = [NSMutableArray array];
     
     for (NSDictionary * region in [[self appDelegate] regions]) {
         
@@ -128,10 +137,16 @@
         
         [markers addObject:annotation];
         
+        
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:coordinate radius:[[region objectForKey:@"distance"] doubleValue]];
+        [regions addObject:circle];
+        
+        
     }
     
+    [[self mapView] addOverlays:regions];
     [[self mapView] addAnnotations:markers];
-    
+    //[self setRegion:[self mapView]];
 }
 
 
@@ -148,21 +163,29 @@
     
     [annotationView setEnabled:YES];
     [annotationView setCanShowCallout:YES];
-    [annotationView setImage:(annotation == [mapView userLocation]) ? [UIImage imageNamed:@"MapUserMarker"] : [UIImage imageNamed:@"MapMarker"]];
+    [annotationView setImage:(annotation == [mapView userLocation]) ? [UIImage imageNamed:@"MapUserMarker"] : nil];
 
     [annotationView setAnnotation:annotation];
     [annotationView setRightCalloutAccessoryView:[UIButton buttonWithType:UIButtonTypeDetailDisclosure]];
-    
-    //[self setRegion:mapView];
     
     return annotationView;
     
 }
 
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
+    [circleView setFillColor:MAIN_COLOR];
+    [circleView setStrokeColor:[UIColor clearColor]];
+    [circleView setAlpha:0.5f];
+    return circleView;
+}
+
+
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
 
-    //[[self mapView] setCenterCoordinate:userLocation.location.coordinate];
 }
+
+
 
 - (void)setRegion:(MKMapView *)mapView{
     

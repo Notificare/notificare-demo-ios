@@ -41,11 +41,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:LSSTRING(@"title_resetpass")];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
+    
     
     UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackButton"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
     
-    [leftButton setTintColor:[UIColor blackColor]];
+    [leftButton setTintColor:ICONS_COLOR];
     //[rightButton setTintColor:[UIColor whiteColor]];
     
     [[self navigationItem] setLeftBarButtonItem:leftButton];
@@ -73,6 +79,7 @@
 
     [[self resetPassButton] setTitle:LSSTRING(@"button_resetpass") forState:UIControlStateNormal];
     
+    [self setSignInView:[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil]];
 }
 
 
@@ -80,27 +87,26 @@
     
     [[self resetPassButton] setEnabled:NO];
     if (![[[self password] text] isEqualToString:[[self passwordConfirm] text]]) {
-       // [[self infoLabel] setText:LSSTRING(@"error_resetpass_passwords_match")];
+
         APP_ALERT_DIALOG(LSSTRING(@"error_resetpass_passwords_match"));
          [[self resetPassButton] setEnabled:YES];
     }else if ([[[self password] text] length] < 5) {
         APP_ALERT_DIALOG(LSSTRING(@"error_resetpass_small_password"));
-        //[[self infoLabel] setText:LSSTRING(@"error_resetpass_small_password")];
+
         [[self resetPassButton] setEnabled:YES];
     } else {
 
         NSMutableDictionary * params = [NSMutableDictionary dictionary];
         [params setObject:[[self password] text] forKey:@"password"];
         [[self notificare] resetPassword:params withToken:[self token] completionHandler:^(NSDictionary *info) {
-            //
-            //[[self infoLabel] setText:LSSTRING(@"success_resetpass")];
             APP_ALERT_DIALOG(LSSTRING(@"success_resetpass"));
             [[self resetPassButton] setEnabled:YES];
-            
+            [[self password] setText:@""];
+            [[self passwordConfirm] setText:@""];
+            [[self navigationController] pushViewController:[self signInView] animated:YES];
         } errorHandler:^(NSError *error) {
             //
             APP_ALERT_DIALOG(LSSTRING(@"error_resetpass"));
-            //[[self infoLabel] setText:LSSTRING(@"error_resetpass")];
             [[self resetPassButton] setEnabled:YES];
         }];
         
@@ -126,7 +132,7 @@
 
 
 -(void)goBack{
-    [[self navigationController] popViewControllerAnimated:YES];
+    [[self navigationController] pushViewController:[self signInView] animated:YES];
 }
 
 -(void)resetForm{

@@ -18,6 +18,7 @@
 @property (nonatomic, strong) IBOutlet FormButton * forgotPassButton;
 @property (nonatomic, strong) IBOutlet InfoLabel * infoLabel;
 
+
 -(IBAction)recoverPassword:(id)sender;
 
 @end

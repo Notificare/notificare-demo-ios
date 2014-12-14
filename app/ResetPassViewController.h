@@ -10,6 +10,10 @@
 #import "FormField.h"
 #import "FormButton.h"
 #import "InfoLabel.h"
+#import "SignInViewController.h"
+
+
+@class SignInViewController;
 
 @interface ResetPassViewController : UIViewController <UITextFieldDelegate>
 
@@ -18,7 +22,7 @@
 @property (nonatomic, strong) IBOutlet FormField * passwordConfirm;
 @property (nonatomic, strong) IBOutlet FormButton * resetPassButton;
 @property (nonatomic, strong) IBOutlet InfoLabel * infoLabel;
-
+@property (nonatomic, strong) SignInViewController * signInView;
 @property (nonatomic, strong)  NSString * token;
 
 -(IBAction)resetPassword:(id)sender;

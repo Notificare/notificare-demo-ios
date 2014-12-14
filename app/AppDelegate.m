@@ -9,12 +9,14 @@
 #import "AppDelegate.h"
 #import "IIViewDeckController.h"
 #import "MainViewController.h"
+#import "WebViewController.h"
 #import "RightViewController.h"
 #import "LeftViewController.h"
 #import "LocationViewController.h"
 #import "SignInViewController.h"
 #import "UserDetailsViewController.h"
 #import "ResetPassViewController.h"
+#import "ProductsViewController.h"
 #import "NSData+Hex.h"
 #import "TestFlight.h"
 #import "Configuration.h"
@@ -25,12 +27,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    if([[Configuration shared] getProperty:@"testflight"]){
+
+    if([[[Configuration shared] getProperty:@"testflight"] length] > 0){
         [TestFlight takeOff:[[Configuration shared] getProperty:@"testflight"]];
     }
     
-    if([[Configuration shared] getProperty:@"host"]){
+    if([[[Configuration shared] getProperty:@"host"] length] > 0){
         [self setApiEngine:[[ApiEngine alloc]
                             initWithHostName:[[Configuration shared] getProperty:@"host"]
                             customHeaderFields:nil]];
@@ -39,58 +41,29 @@
         
         //[UIImageView setDefaultEngine:[self apiEngine]];
     }
-    
-    
+
     
     [self setCachedNotifications:[NSMutableArray array]];
     [self setBeacons:[NSMutableArray array]];
     [self setRegions:[NSMutableArray array]];
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
-    [[NotificarePushLib shared] setShouldAlwaysLogBeacons:NO];
+    //[[NotificarePushLib shared] setShouldAlwaysLogBeacons:YES];
+    
     [[NotificarePushLib shared] handleOptions:launchOptions];
+
     
     [self setNotificarePushLib:[NotificarePushLib shared]];
-    
+ 
     IIViewDeckController* deckController = [self generateControllerStack];
     self.leftController = deckController.leftController;
     self.centerController = deckController.centerController;
     [self.window setRootViewController:deckController];
     
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
-
-
-- (void)notificarePushLib:(NotificarePushLib *)library onReady:(NSDictionary *)info{
-    
-    [[NotificarePushLib shared] registerForNotifications];
-    
-}
-
-
-/////////////////////////////////
-///New iOS8 delgates
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    
-    
-    
-}
-
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completion{
-    
-    [[NotificarePushLib shared] handleAction:identifier forNotification:userInfo withData:nil completionHandler:^(NSDictionary *info) {
-        completion();
-    } errorHandler:^(NSError *error) {
-        completion();
-    }];
-    
-}
-#endif
-/////////////////////////////////
-///New iOS8 delgates
-/////////////////////////////////
 
 
 - (IIViewDeckController*)generateControllerStack {
@@ -98,16 +71,39 @@
     [self setLeftController:[[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil]];
     [self setRightController:[[RightViewController alloc] initWithNibName:@"RightViewController" bundle:nil]];
     MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-    [controller setViewTitle:LSSTRING(@"menu_item_home")];
-    [controller setTargetUrl:[[Configuration shared] getProperty:@"url"]];
     [self setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
     [self setDeckController:[[IIViewDeckController alloc] initWithCenterViewController:[self centerController]
                                                                     leftViewController:[self leftController]
                                                                    rightViewController:[self rightController]]];
-    //deckController.rightSize = 100;
+        //deckController.rightSize = 100;
+        
+        //[[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
+        return [self deckController];
+
+}
+
+
+- (void)notificarePushLib:(NotificarePushLib *)library onReady:(NSDictionary *)info{
+
+#if TARGET_IPHONE_SIMULATOR
     
-    //[[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
-    return [self deckController];
+    //Simulator
+    [[NotificarePushLib shared] registerForWebsockets];
+    
+#else
+    
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    
+    [settings setBool:NO forKey:@"re.notifica.office.prod2"];
+    [settings synchronize];
+    
+    if([settings boolForKey:@"tutorialUserRegistered"]){
+        // Device
+        [[NotificarePushLib shared] registerForNotifications];
+    }
+
+    
+#endif
     
 }
 
@@ -120,7 +116,7 @@
         
         if ([[item objectForKey:@"url"] hasPrefix:@"http://"] || [[item objectForKey:@"url"] hasPrefix:@"https://"]) {
             
-            MainViewController * main = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+            WebViewController * main = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
             
             [main setViewTitle:LSSTRING([item objectForKey:@"label"])];
             [main setTargetUrl:[item objectForKey:@"url"]];
@@ -133,17 +129,17 @@
             
             if ([[item objectForKey:@"url"] hasPrefix:@"IBAction:"]){
                 //Call a method in delegate (used for the settings)
-                
+
                 NSString * method = [[item objectForKey:@"url"] stringByReplacingOccurrencesOfString:@"IBAction:" withString:@""];
                 SEL mySelector = NSSelectorFromString(method);
                 if([self respondsToSelector:mySelector]){
                     Suppressor([self performSelector:mySelector]);
                 }
-                
+  
             } else if ([[item objectForKey:@"url"] hasPrefix:@"Auth:"]){
                 //Call a method in delegate (used for the settings)
                 
-                
+
                 if([[NotificarePushLib shared] isLoggedIn]){
                     
                     UserDetailsViewController * userDetails = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
@@ -163,8 +159,26 @@
                 
                 
                 LocationViewController * map = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
-                
+
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:map]];
+                [[self deckController] setCenterController:[self centerController]];
+                
+            } else if ([[item objectForKey:@"url"] hasPrefix:@"Products:"]){
+                
+                
+                ProductsViewController * prods = [[ProductsViewController alloc] initWithNibName:@"ProductsViewController" bundle:nil];
+                
+                [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
+                [[self deckController] setCenterController:[self centerController]];
+                
+                APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
+                
+            } else if ([[item objectForKey:@"url"] hasPrefix:@"MainView:"]){
+                
+                
+                MainViewController * prods = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+                
+                [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
                 [[self deckController] setCenterController:[self centerController]];
                 
             }
@@ -174,20 +188,17 @@
         
     }];
     
-    
+
 }
 
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    [[NotificarePushLib shared]  applicationInfo];
 	[[NotificarePushLib shared]  handleOpenURL:url];
     return YES;
 }
 
 
 #pragma General Methods
-
-
 
 -(void)openPreferences{
     [[NotificarePushLib shared] openUserPreferences];
@@ -200,6 +211,9 @@
 -(void)openBeacons{
     [[NotificarePushLib shared] openBeacons];
 }
+
+
+
 
 -(void)openBeacon:(NSDictionary *)info{
     NSMutableDictionary * notification = [NSMutableDictionary  dictionary];
@@ -232,8 +246,23 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changedAccount" object:nil];
 }
 
+
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveActivationToken:(NSString *)token{
-    //NSLog(@"didReceiveActivationToken: %@",token);
+    
+    [[NotificarePushLib shared] validateAccount:token completionHandler:^(NSDictionary *info) {
+        
+        SignInViewController * signInView = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:signInView];
+        [self setCenterController:navigationController];
+        [[self deckController] setCenterController:[self centerController]];
+        
+        APP_ALERT_DIALOG(LSSTRING(@"success_validate"));
+        
+    } errorHandler:^(NSError *error) {
+        
+        APP_ALERT_DIALOG(LSSTRING(@"error_validate"));
+        
+    }];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveResetPasswordToken:(NSString *)token{
@@ -251,12 +280,42 @@
 
 #pragma APNS Delegates
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
+ 
     
     //If you don't identify users you can just use this
     [[NotificarePushLib shared] registerDevice:deviceToken completionHandler:^(NSDictionary *info) {
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"registeredDevice" object:nil];
+
+        if([[NotificarePushLib shared] checkLocationUpdates]){
+            [[NotificarePushLib shared] startLocationUpdates];
+            
+        }
         
-        [[NotificarePushLib shared] startLocationUpdates];
+
+        [self addTags];
+        
+    } errorHandler:^(NSError *error) {
+        //
+      //  [self registerForAPNS];
+        
+    }];
+    
+}
+
+#pragma APNS Delegates
+- (void)notificarePushLib:(NotificarePushLib *)library didRegisterForWebsocketsNotifications:(NSString *)token {
+    
+    
+    //If you don't identify users you can just use this
+    [[NotificarePushLib shared] registerDeviceForWebsockets:token completionHandler:^(NSDictionary *info) {
+        
+        if([[NotificarePushLib shared] checkLocationUpdates]){
+            [[NotificarePushLib shared] startLocationUpdates];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"startedLocationUpdate" object:nil];
+        }
+        
+        
         [self addTags];
         
     } errorHandler:^(NSError *error) {
@@ -268,10 +327,38 @@
 }
 
 
+/////////////////////////////////
+///New iOS8 delgates
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+
+   
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completion{
+
+    [[NotificarePushLib shared] handleAction:identifier forNotification:userInfo withData:nil completionHandler:^(NSDictionary *info) {
+        completion();
+    } errorHandler:^(NSError *error) {
+        completion();
+    }];
+    
+    
+
+    
+    
+}
+#endif
+/////////////////////////////////
+///New iOS8 delgates
+/////////////////////////////////
+
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
     
-    // [self registerForAPNS];
+   // [self registerForAPNS];
 }
+
+
 
 //For iOS6 - No inbox
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -281,21 +368,28 @@
 }
 
 
+- (void)notificarePushLib:(NotificarePushLib *)library didReceiveWebsocketNotification:(NSDictionary *)info {
+    
+    [[NotificarePushLib shared] openNotification:info];
+    
+}
 
 
+
+ 
 // If you implement this delegate please add a remote-notification to your UIBackgroundModes in app's plist
 // For iOS7 up - No inbox
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-    
-    [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
-        //
-        completionHandler(UIBackgroundFetchResultNewData);
-    } errorHandler:^(NSError *error) {
-        //
-        completionHandler(UIBackgroundFetchResultNoData);
-    }];
-    
-}
+
+     
+     [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
+         //
+         completionHandler(UIBackgroundFetchResultNewData);
+     } errorHandler:^(NSError *error) {
+         //
+         completionHandler(UIBackgroundFetchResultNoData);
+     }];
+ }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"incomingNotification" object:nil];
@@ -307,18 +401,28 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     
     [[NotificarePushLib shared] openNotification:@{@"id":[[notification userInfo] objectForKey:@"notification"]}];
-    
 }
 
 
 
 #pragma Tags
 -(void)addTags{
-    [[NotificarePushLib shared] addTags:@[@"tag_press",@"tag_events",@"tag_newsletter"] completionHandler:^(NSDictionary *info) {
-        //
-    } errorHandler:^(NSError *error) {
-        //
-    }];
+    
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    
+
+    //One time
+    if([settings objectForKey:@"notificareAppInstall"] == nil || ![settings objectForKey:@"notificareAppInstall"]){
+        
+        [[NotificarePushLib shared] addTags:@[@"tag_press",@"tag_events",@"tag_newsletter"] completionHandler:^(NSDictionary *info) {
+            //
+        } errorHandler:^(NSError *error) {
+            //
+        }];
+    }
+    
+    
+    
 }
 
 
@@ -375,6 +479,7 @@
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveLocationServiceAuthorizationStatus:(NSDictionary *)status{
     if ([[status objectForKey:@"status"] isEqualToString:@"Location Services are available"]) {
         [self setIsLocationServicesOn:YES];
+
     } else {
         [self setIsLocationServicesOn:NO];
     }
@@ -385,6 +490,11 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
+
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    if([settings boolForKey:@"tutorialUserRegistered"]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"startedLocationUpdate" object:nil];
+    }
     
 }
 
@@ -397,14 +507,17 @@
 // You can request a state of a region by doing [[[NotificarePushLib shared] locationManager] requestStateForRegion:(CLRegion *) region];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-    // NSLog(@"didDetermineState: %i %@", state, region);
+   // NSLog(@"didDetermineState: %i %@", state, region);
+    
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        [self setSupportsBeacons:YES];
+    }
     
 }
 
 //Use this delegate to know when a user entered a region. Notificare will automatically handle the triggers.
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
-    //NSLog(@"didEnterRegion: %@", region);
     
 }
 
@@ -449,9 +562,62 @@
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
     
     //NSLog(@"%@", beacons);
-    
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
+
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didFailProductTransaction:(SKPaymentTransaction *)transaction withError:(NSError *)error{
     
+    NSLog(@"didFailProductTransaction %@", error);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didCompleteProductTransaction:(SKPaymentTransaction *)transaction{
+    
+    NSLog(@"didCompleteProductTransaction %@", transaction);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didRestoreProductTransaction:(SKPaymentTransaction *)transaction{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+    
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didLoadStore:(NSArray *)products{
+    NSLog(@"didLoadStore %@", products);
+}
+
+
+- (void)notificarePushLib:(NotificarePushLib *)library didFailToLoadStore:(NSError *)error{
+    NSLog(@"didFailToLoadStore %@", error);
+}
+
+
+- (void)notificarePushLib:(NotificarePushLib *)library didStartDownloadContent:(SKPaymentTransaction *)transaction{
+    NSLog(@"didStartDownloadContent %@", transaction);
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didPauseDownloadContent:(SKDownload *)download{
+    NSLog(@"didPauseDownloadContent %@", download);
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didCancelDownloadContent:(SKDownload *)download{
+    NSLog(@"didCancelDownloadContent %@", download);
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didReceiveProgressDownloadContent:(SKDownload *)download{
+    NSLog(@"didReceiveProgressDownloadContent %@ %f %f", download, [download progress], [download timeRemaining]);
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didFailDownloadContent:(SKDownload *)download{
+    NSLog(@"didFailDownloadContent %@", download);
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+}
+- (void)notificarePushLib:(NotificarePushLib *)library didFinishDownloadContent:(SKDownload *)download{
+    NSLog(@"didFinishDownloadContent %@", [download contentURL]);
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 
@@ -463,7 +629,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

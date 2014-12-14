@@ -11,7 +11,7 @@
 	<key>PRODUCTION_APP_SECRET</key>
 	<string></string>
 	<key>DEVELOPMENT</key>
-	<true/>
+	<false/>
 	<key>RESOURCE_BUNDLE</key>
 	<string>DefaultTheme.bundle</string>
 	<key>OPTIONS</key>

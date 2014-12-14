@@ -16,8 +16,10 @@
  */
 - (void)getEvents:(SuccessBlock)successBlock errorHandler:(ErrorBlock)errorBlock {
     
-    MKNetworkOperation *op = [self operationWithPath:@"/_data/db_test.json"
-                                              params:nil httpMethod:@"GET" ssl:NO];
+    MKNetworkOperation *op = [self operationWithPath:@"/"
+                                              params:nil httpMethod:@"GET" ssl:YES];
+    
+    //[op setShouldContinueWithInvalidCertificate:NO];
     
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         

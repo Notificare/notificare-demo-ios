@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
-                <outlet property="backButton" destination="mgu-iU-lyv" id="hcZ-4I-qhv"/>
-                <outlet property="badge" destination="qF0-ac-P3J" id="Ova-wu-sJ6"/>
-                <outlet property="badgeButton" destination="yfn-tk-JHU" id="5pe-mP-RdZ"/>
-                <outlet property="badgeNr" destination="jnL-Ng-m9i" id="Hef-tC-hM9"/>
-                <outlet property="buttonIcon" destination="vmh-7f-bF8" id="hsh-Hi-EMJ"/>
-                <outlet property="forwardButton" destination="9g6-fP-aMb" id="HAv-PC-a8j"/>
-                <outlet property="refreshButton" destination="Wee-Mu-rbQ" id="hJS-os-3YN"/>
-                <outlet property="toolbar" destination="c2o-Yd-6rc" id="LLB-GL-c45"/>
+                <outlet property="badge" destination="PS3-gO-XD1" id="P1s-Oz-PJH"/>
+                <outlet property="badgeButton" destination="xs4-QJ-MmM" id="VSR-2N-bhy"/>
+                <outlet property="badgeNr" destination="O5w-fl-MMk" id="USm-CH-rbF"/>
+                <outlet property="buttonIcon" destination="an6-SU-pQx" id="ACZ-ys-Yu9"/>
+                <outlet property="pageControl" destination="EwY-Z8-TVx" id="2zF-gj-nNG"/>
+                <outlet property="scrollView" destination="SC6-wU-d5s" id="6Yt-7r-yoe"/>
                 <outlet property="view" destination="iN0-l3-epB" id="8nf-DU-vsX"/>
-                <outlet property="webView" destination="ePB-28-9rS" id="rjk-9l-Ve1"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -24,83 +21,68 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ePB-28-9rS">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="EwY-Z8-TVx">
+                    <rect key="frame" x="140" y="500" width="39" height="37"/>
+                </pageControl>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SC6-wU-d5s">
+                    <rect key="frame" x="0.0" y="1" width="320" height="568"/>
                     <connections>
-                        <outlet property="delegate" destination="-1" id="YhI-n7-jEg"/>
+                        <outlet property="delegate" destination="-1" id="kwA-58-Jsf"/>
                     </connections>
-                </webView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2o-Yd-6rc">
-                    <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <items>
-                        <barButtonItem image="BackButton.png" style="plain" id="mgu-iU-lyv">
-                            <connections>
-                                <action selector="goBack" destination="ePB-28-9rS" id="eKj-fi-K8O"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Z9F-gJ-b9q"/>
-                        <barButtonItem image="ForwardButton.png" style="plain" id="9g6-fP-aMb">
-                            <connections>
-                                <action selector="goForward" destination="ePB-28-9rS" id="0N7-X6-2qY"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem width="165" style="plain" systemItem="fixedSpace" id="yzy-eD-ZJb"/>
-                        <barButtonItem image="RefreshButton.png" style="plain" id="Wee-Mu-rbQ">
-                            <connections>
-                                <action selector="reload" destination="ePB-28-9rS" id="qgV-K9-L5S"/>
-                            </connections>
-                        </barButtonItem>
-                    </items>
-                    <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </toolbar>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ePB-28-9rS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7Db-4M-MeX"/>
-                <constraint firstItem="ePB-28-9rS" firstAttribute="leading" secondItem="c2o-Yd-6rc" secondAttribute="leading" id="FCa-F4-Ei9"/>
-                <constraint firstAttribute="bottom" secondItem="c2o-Yd-6rc" secondAttribute="bottom" id="RXe-a8-UcF"/>
-                <constraint firstAttribute="trailing" secondItem="ePB-28-9rS" secondAttribute="trailing" id="ZV9-aa-sct"/>
-                <constraint firstItem="ePB-28-9rS" firstAttribute="trailing" secondItem="c2o-Yd-6rc" secondAttribute="trailing" id="cZo-lD-heA"/>
-                <constraint firstItem="ePB-28-9rS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="d5R-Nf-io7"/>
-                <constraint firstItem="ePB-28-9rS" firstAttribute="bottom" secondItem="c2o-Yd-6rc" secondAttribute="bottom" id="syK-ik-cJj"/>
+                <constraint firstAttribute="bottom" secondItem="SC6-wU-d5s" secondAttribute="bottom" constant="-1" id="Iq5-lt-V0E"/>
+                <constraint firstItem="SC6-wU-d5s" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Nyc-ew-k9l"/>
+                <constraint firstAttribute="trailing" secondItem="SC6-wU-d5s" secondAttribute="trailing" id="aoK-8L-bi7"/>
+                <constraint firstItem="SC6-wU-d5s" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="1" id="zo3-cA-Nbt"/>
             </constraints>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
-        <view contentMode="scaleToFill" id="qF0-ac-P3J">
-            <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
+        <view contentMode="scaleToFill" id="PS3-gO-XD1">
+            <rect key="frame" x="0.0" y="0.0" width="32" height="24"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="vmh-7f-bF8">
-                    <rect key="frame" x="0.0" y="3" width="24" height="24"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="an6-SU-pQx">
+                    <rect key="frame" x="3" y="4" width="22" height="15"/>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnL-Ng-m9i" customClass="BadgeLabel">
-                    <rect key="frame" x="10" y="0.0" width="22" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5w-fl-MMk" customClass="BadgeLabel">
+                    <rect key="frame" x="10" y="-3" width="22" height="20"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfn-tk-JHU">
-                    <rect key="frame" x="0.0" y="0.0" width="30" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-QJ-MmM">
+                    <rect key="frame" x="0.0" y="-1" width="30" height="25"/>
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="O5w-fl-MMk" firstAttribute="leading" secondItem="PS3-gO-XD1" secondAttribute="leading" constant="10" id="2wD-9V-lbf"/>
+                <constraint firstAttribute="bottom" secondItem="xs4-QJ-MmM" secondAttribute="bottom" id="GnT-hx-88h"/>
+                <constraint firstAttribute="trailing" secondItem="O5w-fl-MMk" secondAttribute="trailing" id="MD0-f5-UP7"/>
+                <constraint firstItem="xs4-QJ-MmM" firstAttribute="leading" secondItem="PS3-gO-XD1" secondAttribute="leading" id="Pdh-yu-tm9"/>
+                <constraint firstAttribute="bottom" secondItem="O5w-fl-MMk" secondAttribute="bottom" constant="7" id="R5r-ct-d0E"/>
+                <constraint firstItem="an6-SU-pQx" firstAttribute="leading" secondItem="PS3-gO-XD1" secondAttribute="leading" constant="3" id="Uqe-6O-Fbd"/>
+                <constraint firstItem="O5w-fl-MMk" firstAttribute="top" secondItem="PS3-gO-XD1" secondAttribute="top" constant="-3" id="ldf-5z-E35"/>
+                <constraint firstItem="xs4-QJ-MmM" firstAttribute="centerY" secondItem="an6-SU-pQx" secondAttribute="centerY" id="nua-yb-7wO"/>
+                <constraint firstItem="xs4-QJ-MmM" firstAttribute="top" secondItem="PS3-gO-XD1" secondAttribute="top" constant="-1" id="rQt-GQ-ETn"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="369" y="110"/>
         </view>
     </objects>
     <resources>
-        <image name="BackButton.png" width="12" height="21"/>
-        <image name="ForwardButton.png" width="12" height="21"/>
-        <image name="LeftMenuIcon.png" width="24" height="24"/>
-        <image name="RefreshButton.png" width="24" height="21"/>
+        <image name="LeftMenuIcon.png" width="22" height="15"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

@@ -41,11 +41,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:LSSTRING(@"title_lostpass")];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
     
     UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackButton"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
     
-    [leftButton setTintColor:[UIColor blackColor]];
+    [leftButton setTintColor:ICONS_COLOR];
     //[rightButton setTintColor:[UIColor whiteColor]];
     
     [[self navigationItem] setLeftBarButtonItem:leftButton];
@@ -69,7 +74,8 @@
     [[self email] setDelegate:self];
 
     [[self forgotPassButton] setTitle:LSSTRING(@"button_forgotpass") forState:UIControlStateNormal];
-    
+
+    [[self view] setBackgroundColor:WILD_SAND_COLOR];
 }
 
 
@@ -78,19 +84,19 @@
     
     if (![[self email] text]) {
         APP_ALERT_DIALOG(LSSTRING(@"error_forgotpass_invalid_email"));
-       // [[self infoLabel] setText:LSSTRING(@"error_forgotpass_invalid_email")];
         [[self forgotPassButton] setEnabled:YES];
     } else {
         NSMutableDictionary * params = [NSMutableDictionary dictionary];
         [params setObject:[[self email] text] forKey:@"email"];
         [[self notificare] sendPassword:params completionHandler:^(NSDictionary *info) {
-            //
-            //[[self infoLabel] setText:LSSTRING(@"success_forgotpass")];
+
             APP_ALERT_DIALOG(LSSTRING(@"success_forgotpass"));
             [[self forgotPassButton] setEnabled:YES];
+            [[self email] setText:@""];
+            [[self email] resignFirstResponder];
+            [[self navigationController] popToRootViewControllerAnimated:YES];
         } errorHandler:^(NSError *error) {
             //
-            //[[self infoLabel] setText:LSSTRING(@"error_forgotpass")];
             APP_ALERT_DIALOG(LSSTRING(@"error_forgotpass"));
             [[self forgotPassButton] setEnabled:YES];
         }];

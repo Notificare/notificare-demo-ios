@@ -18,7 +18,7 @@
         [self setFont:FIELD_TEXT];
         [self setBackgroundColor:FIELD_BACKGROUND_COLOR];
         [self setTextColor:FIELD_TEXT_COLOR];
-        [self setBorderStyle:UITextBorderStyleRoundedRect];
+        [self setBorderStyle:UITextBorderStyleNone];
 
         self.layer.cornerRadius= FIELD_CORNER_RADIUS;
         self.layer.masksToBounds= YES;
@@ -26,15 +26,15 @@
         self.layer.borderWidth= FIELD_BORDER_WIDTH;
 
         CGRect frameRect = self.frame;
-        frameRect.size.height = 45.0f;
+        frameRect.size.height = 60;
         self.frame = frameRect;
+        
+        UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 17, 20)];
+        [self setLeftView:paddingView];
+        [self setLeftViewMode:UITextFieldViewModeAlways];
     }
     return self;
 }
 
-- (void)drawTextInRect:(CGRect)rect {
-    UIEdgeInsets insets = {0, 5, 0, 5};
-    return [super drawTextInRect:UIEdgeInsetsInsetRect(rect, insets)];
-}
 
 @end

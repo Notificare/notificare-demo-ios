@@ -26,7 +26,7 @@
         self.layer.borderColor= [BADGE_BORDER_COLOR CGColor];
         self.layer.borderWidth= BADGE_BORDER_WIDTH;
         self.layer.bounds = CGRectMake(0.0f, 0.0f, BADGE_CORNER_RADIUS *2, BADGE_CORNER_RADIUS *2);
-        
+
     }
     return self;
 }

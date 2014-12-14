@@ -10,6 +10,9 @@
 #import "IIViewDeckController.h"
 #import "AppDelegate.h"
 #import "Configuration.h"
+#import "NotificarePushLib.h"
+
+
 
 @interface MainViewController ()
 
@@ -22,48 +25,41 @@
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
+
+- (NotificarePushLib *)notificare {
+    return (NotificarePushLib *)[[self appDelegate] notificarePushLib];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:@"Notificare"];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
+    
+    [self setPageControlUsed:NO];
     
     [self setupNavigationBar];
-    
-    
+
     [self setActivityIndicatorView:[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
     
-    
-    [[self activityIndicatorView] setHidden:YES];
     [[self activityIndicatorView]  setCenter:CGPointMake( self.view.frame.size.width /2-5, self.view.frame.size.height /2-5)];
     [[self activityIndicatorView]  setContentMode:UIViewContentModeCenter];
+    [[self activityIndicatorView] setHidden:NO];
+    [[self activityIndicatorView] startAnimating];
     
     [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)]];
     [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
     [[self loadingView] addSubview:[self activityIndicatorView]];
-    [[self view] addSubview:[self loadingView]];
-    
-    [[self backButton] setImage:[UIImage imageNamed: @"BackButton"]];
-    [[self forwardButton] setImage:[UIImage imageNamed: @"ForwardButton"]];
-    [[self refreshButton] setImage:[UIImage imageNamed: @"RefreshButton"]];
-    
-    [[self backButton] setEnabled:NO];
-    [[self forwardButton] setEnabled:NO];
-    [[self refreshButton] setEnabled:YES];
-    
-    [[self toolbar] setBackgroundColor:[UIColor whiteColor]];
-    [[self toolbar] setTintColor:[UIColor blackColor]];
-    [[self toolbar] setTranslucent:NO];
     
     
     //For iOS6
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
         
-        [[self toolbar] setTintColor:MAIN_COLOR];
-        
-        [[self backButton] setTintColor:[UIColor blackColor]];
-        [[self forwardButton] setTintColor:[UIColor blackColor]];
-        [[self refreshButton] setTintColor:[UIColor blackColor]];
         
         [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
@@ -73,41 +69,146 @@
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
     
-    [self goToUrl];
 
+    [[self view] setBackgroundColor:WILD_SAND_COLOR];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedLocationUpdates) name:@"startedLocationUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+    
+    [self showTutorial];
 }
+
+-(void)registeredDevice{
+
+    CGRect frame = self.scrollView.frame;
+    [[self scrollView] setContentOffset:CGPointMake(frame.size.width * 1, 0) animated:NO];
+    
+    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+    [settings setBool:YES forKey:@"tutorialUserRegistered"];
+    [settings synchronize];
+    
+    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:1.0];
+}
+
+-(void)hideLoadingView{
+    [[self loadingView] removeFromSuperview];
+}
+
+-(void)showLoadingView{
+    [[self view] addSubview:[self loadingView]];
+}
+
+-(void)startedLocationUpdates{
+    
+    CGRect frame = self.scrollView.frame;
+    [[self scrollView] setContentOffset:CGPointMake(frame.size.width * 2, 0) animated:NO];
+    [[self scrollView] setScrollEnabled:NO];
+    
+    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:1.0];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+
+    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+    
+    if([settings boolForKey:@"tutorialUserRegistered"] && [[self notificare] checkLocationUpdates]){
+        [self startedLocationUpdates];
+        [self showLoadingView];
+    }
+    
+    if([settings boolForKey:@"tutorialUserRegistered"] && ![[self notificare] checkLocationUpdates]){
+        [self registeredDevice];
+        [self showLoadingView];
+    }
+    
+    
+}
+
+
+
+
+
+-(void)showTutorial{
+    
+
+    [self setViewsArray:[NSMutableArray array]];
+    
+    PageOneViewController * pageOne = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
+    
+    PageTwoViewController * pageTwo = [[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil];
+    
+    PageThreeViewController * pageThree = [[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil];
+    
+    [self setPageOneController:pageOne];
+    [self setPageTwoController:pageTwo];
+    [self setPageThreeController:pageThree];
+    
+    [[self viewsArray] addObject:[self pageOneController]];
+    [[self viewsArray] addObject:[self pageTwoController]];
+    [[self viewsArray] addObject:[self pageThreeController]];
+    
+    // a page is the width of the scroll view
+    [[self scrollView] setPagingEnabled:YES];
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * [[self viewsArray] count], self.scrollView.frame.size.height);
+    [[self scrollView] setShowsHorizontalScrollIndicator:NO];
+    [[self scrollView] setShowsVerticalScrollIndicator:NO];
+    [[self scrollView] setScrollsToTop:NO];
+    [[self scrollView] setDelegate:self];
+    [[self scrollView] setScrollEnabled:NO];
+    
+    [[self pageControl] setNumberOfPages:[[self viewsArray] count]];
+    [[self pageControl] setCurrentPage:0];
+    
+    [self loadScrollViewWithPage:0];
+    [self loadScrollViewWithPage:1];
+    
+    [[self scrollView] setBackgroundColor:WILD_SAND_COLOR];
+}
+
 
 
 -(void)setupNavigationBar{
     int count = [[[self appDelegate] notificarePushLib] myBadge];
+    
     if(count > 0){
-        [[self buttonIcon] setTintColor:[UIColor whiteColor]];
+        [[self buttonIcon] setTintColor:ICONS_COLOR];
         [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        
+
         NSString * badge = [NSString stringWithFormat:@"%i", count];
         [[self badgeNr] setText:badge];
         
         UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
         [leftButton setTarget:[self viewDeckController]];
         [leftButton setAction:@selector(toggleLeftView)];
-        [leftButton setTintColor:[UIColor blackColor]];
+        [leftButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setLeftBarButtonItem:leftButton];
     } else {
         
         UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
-        [leftButton setTintColor:[UIColor blackColor]];
+        [leftButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setLeftBarButtonItem:leftButton];
         
     }
     
+    
+    
     UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
     
-    [rightButton setTintColor:[UIColor blackColor]];
 
-    [[self navigationItem] setRightBarButtonItem:rightButton];
+    [rightButton setTintColor:ICONS_COLOR];
+    
+    if([[[self appDelegate] beacons] count] > 0){
+        [[self navigationItem] setRightBarButtonItem:rightButton];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:nil];
+    }
+    
+    
     
 }
 
@@ -118,67 +219,71 @@
 }
 
 
--(void)goToUrl{
-    NSURL *nsUrl=[NSURL URLWithString:[self targetUrl]];
-    NSURLRequest *nsRequest=[NSURLRequest requestWithURL:nsUrl];
-    [[self webView] loadRequest:nsRequest];
-    
-    [self setTitle:LSSTRING([self viewTitle])];
 
-    [[self activityIndicatorView]  startAnimating];
-}
-
--(void)webViewDidStartLoad:(UIWebView *)webView{
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
     
-    [[self activityIndicatorView] setHidden:NO];
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    
-    
-    [self performSelector:@selector(animateDidLoad) withObject:nil afterDelay:2.0];
-    
-    [[self webView] stringByEvaluatingJavaScriptFromString:@"window.scrollTo(0.0, 70.0)"];
-
-}
-
--(void)animateDidLoad{
-    [UIView animateWithDuration:1.f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [[self loadingView] setAlpha:0.f];
-    } completion:^(BOOL finished) {
-        
-        [[self activityIndicatorView] setHidden:YES];
-        
-        if([[self webView] canGoBack]){
-            [[self backButton] setEnabled:YES];
-        } else {
-            [[self backButton] setEnabled:NO];
-        }
-        
-        if([[self webView] canGoForward]){
-            [[self forwardButton] setEnabled:YES];
-        } else {
-            [[self forwardButton] setEnabled:NO];
-        }
-        
-    }];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    [[self activityIndicatorView] setHidden:YES];
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    
-    [[self activityIndicatorView] setHidden:YES];
-    
-    if([error code] != NSURLErrorCancelled){
-        ALERT_DIALOG(LSSTRING(@"title_webview_load_fail"), LSSTRING(@"message_webview_load_fail"));
+    // We don't want a "feedback loop" between the UIPageControl and the scroll delegate in
+    // which a scroll event generated from the user hitting the page control triggers updates from
+    // the delegate method. We use a boolean to disable the delegate logic when the page control is used.
+    if ([self pageControlUsed]) {
+        // do nothing - the scroll was initiated from the page control, not the user dragging
+        return;
     }
     
+    // Switch the indicator when more than 50% of the previous/next page is visible
+    CGFloat pageWidth = self.scrollView.frame.size.width;
+    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    [[self pageControl] setCurrentPage:page];
+    
+    // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
+    [self loadScrollViewWithPage:page - 1];
+    [self loadScrollViewWithPage:page];
+    [self loadScrollViewWithPage:page + 1];
+    
 }
+
+// At the begin of scroll dragging, reset the boolean used when scrolls originate from the UIPageControl
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self setPageControlUsed:NO];
+}
+
+// At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self setPageControlUsed:NO];
+}
+
+- (void)loadScrollViewWithPage:(int)page
+{
+    if (page < 0){
+        return;
+    }
+    if (page >= [[self viewsArray] count]){
+        return;
+    }
+    
+    
+    
+    // replace the placeholder if necessary
+    
+    if ((NSNull *)[[self viewsArray] objectAtIndex:page] == [NSNull null]) {
+        [[self viewsArray] replaceObjectAtIndex:page withObject:[[self viewsArray] objectAtIndex:page]];
+    }
+    // add the controller's view to the scroll view
+    if ([[self viewsArray] objectAtIndex:page] != nil) {
+        CGRect frame = self.scrollView.frame;
+        frame.origin.x = frame.size.width * page;
+        frame.origin.y = 0;
+        [[[self viewsArray] objectAtIndex:page] view].frame = frame;
+        [[self scrollView] addSubview:[[[self viewsArray] objectAtIndex:page] view]];
+    }
+    
+    
+    
+}
+
 
 
 

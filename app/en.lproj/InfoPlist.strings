@@ -1,4 +1,5 @@
 /* Localized versions of Info.plist keys */
 NSLocationUsageDescription = "We would like to use your location to easily provide you maps, directions, updates and relevant alerts.";
 
-NSLocationAlwaysUsageDescription = "We will need to make use of your location to present relevant information around you.";
+NSLocationAlwaysUsageDescription = "We will need to make use of your location to present relevant information about offers around you.";
+NSLocationWhenInUseUsageDescription = "We would like to use your location to easily provide your location in  maps or  give you directions.";

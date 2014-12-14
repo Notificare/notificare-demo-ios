@@ -14,12 +14,13 @@
 #import "SignInViewController.h"
 #import "UserDetailsOptionsViewController.h"
 #import "NotificareUser.h"
+#import <MessageUI/MessageUI.h>
 
 
 @class SignInViewController;
 @class UserDetailsOptionsViewController;
 
-@interface UserDetailsViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
+@interface UserDetailsViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet InfoLabel * userName;
 @property (nonatomic, strong) IBOutlet InfoLabel * userToken;
@@ -41,7 +42,7 @@
 @property (nonatomic, strong) NotificareUser * user;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
 @property (nonatomic, strong) UIView * loadingView;
-
+@property (strong, nonatomic) MFMailComposeViewController *mailComposer;
 @property (nonatomic, strong) SignInViewController * signInView;
 @property (nonatomic, strong) UserDetailsOptionsViewController * optionsView;
 

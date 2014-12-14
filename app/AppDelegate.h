@@ -19,6 +19,7 @@
 @class SignInViewController;
 @class UserDetailsViewController;
 @class ResetPassViewController;
+//@class ProductsViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, NotificarePushLibDelegate>
 
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) NSMutableArray * beacons;
 
 @property (assign, nonatomic) BOOL isLocationServicesOn;
+@property (assign, nonatomic) BOOL supportsBeacons;
 
 @property (retain, nonatomic) UIViewController *rightController;
 @property (retain, nonatomic) UIViewController *centerController;

@@ -61,11 +61,11 @@
     UILabel * badge = (UILabel *)[cell viewWithTag:101];
     
     [label setText:LSSTRING([item objectForKey:@"label"])];
-    [label setFont:DEFAULT_SYSTEM_FONT(18)];
+    [label setFont:LATO_FONT(20)];
     
     if([item objectForKey:@"badge"]){
         [badge setText:[item objectForKey:@"badge"]];
-        [badge setFont:DEFAULT_SYSTEM_FONT(16)];
+        [badge setFont:LATO_FONT(16)];
     } else {
         [badge setHidden:YES];
     }
@@ -147,14 +147,14 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+
 }
 
 -(void)reloadData{
     [self setNavSections:[NSMutableArray array]];
     [self setSectionTitles:[NSMutableArray array]];
     
-    [[self sectionTitles] addObject:[NSString stringWithFormat:@"%@ %@", LSSTRING(@"title_welcome"), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]]];
+    [[self sectionTitles] addObject:@""];
     
     NSMutableArray * menuItems = [NSMutableArray array];
     
@@ -173,14 +173,23 @@
                 [menuItems addObject:item];
             }
             
-        }else if([[item objectForKey:@"url"] isEqualToString:@"IBAction:openInbox"]){
-            
+        } else if([[item objectForKey:@"url"] isEqualToString:@"IBAction:openInbox"]){
+ 
             NSMutableDictionary * theItem = [NSMutableDictionary dictionaryWithDictionary:item];
             if([[self notificare] myBadge] > 0){
-                [theItem setValue:[NSString stringWithFormat:@"%i", [[self notificare] myBadge]] forKey:@"badge"];
+               [theItem setValue:[NSString stringWithFormat:@"%i", [[self notificare] myBadge]] forKey:@"badge"];
             }
             
             [menuItems addObject:theItem];
+            
+            
+        } else if([[item objectForKey:@"url"] isEqualToString:@"Products:SKProduct"]){
+            
+            NSMutableDictionary * theItem = [NSMutableDictionary dictionaryWithDictionary:item];
+            
+            if([SKPaymentQueue canMakePayments]){
+                [menuItems addObject:theItem];
+            }
             
             
         } else {

@@ -6,58 +6,80 @@
   Copyright (c) 2014 Notificare. All rights reserved.
 */
 
-"title_welcome" = "";
+"title_welcome" = "Welcome to";
 "title_webview_load_fail" = "Error";
 "message_webview_load_fail" = "There was an error while loading this page. Please try again.";
-"title_list_beacons" = "iBeacon";
-"empty_beacons_text" = "This feature is available inside our locations. It requires Bluetooth.";
-"no_support_beacons_text" = "This feature requires an iPhone 4S/5/5S with iOS7.";
+"title_list_beacons" = "FACILITIES";
+"empty_beacons_text" = "This feature is only available if you are inside one of our offices. This feature also requires that you turn Bluetooth on in order to work.";
+"no_support_beacons_text" = "This feature requires an iPhone 4S/5/5S with iOS7 installed.";
+
+"empty_products_text" = "No products found";
+
 "menu_item_home" = "Home";
-"menu_item_about" = "Over ons";
-"menu_item_location" = "Locaties";
+"menu_item_about" = "About";
+"menu_item_location" = "Locations";
 "menu_item_contact" = "Contact";
 "menu_item_settings" = "Settings";
 "menu_item_signin" = "Sign in";
-"menu_item_user" = "User profile";
+"menu_item_user" = "User Profile";
 "menu_item_inbox" = "Inbox";
-"menu_item_beacons" = "Inbox";
+"menu_item_beacons" = "Beacons";
+"menu_item_products" = "Products";
+
+"title_signin" = "Sign in";
+"title_signup" = "Sign up";
+"title_lostpass" = "Forgotten Password";
+"title_resetpass" = "Recover Password";
+"title_user_profile" = "User Profile";
+"title_products" = "Products";
+"title_locations" = "Locations";
+
+"placeholder_name" = "name";
+"placeholder_email" = "email";
+"placeholder_password" = "password";
+"placeholder_confirm_password" = "confirm password";
+"placeholder_newpass" = "new password";
+"placeholder_confirm_newpass" = "confirm new password";
+"button_signup" = "create an account";
+"button_signin" = "sign in";
+"button_forgotpass" = "forgotten password";
+"button_resetpass" = "change password";
+"button_changepass" = "save new password";
+"button_generatetoken" = "generate new email token";
+"button_logout" = "sign out";
+
+"title_section_user" = "MY PROFILE";
+"title_section_segments" = "MY INFO";
+"title_section_products" = "Products";
+
+"onetime" = "Non-Consumable";
+"consumable" = "Consumable";
+"subscription" = "Subscription";
 
 
-
-"title_section_user" = "User Info";
-"title_section_segments" = "Segmentation";
-
-
-"placeholder_name" = "Name";
-"placeholder_email" = "Email";
-"placeholder_password" = "Password";
-"placeholder_confirm_password" = "Confirm Password";
-"placeholder_newpass" = "New Password";
-"placeholder_confirm_newpass" = "Confirm new Password";
-"button_signup" = "Sign up";
-"button_signin" = "Sign in";
-"button_forgotpass" = "Forgot your password";
-"button_resetpass" = "Change Password";
-"button_changepass" = "Save New Password";
-"button_generatetoken" = "Generate new email token";
-"button_logout" = "Sign out";
+"mail_subject_text" = "iOS Demo App";
+"mail_body_text" = "Type a message";
+"mail_success_text" = "Message sent successfully. We will contact you as soon as possible. Thank you.";
+"mail_error_text" = "Message could not be sent at this moment. Please try again later.";
 
 "success_create_account" = "Account created successfully. Please check your mail box for more information.";
 "error_create_account" = "An error occured while creating an account. Please try again.";
-"error_create_account_invalid_email" = "Please fill in a valid email address.";
+"error_create_account_invalid_email" = "Please fill in a valid email.";
 "error_create_account_passwords_match" = "Passwords don't match.";
 "error_create_account_small_password" = "Password should contain more than 4 chars.";
 
 
 "success_forgotpass" = "Account found. Please check your mail box for more information.";
 "error_forgotpass" = "We could not find any account matching this criteria. Please try again.";
-"error_forgotpass_invalid_email" = "Please fill in a valid email address.";
+"error_forgotpass_invalid_email" = "Please fill in a valid email.";
 
 "success_signin" = "Authenticated";
 "error_signin_invalid_email" = "Please insert a valid email.";
 "error_signin_invalid_password" = "Please insert a valid password";
 "error_signin" = "Invalid email and password";
+"error_signin" = "Invalid email and password";
 "error_fetching_account" = "Your session was terminated. Please sign in again.";
+
 
 "success_resetpass" = "Your account password is now update. You can now sign in.";
 "error_resetpass" = "We could not find any account matching this criteria. Please try again.";
@@ -72,3 +94,25 @@
 "success_message_changepass"= "Your password was changed successfully.";
 "error_password_changepass"= "Please type the a new password twice to change your current password.";
 "error_message_changepass"= "An error occured while trying to change your password. Please try again.";
+
+"success_validate" = "Your account is now activated please sign in.";
+"error_validate" = "We could not validate your account at this moment.";
+
+
+"disabled_for_demo_in_app_purchases" = "This product does not have any iTune's hosted content. Since none is provided this is not available for this demo app. In a real life application this would be the moment where you would display the product's content.";
+
+"tutorial_button_page_one" = "Allow Notifications";
+"tutorial_title_page_one" = "Welcome Notificarista!";
+"tutorial_text_page_one" = "Click the button bellow to allow remote notifications. When prompted with a dialog asking to accept remote notifications, click yes to proceed.";
+
+"tutorial_button_page_two" = "Track me";
+"tutorial_title_page_two" = "Using Location Services";
+"tutorial_text_page_two" = "You can also allow or disallow Location Services using the button below. When ON it will allow us to send messages based on your location.";
+
+"tutorial_button_page_three"="Open Dashboard";
+"tutorial_title_page_three" = "You are all set to go!";
+"tutorial_text_page_three" = "Start using this demo app to test all the features of Notificare - Mobile Marketing Platform.";
+
+"force_signin_text" = "You have been disconnected, please sign in again.";
+
+"alert_inapp_purchase_demo" ="This add-on is not available for this demo app. Please send us your device identifier so we can include you in a Testflight in-app purchase demo app.";

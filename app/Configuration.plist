@@ -3,22 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>testflight</key>
-	<string></string>
+	<string>f646208b-4e32-44ea-b169-81a17835fdce</string>
 	<key>url</key>
-	<string>http://www.notifica.re/apps-content/notificare</string>
+	<string>http://notifica.re/apps-content/notificare/</string>
 	<key>navigation</key>
 	<array>
 		<dict>
 			<key>label</key>
 			<string>menu_item_home</string>
 			<key>url</key>
-			<string>http://www.notifica.re/apps-content/notificare</string>
+			<string>MainView:Tutorial</string>
 		</dict>
 		<dict>
 			<key>label</key>
-			<string>menu_item_about</string>
+			<string>menu_item_products</string>
 			<key>url</key>
-			<string>http://www.domain.com</string>
+			<string>Products:SKProduct</string>
 		</dict>
 		<dict>
 			<key>label</key>
@@ -46,6 +46,10 @@
 		</dict>
 	</array>
 	<key>host</key>
-	<string>api.domain.com</string>
+	<string></string>
+	<key>facebook</key>
+	<string>392549870780732</string>
+	<key>twitter</key>
+	<string>notificare</string>
 </dict>
 </plist>

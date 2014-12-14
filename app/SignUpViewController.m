@@ -13,6 +13,8 @@
 
 @interface SignUpViewController ()
 
+@property (assign, nonatomic) CGPoint viewCenter;
+
 @end
 
 @implementation SignUpViewController
@@ -41,11 +43,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:LSSTRING(@"title_signup")];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
     
     UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackButton"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
-
-    [leftButton setTintColor:[UIColor blackColor]];
+    
+    [leftButton setTintColor:ICONS_COLOR];
     //[rightButton setTintColor:[UIColor whiteColor]];
     
     [[self navigationItem] setLeftBarButtonItem:leftButton];
@@ -75,6 +82,19 @@
     [[self passwordConfirm] setPlaceholder:LSSTRING(@"placeholder_confirm_password")];
     [[self signupButton] setTitle:LSSTRING(@"button_signup") forState:UIControlStateNormal];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+    [self setViewCenter:[[self view] center]];
+    [[self view] setBackgroundColor:WILD_SAND_COLOR];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -88,16 +108,15 @@
     [[self signupButton] setEnabled:NO];
     
     if (![[self email] text]) {
-         APP_ALERT_DIALOG(LSSTRING(@"error_create_account_invalid_email"));
-        //[[self infoLabel] setText:LSSTRING(@"error_create_account_invalid_email")];
+        
+        APP_ALERT_DIALOG(LSSTRING(@"error_create_account_invalid_email"));
         [[self signupButton] setEnabled:YES];
     }else if (![[[self password] text] isEqualToString:[[self passwordConfirm] text]]) {
-        //[[self infoLabel] setText:LSSTRING(@"error_create_account_passwords_match")];
+        
         APP_ALERT_DIALOG(LSSTRING(@"error_create_account_passwords_match"));
         [[self signupButton] setEnabled:YES];
     }else if ([[[self passwordConfirm] text] length] < 5) {
         APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
-       // [[self infoLabel] setText:LSSTRING(@"error_create_account_small_password")];
         [[self signupButton] setEnabled:YES];
     } else {
         NSMutableDictionary * params = [NSMutableDictionary dictionary];
@@ -107,12 +126,18 @@
         [[self notificare] createAccount:params completionHandler:^(NSDictionary *info) {
 
             APP_ALERT_DIALOG(LSSTRING(@"success_create_account"));
-           //[[self infoLabel] setText:LSSTRING(@"success_create_account")];
+
             [[self signupButton] setEnabled:YES];
+            [[self email] setText:@""];
+            [[self name] setText:@""];
+            [[self password] setText:@""];
+            [[self passwordConfirm] setText:@""];
+            [[self navigationController] popToRootViewControllerAnimated:YES];
+            
         } errorHandler:^(NSError *error) {
 
             APP_ALERT_DIALOG(LSSTRING(@"error_create_account"));
-           // [[self infoLabel] setText:LSSTRING(@"error_create_account")];
+
             [[self signupButton] setEnabled:YES];
         }];
         
@@ -136,6 +161,45 @@
     }
     return NO;
 }
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
+    [textField resignFirstResponder];
+    
+}
+
+- (void)keyboardDidShow:(NSNotification *)note
+{
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             self.view.center = CGPointMake(self.view.center.x, self.view.center.y - 65);
+                         }
+                         completion:^(BOOL finished) {
+    
+                         }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)note
+{
+    
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             self.view.center = [self viewCenter];
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+}
+
 
 
 -(void)goBack{

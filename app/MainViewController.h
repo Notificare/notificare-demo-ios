@@ -8,23 +8,30 @@
 
 #import <UIKit/UIKit.h>
 #import "BadgeLabel.h"
+#import "PageOneViewController.h"
+#import "PageTwoViewController.h"
+#import "PageThreeViewController.h"
 
-@interface MainViewController : UIViewController <UIWebViewDelegate>
+@class PageOneViewController;
+@class PageTwoViewController;
+@class PageThreeViewController;
 
-@property (nonatomic, strong) IBOutlet UIWebView * webView;
-@property (nonatomic, strong) IBOutlet UIToolbar * toolbar;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem * backButton;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem * forwardButton;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem * refreshButton;
-@property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
-@property (nonatomic, strong) UIView * loadingView;
-@property (nonatomic, strong) NSString * viewTitle;
-@property (nonatomic, strong) NSString * targetUrl;
+@interface MainViewController : UIViewController <UIScrollViewDelegate>
+
+@property (nonatomic, strong) IBOutlet UIPageControl * pageControl;
+@property (nonatomic, strong) IBOutlet UIScrollView * scrollView;
 @property (nonatomic, strong) IBOutlet UIView * badge;
 @property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
 @property (nonatomic, strong) IBOutlet UIButton * badgeButton;
 @property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
+@property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
+@property (nonatomic, strong) UIView * loadingView;
+@property (nonatomic, strong) NSMutableArray * imagesArray;
+@property (nonatomic, strong) NSMutableArray * viewsArray;
+@property (nonatomic, strong) PageOneViewController * pageOneController;
+@property (nonatomic, strong) PageTwoViewController * pageTwoController;
+@property (nonatomic, strong) PageThreeViewController * pageThreeController;
+@property (nonatomic, assign) BOOL pageControlUsed;
 
--(void)goToUrl;
 
 @end

@@ -65,8 +65,8 @@
         }
         
         
-        [label setFont:MONTSERRAT_BOLD_FONT(14)];
-        [label setTextColor:[UIColor grayColor]];
+        [label setFont:LATO_LIGHT_FONT(14)];
+        [label setTextColor:MAIN_COLOR];
         
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -90,16 +90,16 @@
             
             UILabel * name = (UILabel *)[cell viewWithTag:100];
             [name setText:[item name]];
-            [name setFont:MONTSERRAT_BOLD_FONT(14)];
+            [name setFont:LATO_FONT(20)];
             
             UILabel * message = (UILabel *)[cell viewWithTag:101];
-            [message setFont:MONTSERRAT_FONT(12)];
+            [message setFont:LATO_HAIRLINE_FONT(16)];
             
             
             if(![[item notification] isKindOfClass:[NSNull class]] && [[item notification] objectForKey:@"message"]){
                 [message setText:[[item notification] objectForKey:@"message"]];
             } else {
-                [message setText:@""];
+                [message setText:[item purpose]];
             }
             
             UIImageView * signal = (UIImageView *)[cell viewWithTag:102];
@@ -113,43 +113,8 @@
             } else {
                 [signal setImage:[UIImage imageNamed:@"SignalUnkown"]];
             }
-            
-        } else {
-            
-            NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
-            
-            UILabel * name = (UILabel *)[cell viewWithTag:100];
-            [name setText:[[item objectForKey:@"info"] objectForKey:@"name"]];
-            [name setFont:MONTSERRAT_BOLD_FONT(14)];
-            
-            UILabel * message = (UILabel *)[cell viewWithTag:101];
-            [message setFont:MONTSERRAT_FONT(12)];
-            
-            if([[item objectForKey:@"info"] objectForKey:@"notification"] != [NSNull null]){
-                [message setText:[[[item objectForKey:@"info"] objectForKey:@"notification"] objectForKey:@"message"]];
-                
-            } else {
-                [message setText:@""];
-            }
-            
-            
-            UIImageView * signal = (UIImageView *)[cell viewWithTag:102];
-            
-            CLBeacon * beacon = [item objectForKey:@"beacon"];
-            
-            if([beacon proximity] == CLProximityImmediate){
-                [signal setImage:[UIImage imageNamed:@"SignalImmediate"]];
-            } else if ([beacon proximity] == CLProximityNear) {
-                [signal setImage:[UIImage imageNamed:@"SignalNear"]];
-            } else if ([beacon proximity] == CLProximityFar) {
-                [signal setImage:[UIImage imageNamed:@"SignalFar"]];
-            } else {
-                [signal setImage:[UIImage imageNamed:@"SignalUnkown"]];
-            }
-            
         }
         
-        //[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
         
     }
@@ -173,13 +138,14 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, BEACON_HEADER_HEIGHT)];
     headerView.backgroundColor = [UIColor clearColor];
     
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, self.view.frame.size.width - 50, BEACON_HEADER_HEIGHT)];
     [label setText:[[self sectionTitles] objectAtIndex:section]];
     [label setTextColor:[UIColor grayColor]];
-    [label setFont:[UIFont systemFontOfSize:14]];
+    [label setFont:LATO_FONT(14)];
     [label setBackgroundColor:[UIColor clearColor]];
     label.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     

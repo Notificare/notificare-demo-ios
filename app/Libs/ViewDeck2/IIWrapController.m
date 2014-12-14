@@ -229,7 +229,9 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [self.wrappedController didReceiveMemoryWarning];
+    [super didReceiveMemoryWarning];
 }
 
 - (id)forwardingTargetForSelector:(SEL)aSelector {

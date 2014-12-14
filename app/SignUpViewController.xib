@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpViewController">
@@ -20,34 +20,44 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XY6-Yy-r0A" customClass="FormField">
-                    <rect key="frame" x="20" y="159" width="280" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XY6-Yy-r0A" customClass="FormField">
+                    <rect key="frame" x="20" y="193" width="280" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="g7o-Sb-yxO"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" tag="100" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C4i-hV-24K" customClass="FormField">
-                    <rect key="frame" x="20" y="121" width="280" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <textField opaque="NO" clipsSubviews="YES" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C4i-hV-24K" customClass="FormField">
+                    <rect key="frame" x="20" y="121" width="280" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="MUU-n5-rFc"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sdd-7A-CDE" customClass="FormField">
-                    <rect key="frame" x="20" y="197" width="280" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sdd-7A-CDE" customClass="FormField">
+                    <rect key="frame" x="20" y="266" width="280" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="EZM-qj-MKf"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cz6-jU-ngu" customClass="FormField">
-                    <rect key="frame" x="20" y="235" width="280" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cz6-jU-ngu" customClass="FormField">
+                    <rect key="frame" x="20" y="339" width="280" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="VOR-f2-mag"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Heh-Ge-mFT" customClass="FormButton">
-                    <rect key="frame" x="20" y="273" width="280" height="40"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Heh-Ge-mFT" customClass="FormButton">
+                    <rect key="frame" x="20" y="412" width="280" height="60"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="RZA-Tu-m8l"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <state key="normal" title="Create new Account">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -58,8 +68,28 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <constraints>
+                <constraint firstItem="Heh-Ge-mFT" firstAttribute="top" secondItem="cz6-jU-ngu" secondAttribute="bottom" constant="13" id="68o-gn-bU0"/>
+                <constraint firstItem="XY6-Yy-r0A" firstAttribute="trailing" secondItem="Sdd-7A-CDE" secondAttribute="trailing" id="KeN-Vk-5AG"/>
+                <constraint firstItem="cz6-jU-ngu" firstAttribute="leading" secondItem="Heh-Ge-mFT" secondAttribute="leading" id="UdC-Z8-Jfc"/>
+                <constraint firstItem="cz6-jU-ngu" firstAttribute="trailing" secondItem="Heh-Ge-mFT" secondAttribute="trailing" id="YyR-P3-ZfQ"/>
+                <constraint firstItem="C4i-hV-24K" firstAttribute="trailing" secondItem="XY6-Yy-r0A" secondAttribute="trailing" id="bh6-H6-Gxr"/>
+                <constraint firstItem="C4i-hV-24K" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="ccx-5d-ngW"/>
+                <constraint firstItem="Sdd-7A-CDE" firstAttribute="top" secondItem="XY6-Yy-r0A" secondAttribute="bottom" constant="13" id="eWm-Td-Wew"/>
+                <constraint firstAttribute="bottom" secondItem="Heh-Ge-mFT" secondAttribute="bottom" constant="96" id="f0H-Di-uUg"/>
+                <constraint firstItem="Sdd-7A-CDE" firstAttribute="trailing" secondItem="cz6-jU-ngu" secondAttribute="trailing" id="fbe-Tz-bvb"/>
+                <constraint firstItem="C4i-hV-24K" firstAttribute="leading" secondItem="XY6-Yy-r0A" secondAttribute="leading" id="ijr-wU-HDO"/>
+                <constraint firstItem="Sdd-7A-CDE" firstAttribute="leading" secondItem="XY6-Yy-r0A" secondAttribute="leading" id="il9-B7-ElH"/>
+                <constraint firstItem="XY6-Yy-r0A" firstAttribute="top" secondItem="C4i-hV-24K" secondAttribute="bottom" constant="12" id="lcK-eT-4Xb"/>
+                <constraint firstItem="cz6-jU-ngu" firstAttribute="leading" secondItem="Sdd-7A-CDE" secondAttribute="leading" id="oy8-U6-67M"/>
+                <constraint firstItem="Sdd-7A-CDE" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="thO-Id-Y48"/>
+                <constraint firstItem="cz6-jU-ngu" firstAttribute="top" secondItem="Sdd-7A-CDE" secondAttribute="bottom" constant="13" id="yKe-bq-LsM"/>
+            </constraints>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

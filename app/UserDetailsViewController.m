@@ -44,7 +44,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self navigationItem] setTitleView:[[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Logo"]]];
+
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:LSSTRING(@"title_user_profile")];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
+    
     
     [self setNavSections:[NSMutableArray array]];
     [self setSectionTitles:[NSMutableArray array]];
@@ -68,10 +75,6 @@
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
 
-    
-    //[self loadAccount];
-
-    
     [self resetForm];
     [[self password] setPlaceholder:LSSTRING(@"placeholder_newpass")];
     [[self password] setDelegate:self];
@@ -91,6 +94,7 @@
     [self setOptionsView:[[UserDetailsOptionsViewController alloc] initWithNibName:@"UserDetailsOptionsViewController" bundle:nil]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -111,9 +115,36 @@
 }
 
 -(void)loadAccount{
-    [self setUser:[[self notificare] user]];
     
-    [self loadSegments];
+    [[self notificare] fetchAccountDetails:^(NSDictionary *info) {
+        //
+        
+        NotificareUser * tmpUser = [NotificareUser new];
+        
+        [tmpUser setUserID:[[info objectForKey:@"user"] objectForKey:@"userID"]];
+        [tmpUser setUserName:[[info objectForKey:@"user"] objectForKey:@"userName"]];
+        [tmpUser setSegments:[[info objectForKey:@"user"] objectForKey:@"segments"]];
+        [tmpUser setAccessToken:[[info objectForKey:@"user"] objectForKey:@"accessToken"]];
+        [tmpUser setAccount:[[info objectForKey:@"user"] objectForKey:@"account"]];
+        [tmpUser setApplication:[[info objectForKey:@"user"] objectForKey:@"application"]];
+        [tmpUser setValidated:[[[info objectForKey:@"user"] objectForKey:@"validated"] boolValue]];
+        [tmpUser setActive:[[[info objectForKey:@"user"] objectForKey:@"active"] boolValue]];
+        [self setUser:tmpUser];
+
+        [self loadSegments];
+    } errorHandler:^(NSError *error) {
+        //Most likely we should sign in again let's throw a local notification and push to sign in
+        UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate new];
+        localNotification.alertBody = LSSTRING(@"force_signin_text");
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        [[self navigationController] pushViewController:[self signInView] animated:YES];
+    }];
+    
+    
+
 }
 
 -(void)loadSegments{
@@ -143,23 +174,33 @@
     
     NSMutableArray * userCell = [NSMutableArray array];
 
-    [userCell addObject:@{@"name":[[self user] userName],
-                          @"email":[[self user] userID],
-                          @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
-                          @"label":LSSTRING(@"avatar"),
-                          @"action":@""}];
+    if([self user] && [[self user] userName] && [[self user] userID]){
+        [userCell addObject:@{
+                              @"name":[[self user] userName],
+                              @"email":[[self user] userID],
+                              @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
+                              @"label":LSSTRING(@"avatar"),
+                              @"action":@""}];
+        
+        [userCell addObject:@{@"name":[[self user] userName],
+                              @"email":[[self user] userID],
+                              @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
+                              @"label":LSSTRING(@"button_resetpass"),
+                              @"action":@""}];
+        
+        [userCell addObject:@{@"name":[[self user] userName],
+                              @"email":[[self user] userID],
+                              @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
+                              @"label":LSSTRING(@"button_generatetoken"),
+                              @"action":@""}];
+        
+        [userCell addObject:@{@"name":[[self user] userName],
+                              @"email":[[self user] userID],
+                              @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
+                              @"label":LSSTRING(@"button_logout"),
+                              @"action":@""}];
+    }
     
-    [userCell addObject:@{@"name":[[self user] userName],
-                          @"email":[[self user] userID],
-                          @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
-                          @"label":LSSTRING(@"button_resetpass"),
-                          @"action":@""}];
-    
-    [userCell addObject:@{@"name":[[self user] userName],
-                          @"email":[[self user] userID],
-                          @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
-                          @"label":LSSTRING(@"button_generatetoken"),
-                          @"action":@""}];
     
     [[self navSections] addObject:userCell];
     [[self navSections] addObject:[self segments]];
@@ -171,7 +212,7 @@
     int count = [[[self appDelegate] notificarePushLib] myBadge];
     
     if(count > 0){
-        [[self buttonIcon] setTintColor:[UIColor whiteColor]];
+        [[self buttonIcon] setTintColor:ICONS_COLOR];
         [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
         
         
@@ -182,21 +223,25 @@
         UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
         [leftButton setTarget:[self viewDeckController]];
         [leftButton setAction:@selector(toggleLeftView)];
-        [leftButton setTintColor:[UIColor whiteColor]];
+        [leftButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setLeftBarButtonItem:leftButton];
     } else {
         
         UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
-        [leftButton setTintColor:[UIColor whiteColor]];
+        [leftButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setLeftBarButtonItem:leftButton];
         
     }
     
-    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"IconSignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
+    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
     
-    [rightButton setTintColor:[UIColor whiteColor]];
-    [[self navigationItem] setRightBarButtonItem:rightButton];
+    [rightButton setTintColor:ICONS_COLOR];
     
+    if([[[self appDelegate] beacons] count] > 0){
+        [[self navigationItem] setRightBarButtonItem:rightButton];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:nil];
+    }
 }
 
 -(void)changeBadge{
@@ -235,23 +280,26 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    if([[[alertView textFieldAtIndex:0] text] length] == 0 || [[[alertView textFieldAtIndex:1] text] length] == 0){
-        APP_ALERT_DIALOG(LSSTRING(@"error_password_changepass"));
-    } else if (![[[alertView textFieldAtIndex:0] text] isEqualToString:[[alertView textFieldAtIndex:1] text]]) {
-        APP_ALERT_DIALOG(LSSTRING(@"error_create_account_passwords_match"));
-    } else if (![[[alertView textFieldAtIndex:0] text] length] > 4) {
-        APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
-    } else {
-        NSMutableDictionary * params = [NSMutableDictionary dictionary];
-        [params setObject:[[alertView textFieldAtIndex:0] text] forKey:@"password"];
-        [[self notificare] changePassword:params completionHandler:^(NSDictionary *info) {
-
-            APP_ALERT_DIALOG(LSSTRING(@"success_message_changepass"));
-        } errorHandler:^(NSError *error) {
-            //
-            APP_ALERT_DIALOG( LSSTRING(@"error_message_changepass"));
-        }];
+    if([alertView cancelButtonIndex] != buttonIndex){
+        if([[[alertView textFieldAtIndex:0] text] length] == 0 || [[[alertView textFieldAtIndex:1] text] length] == 0){
+            APP_ALERT_DIALOG(LSSTRING(@"error_password_changepass"));
+        } else if (![[[alertView textFieldAtIndex:0] text] isEqualToString:[[alertView textFieldAtIndex:1] text]]) {
+            APP_ALERT_DIALOG(LSSTRING(@"error_create_account_passwords_match"));
+        } else if (![[[alertView textFieldAtIndex:0] text] length] > 4) {
+            APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
+        } else {
+            NSMutableDictionary * params = [NSMutableDictionary dictionary];
+            [params setObject:[[alertView textFieldAtIndex:0] text] forKey:@"password"];
+            [[self notificare] changePassword:params completionHandler:^(NSDictionary *info) {
+                
+                APP_ALERT_DIALOG(LSSTRING(@"success_message_changepass"));
+            } errorHandler:^(NSError *error) {
+                //
+                APP_ALERT_DIALOG( LSSTRING(@"error_message_changepass"));
+            }];
+        }
     }
+    
 
 }
 
@@ -297,11 +345,15 @@
 }
 
 -(IBAction)logout:(id)sender{
+    [[self loadingView] addSubview:[self activityIndicatorView]];
+    [[self view] addSubview:[self loadingView]];
     [[self notificare] logoutAccount];
 }
 
 
 -(void)logout{
+    [[self loadingView] addSubview:[self activityIndicatorView]];
+    [[self view] addSubview:[self loadingView]];
     [[self notificare] logoutAccount];
 }
 
@@ -360,19 +412,19 @@
             
             UILabel * name = (UILabel *)[cell viewWithTag:100];
             [name setText:[item objectForKey:@"name"]];
-            [name setFont:MONTSERRAT_BOLD_FONT(16)];
+            [name setFont:LATO_FONT(16)];
             
             UILabel * email = (UILabel *)[cell viewWithTag:101];
             [email setText:[item objectForKey:@"email"]];
-            [email setFont:MONTSERRAT_BOLD_FONT(14)];
+            [email setFont:LATO_LIGHT_FONT(14)];
             
             UILabel * token = (UILabel *)[cell viewWithTag:102];
-            if([item objectForKey:@"token"]){
+            if([item objectForKey:@"token"] && [NSNull class] != [[item objectForKey:@"token"] class]){
                 [token setText:[NSString stringWithFormat:@"%@@pushmail.notifica.re", [item objectForKey:@"token"]]];
             } else {
                 [token setText:@""];
             }
-            [token setFont:MONTSERRAT_FONT(8)];
+            [token setFont:LATO_LIGHT_FONT(9)];
             
             UIImageView * image = (UIImageView *)[cell viewWithTag:103];
             [image setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[GravatarHelper getGravatarURL:[item objectForKey:@"email"]]]]];
@@ -395,7 +447,7 @@
             NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
             
             [[cell textLabel] setText:[item objectForKey:@"label"]];
-            [[cell textLabel] setFont:MONTSERRAT_BOLD_FONT(14)];
+            [[cell textLabel] setFont:LATO_LIGHT_FONT(14)];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
@@ -413,13 +465,13 @@
         NotificareUserPreference * item = (NotificareUserPreference *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
         
         [[cell textLabel] setText:[item preferenceLabel]];
-        [[cell textLabel] setFont:MONTSERRAT_BOLD_FONT(14)];
+        [[cell textLabel] setFont:LATO_FONT(14)];
         
         
         if([[item preferenceType] isEqualToString:@"single"]){
             NotificareSegment * seg = (NotificareSegment *)[[item preferenceOptions] firstObject];
             [[cell detailTextLabel] setText:[seg segmentLabel]];
-            [[cell detailTextLabel] setFont:MONTSERRAT_BOLD_FONT(14)];
+            [[cell detailTextLabel] setFont:LATO_FONT(14)];
             UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             [cell setAccessoryView:mySwitch];
             [mySwitch setTag:(([indexPath section] * 100) + [indexPath row])];
@@ -442,7 +494,7 @@
                     [label setText:[seg segmentLabel]];
                     [label setTextAlignment:NSTextAlignmentRight];
                     [label setTextColor:[UIColor grayColor]];
-                    [label setFont:[UIFont systemFontOfSize:12.0]];
+                    [label setFont:LATO_LIGHT_FONT(14)];
                     [cell setAccessoryView:label];
                 }
             }
@@ -500,7 +552,7 @@
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 10, USER_HEADER_HEIGHT)];
         [label setText:[[self sectionTitles] objectAtIndex:section]];
         [label setTextColor:[UIColor grayColor]];
-        [label setFont:[UIFont systemFontOfSize:14]];
+        [label setFont:LATO_FONT(14)];
         [label setBackgroundColor:[UIColor clearColor]];
         label.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         
@@ -513,7 +565,7 @@
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 10, SEGMENT_HEADER_HEIGHT)];
         [label setText:[[self sectionTitles] objectAtIndex:section]];
         [label setTextColor:[UIColor grayColor]];
-        [label setFont:[UIFont systemFontOfSize:14]];
+        [label setFont:LATO_FONT(14)];
         [label setBackgroundColor:[UIColor clearColor]];
         label.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         
@@ -531,6 +583,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
     
     
     if([[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] isKindOfClass:[NotificareUserPreference class]]){
@@ -570,13 +624,61 @@
             [cell setUserInteractionEnabled:NO];
             [self generateNewToken];
             
+        } else if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"button_logout")]){
+            
+            [self logout];
+            
+        }  else if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"avatar")]){
+            
+            if([item objectForKey:@"token"] && [NSNull class] != [[item objectForKey:@"token"] class]){
+
+                if([MFMailComposeViewController canSendMail]){
+                    NSArray* recipients = [[NSString stringWithFormat:@"%@@pushmail.notifica.re", [item objectForKey:@"token"]] componentsSeparatedByString: @","];
+                    [self setMailComposer:[[MFMailComposeViewController alloc] init]];
+                    [[self mailComposer] setMailComposeDelegate:self];
+                    [[self mailComposer] setToRecipients:recipients];
+                    [[self mailComposer] setSubject:LSSTRING(@"mail_subject_text")];
+                    [[self mailComposer] setMessageBody:LSSTRING(@"mail_body_text") isHTML:NO];
+                    [self presentViewController:[self mailComposer] animated:YES completion:^{
+                        
+                    }];
+                    
+                }
+            }
+            
+            
         }
         
     }
-    
-    
+
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    switch (result){
+        case MFMailComposeResultSent:
+            
+            [self becomeFirstResponder];
+            [self dismissViewControllerAnimated:YES completion:^{
+                //
+                APP_ALERT_DIALOG(LSSTRING(@"mail_success_text"));
+            }];
+
+            break;
+        case MFMailComposeResultFailed:
+            
+            APP_ALERT_DIALOG(LSSTRING(@"mail_error_text"));
+            
+            break;
+        default:
+            [self becomeFirstResponder];
+            [self dismissViewControllerAnimated:YES completion:^{
+                //
+            }];
+            break;
+    }
     
 }
+
 
 -(NSDictionary *)checkIfActivePicker:(NSIndexPath *)indexPath{
     
@@ -606,16 +708,20 @@
             
             [[self notificare] addSegment:seg toPreference:item completionHandler:^(NSDictionary *info) {
                 //
+                NSLog(@"%@", info);
             } errorHandler:^(NSError *error) {
                 //
+                NSLog(@"%@", error);
             }];
             
         }else{
             
             [[self notificare] removeSegment:seg fromPreference:item completionHandler:^(NSDictionary *info) {
                 //
+                NSLog(@"%@", info);
             } errorHandler:^(NSError *error) {
                 //
+                NSLog(@"%@", error);
             }];
             
         }
