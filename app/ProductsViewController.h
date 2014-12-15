@@ -20,7 +20,8 @@
 @property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
 @property (nonatomic, strong) IBOutlet UIButton * badgeButton;
 @property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
-
+@property (nonatomic, strong) UILabel * emptyMessage;
+@property (nonatomic, strong) UIView * loadingView;
 @property (nonatomic, strong) IBOutlet UIView * productView;
 @property (nonatomic, strong) IBOutlet UIImageView * productImage;
 

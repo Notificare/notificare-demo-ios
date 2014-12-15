@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>testflight</key>
-	<string>f646208b-4e32-44ea-b169-81a17835fdce</string>
+	<string></string>
 	<key>url</key>
 	<string>http://notifica.re/apps-content/notificare/</string>
 	<key>navigation</key>
@@ -25,6 +25,12 @@
 			<string>menu_item_location</string>
 			<key>url</key>
 			<string>MKMapView:lat,long</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>menu_item_beacons</string>
+			<key>url</key>
+			<string>IBAction:openBeacons</string>
 		</dict>
 		<dict>
 			<key>label</key>

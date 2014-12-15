@@ -41,6 +41,8 @@
     [[self welcome] setNumberOfLines:1];
     
     [[self button] setTitle:LSSTRING(@"tutorial_button_page_two") forState:UIControlStateNormal];
+    
+
 }
 
 -(IBAction)startLocationUpdates:(id)sender{

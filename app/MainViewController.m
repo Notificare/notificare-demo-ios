@@ -12,8 +12,6 @@
 #import "Configuration.h"
 #import "NotificarePushLib.h"
 
-
-
 @interface MainViewController ()
 
 @end
@@ -40,18 +38,19 @@
     [title setTextColor:ICONS_COLOR];
     [[self navigationItem] setTitleView:title];
     
+    
     [self setPageControlUsed:NO];
     
     [self setupNavigationBar];
 
     [self setActivityIndicatorView:[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
     
-    [[self activityIndicatorView]  setCenter:CGPointMake( self.view.frame.size.width /2-5, self.view.frame.size.height /2-5)];
+    [[self activityIndicatorView]  setCenter:CGPointMake(([[UIScreen mainScreen] bounds].size.width /2)-5, ([[UIScreen mainScreen] bounds].size.height /2)-5)];
     [[self activityIndicatorView]  setContentMode:UIViewContentModeCenter];
     [[self activityIndicatorView] setHidden:NO];
     [[self activityIndicatorView] startAnimating];
     
-    [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)]];
+    [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
     [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
     [[self loadingView] addSubview:[self activityIndicatorView]];
     
@@ -84,14 +83,14 @@
 
 -(void)registeredDevice{
 
-    CGRect frame = self.scrollView.frame;
-    [[self scrollView] setContentOffset:CGPointMake(frame.size.width * 1, 0) animated:NO];
+    float width = [[UIScreen mainScreen] bounds].size.width;
+    [[self scrollView] setContentOffset:CGPointMake(width * 1, 0) animated:NO];
     
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     [settings setBool:YES forKey:@"tutorialUserRegistered"];
     [settings synchronize];
     
-    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:1.0];
+    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:2.0];
 }
 
 -(void)hideLoadingView{
@@ -104,11 +103,11 @@
 
 -(void)startedLocationUpdates{
     
-    CGRect frame = self.scrollView.frame;
-    [[self scrollView] setContentOffset:CGPointMake(frame.size.width * 2, 0) animated:NO];
+    float width = [[UIScreen mainScreen] bounds].size.width;
+    [[self scrollView] setContentOffset:CGPointMake((width + 1) * 2, 0) animated:NO];
     [[self scrollView] setScrollEnabled:NO];
     
-    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:1.0];
+    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:2.0];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -154,7 +153,8 @@
     
     // a page is the width of the scroll view
     [[self scrollView] setPagingEnabled:YES];
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * [[self viewsArray] count], self.scrollView.frame.size.height);
+    float width = [[UIScreen mainScreen] bounds].size.width;
+    self.scrollView.contentSize = CGSizeMake(width * [[self viewsArray] count], [[UIScreen mainScreen] bounds].size.height);
     [[self scrollView] setShowsHorizontalScrollIndicator:NO];
     [[self scrollView] setShowsVerticalScrollIndicator:NO];
     [[self scrollView] setScrollsToTop:NO];
@@ -168,6 +168,7 @@
     [self loadScrollViewWithPage:1];
     
     [[self scrollView] setBackgroundColor:WILD_SAND_COLOR];
+
 }
 
 
@@ -232,8 +233,8 @@
     }
     
     // Switch the indicator when more than 50% of the previous/next page is visible
-    CGFloat pageWidth = self.scrollView.frame.size.width;
-    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    float width = [[UIScreen mainScreen] bounds].size.width;
+    int page = floor((self.scrollView.contentOffset.x - width / 2) / width) + 1;
     [[self pageControl] setCurrentPage:page];
     
     // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
@@ -273,8 +274,9 @@
     }
     // add the controller's view to the scroll view
     if ([[self viewsArray] objectAtIndex:page] != nil) {
-        CGRect frame = self.scrollView.frame;
-        frame.origin.x = frame.size.width * page;
+        CGRect frame = self.view.frame;
+        float width = [[UIScreen mainScreen] bounds].size.width;
+        frame.origin.x = width * page;
         frame.origin.y = 0;
         [[[self viewsArray] objectAtIndex:page] view].frame = frame;
         [[self scrollView] addSubview:[[[self viewsArray] objectAtIndex:page] view]];

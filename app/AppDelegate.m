@@ -561,9 +561,9 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
     
-    //NSLog(@"%@", beacons);
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
+    if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
+    }
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
 
 }

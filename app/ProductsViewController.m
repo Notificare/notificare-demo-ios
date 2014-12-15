@@ -50,8 +50,21 @@
     [[self sectionTitles] addObject:LSSTRING(@"title_section_products")];
     
     [[self notificare] fetchProducts:^(NSArray *info) {
-        [[self navSections] addObject:info];
-         [[self tableView] reloadData];
+        
+        if([info count] == 0){
+            [self setEmptyMessage:[[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
+            
+            [[self emptyMessage] setText:LSSTRING(@"empty_products_text")];
+            [[self emptyMessage] setFont:LATO_LIGHT_FONT(14)];
+            [[self emptyMessage] setTextAlignment:NSTextAlignmentCenter];
+            [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
+            [[self loadingView] addSubview:[self emptyMessage]];
+        } else{
+            [[self navSections] addObject:info];
+            [[self tableView] reloadData];
+            [[self loadingView] removeFromSuperview];
+        }
+        
     } errorHandler:^(NSError *error) {
         //
     }];
@@ -141,43 +154,18 @@
 
 #pragma mark - Table delegates
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return ([[self navSections] count] == 0) ? 1 : [[self navSections] count];
+    return [[self navSections] count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return ([[self navSections] count] == 0) ? 1 : [[[self navSections] objectAtIndex:section] count];
+    return [[[self navSections] objectAtIndex:section] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
-    
-    if([[self navSections] count] == 0){
-        
-        static NSString* cellType = @"EmptyBeaconsCell";
-        EmptyBeaconsCell * cell = (EmptyBeaconsCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
-        
-        if (cell == nil) {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellType owner:nil options:nil];
-            cell = (EmptyBeaconsCell*)[nib objectAtIndex:0];
-        }
-        
-        
-        UILabel * label = (UILabel *)[cell viewWithTag:100];
-        
-        [label setText:LSSTRING(@"empty_products_text")];
-        
-        [label setFont:MONTSERRAT_BOLD_FONT(14)];
-        [label setTextColor:[UIColor grayColor]];
-        
-        
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        return cell;
-        
-    } else {
     
         static NSString* cellType = @"ProductCell";
         ProductCell * cell = (ProductCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
@@ -256,7 +244,7 @@
     
     
     return cell;
-    }
+    
 }
 
 
@@ -318,7 +306,6 @@
     NSError * error;
     NSArray * directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:&error];
 
-    NSLog(@"%@", directoryContents);
     if(error){
         APP_ALERT_DIALOG(LSSTRING(@"disabled_for_demo_in_app_purchases"));
         
