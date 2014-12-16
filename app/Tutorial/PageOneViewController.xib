@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageOneViewController">
@@ -53,13 +52,8 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TutorialDialogIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="t8T-92-9PV">
                     <rect key="frame" x="85" y="78" width="150" height="149"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="149" id="BOV-Am-CrV"/>
                         <constraint firstAttribute="width" constant="150" id="GWL-CA-bBQ"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="149" id="NQu-Ug-0mG"/>
-                        <constraint firstAttribute="width" secondItem="t8T-92-9PV" secondAttribute="height" multiplier="150:149" id="TOo-9m-V6c"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="en0-WK-Ez0"/>
                         <constraint firstAttribute="height" constant="149" id="hSQ-0N-jT3"/>
-                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="nsV-vG-dh2"/>
                     </constraints>
                 </imageView>
             </subviews>

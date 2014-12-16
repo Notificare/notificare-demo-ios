@@ -570,13 +570,12 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailProductTransaction:(SKPaymentTransaction *)transaction withError:(NSError *)error{
     
-    NSLog(@"didFailProductTransaction %@", error);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCompleteProductTransaction:(SKPaymentTransaction *)transaction{
     
-    NSLog(@"didCompleteProductTransaction %@", transaction);
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
@@ -586,37 +585,39 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didLoadStore:(NSArray *)products{
-    NSLog(@"didLoadStore %@", products);
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToLoadStore:(NSError *)error{
-    NSLog(@"didFailToLoadStore %@", error);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didStartDownloadContent:(SKPaymentTransaction *)transaction{
-    NSLog(@"didStartDownloadContent %@", transaction);
+
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didPauseDownloadContent:(SKDownload *)download{
-    NSLog(@"didPauseDownloadContent %@", download);
+
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didCancelDownloadContent:(SKDownload *)download{
-    NSLog(@"didCancelDownloadContent %@", download);
+   
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveProgressDownloadContent:(SKDownload *)download{
-    NSLog(@"didReceiveProgressDownloadContent %@ %f %f", download, [download progress], [download timeRemaining]);
+
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didFailDownloadContent:(SKDownload *)download{
-    NSLog(@"didFailDownloadContent %@", download);
+
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didFinishDownloadContent:(SKDownload *)download{
-    NSLog(@"didFinishDownloadContent %@", [download contentURL]);
+
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 

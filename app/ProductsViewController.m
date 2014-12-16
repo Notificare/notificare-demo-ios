@@ -51,15 +51,7 @@
     
     [[self notificare] fetchProducts:^(NSArray *info) {
         
-        if([info count] == 0){
-            [self setEmptyMessage:[[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
-            
-            [[self emptyMessage] setText:LSSTRING(@"empty_products_text")];
-            [[self emptyMessage] setFont:LATO_LIGHT_FONT(14)];
-            [[self emptyMessage] setTextAlignment:NSTextAlignmentCenter];
-            [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
-            [[self loadingView] addSubview:[self emptyMessage]];
-        } else{
+        if([info count] > 0){
             [[self navSections] addObject:info];
             [[self tableView] reloadData];
             [[self loadingView] removeFromSuperview];
@@ -83,6 +75,17 @@
     [title setTextColor:ICONS_COLOR];
     [[self navigationItem] setTitleView:title];
     
+    
+    [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
+    
+    [self setEmptyMessage:[[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
+    
+    [[self emptyMessage] setText:LSSTRING(@"empty_products_text")];
+    [[self emptyMessage] setFont:LATO_LIGHT_FONT(14)];
+    [[self emptyMessage] setTextAlignment:NSTextAlignmentCenter];
+    [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
+    [[self loadingView] addSubview:[self emptyMessage]];
+    [[self view] addSubview:[self loadingView]];
     
     [self setupNavigationBar];
     
