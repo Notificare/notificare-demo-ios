@@ -114,7 +114,7 @@
                 [signal setImage:[UIImage imageNamed:@"SignalUnkown"]];
             }
         }
-        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
         
     }
@@ -160,7 +160,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
+    /*
     if([[self navSections] count] > 0){
         
         NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
@@ -170,7 +170,7 @@
             [self showLoadingScreen];
         }
 
-    }
+    }*/
     
 }
 
