@@ -92,13 +92,15 @@
 
     [self setSignInView:[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil]];
     [self setOptionsView:[[UserDetailsOptionsViewController alloc] initWithNibName:@"UserDetailsOptionsViewController" bundle:nil]];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
     
     [self loadAccount];
     [self setActivityIndicatorView:[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
@@ -114,11 +116,27 @@
     [[self view] addSubview:[self loadingView]];
 }
 
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"rangingBeacons"
+                                                  object:nil];
+    
+}
+
+
+
 -(void)loadAccount{
     
     [[self notificare] fetchAccountDetails:^(NSDictionary *info) {
         //
-        
+
         NotificareUser * tmpUser = [NotificareUser new];
         
         [tmpUser setUserID:[[info objectForKey:@"user"] objectForKey:@"userID"]];
@@ -133,14 +151,7 @@
 
         [self loadSegments];
     } errorHandler:^(NSError *error) {
-        //Most likely we should sign in again let's throw a local notification and push to sign in
-        UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = [NSDate new];
-        localNotification.alertBody = LSSTRING(@"force_signin_text");
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
         
-        [[self navigationController] pushViewController:[self signInView] animated:YES];
     }];
     
     
@@ -242,6 +253,7 @@
     } else {
         [[self navigationItem] setRightBarButtonItem:nil];
     }
+    
 }
 
 -(void)changeBadge{
@@ -288,9 +300,7 @@
         } else if (![[[alertView textFieldAtIndex:0] text] length] > 4) {
             APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
         } else {
-            NSMutableDictionary * params = [NSMutableDictionary dictionary];
-            [params setObject:[[alertView textFieldAtIndex:0] text] forKey:@"password"];
-            [[self notificare] changePassword:params completionHandler:^(NSDictionary *info) {
+            [[self notificare] changePassword:[NSString stringWithFormat:@"%@", [[alertView textFieldAtIndex:0] text]] completionHandler:^(NSDictionary *info) {
                 
                 APP_ALERT_DIALOG(LSSTRING(@"success_message_changepass"));
             } errorHandler:^(NSError *error) {
@@ -325,9 +335,7 @@
         
     } else {
         
-        NSMutableDictionary * params = [NSMutableDictionary dictionary];
-        [params setObject:[[self password] text] forKey:@"password"];
-        [[self notificare] changePassword:params completionHandler:^(NSDictionary *info) {
+        [[self notificare] changePassword:[[self password] text]  completionHandler:^(NSDictionary *info) {
             //
             [self resetForm];
             [[self changePassButton] setEnabled:YES];

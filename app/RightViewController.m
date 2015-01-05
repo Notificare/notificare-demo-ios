@@ -11,7 +11,7 @@
 #import "BeaconCell.h"
 #import "EmptyBeaconsCell.h"
 #import "NotificareBeacon.h"
-
+#import "NotificarePushLib.h"
 
 @interface RightViewController ()
 
@@ -23,6 +23,10 @@
 
 - (AppDelegate *)appDelegate {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+- (NotificarePushLib *)notificare {
+    return (NotificarePushLib *)[[self appDelegate] notificarePushLib];
 }
 
 
@@ -160,17 +164,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    /*
-    if([[self navSections] count] > 0){
-        
-        NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
-        
-        if(![[item notification] isKindOfClass:[NSNull class]]){
-            [[self appDelegate] openBeacon:[item notification]];
-            [self showLoadingScreen];
-        }
-
-    }*/
+    
+//    if([[self navSections] count] > 0){
+//        
+//        NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+//
+//        if(![[item notification] isKindOfClass:[NSNull class]]){
+//            [[self notificare] openBeaconMessage:item];
+//            [self showLoadingScreen];
+//        }
+//
+//    }
     
 }
 
@@ -205,7 +209,7 @@
 
     [[self tableView] reloadData];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingScreen) name:@"closedNotification" object:nil];
+
 }
 
 -(void)reloadBeacons {
@@ -229,11 +233,19 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setTimer:[self createTimer]];
+    
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingScreen) name:@"closedNotification" object:nil];
 }
+
+
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [[self timer] invalidate];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"closedNotification"
+                                                  object:nil];
 }
 
 - (void)didReceiveMemoryWarning

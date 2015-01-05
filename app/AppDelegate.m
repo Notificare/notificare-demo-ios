@@ -51,9 +51,9 @@
     //[[NotificarePushLib shared] setShouldAlwaysLogBeacons:YES];
     
     [[NotificarePushLib shared] handleOptions:launchOptions];
-
     
     [self setNotificarePushLib:[NotificarePushLib shared]];
+
  
     IIViewDeckController* deckController = [self generateControllerStack];
     self.leftController = deckController.leftController;
@@ -213,15 +213,6 @@
 }
 
 
-
-
--(void)openBeacon:(NSDictionary *)info{
-    NSMutableDictionary * notification = [NSMutableDictionary  dictionary];
-    [notification setObject:info forKey:@"notification"];
-    [[NotificarePushLib shared] openBeacon:notification];
-}
-
-
 #pragma Notificare OAuth2 delegates
 
 - (void)notificarePushLib:(NotificarePushLib *)library didChangeAccountNotification:(NSDictionary *)info{
@@ -280,7 +271,6 @@
 
 #pragma APNS Delegates
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
- 
     
     //If you don't identify users you can just use this
     [[NotificarePushLib shared] registerDevice:deviceToken completionHandler:^(NSDictionary *info) {
@@ -304,11 +294,11 @@
 }
 
 #pragma APNS Delegates
-- (void)notificarePushLib:(NotificarePushLib *)library didRegisterForWebsocketsNotifications:(NSString *)token {
+- (void)notificarePushLib:(NotificarePushLib *)library didRegisterForWebsocketsNotifications:(NSString *)uuid {
     
     
     //If you don't identify users you can just use this
-    [[NotificarePushLib shared] registerDeviceForWebsockets:token completionHandler:^(NSDictionary *info) {
+    [[NotificarePushLib shared] registerDeviceForWebsockets:uuid completionHandler:^(NSDictionary *info) {
         
         if([[NotificarePushLib shared] checkLocationUpdates]){
             [[NotificarePushLib shared] startLocationUpdates];
@@ -316,7 +306,7 @@
         }
         
         
-        [self addTags];
+       // [self addTags];
         
     } errorHandler:^(NSError *error) {
         //
@@ -342,16 +332,11 @@
     } errorHandler:^(NSError *error) {
         completion();
     }];
-    
-    
 
-    
-    
 }
 #endif
 /////////////////////////////////
-///New iOS8 delgates
-/////////////////////////////////
+
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
     
@@ -387,6 +372,8 @@
          completionHandler(UIBackgroundFetchResultNewData);
      } errorHandler:^(NSError *error) {
          //
+         
+         
          completionHandler(UIBackgroundFetchResultNoData);
      }];
  }
@@ -400,7 +387,11 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     
-    [[NotificarePushLib shared] openNotification:@{@"id":[[notification userInfo] objectForKey:@"notification"]}];
+    if([notification userInfo] && [[notification userInfo] objectForKey:@"notification"]){
+        [[NotificarePushLib shared] openNotification:@{@"id":[[notification userInfo] objectForKey:@"notification"]}];
+    }
+    
+    
 }
 
 
@@ -529,6 +520,7 @@
     
     if([region isKindOfClass:[CLBeaconRegion class]]){
         [[self beacons] removeAllObjects];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     }
     
 }
@@ -550,6 +542,7 @@
 
 //iOS 7 only delegate. Use this delegate to know when ranging beacons for a CLBeaconRegion failed.
 - (void)notificarePushLib:(NotificarePushLib *)library rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
+    //NSLog(@"rangingBeaconsDidFailForRegion: %@", error);
     //NSLog(@"rangingBeaconsDidFailForRegion: %@ %@", region, error);
 }
 
@@ -561,20 +554,17 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
     
-    if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive){
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
 
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailProductTransaction:(SKPaymentTransaction *)transaction withError:(NSError *)error{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCompleteProductTransaction:(SKPaymentTransaction *)transaction{
-    
 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
@@ -591,7 +581,7 @@
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToLoadStore:(NSError *)error{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
@@ -605,7 +595,7 @@
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didCancelDownloadContent:(SKDownload *)download{
-   
+
      [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveProgressDownloadContent:(SKDownload *)download{

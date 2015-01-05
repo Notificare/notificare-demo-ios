@@ -137,17 +137,31 @@
     
     // Do any additional setup after loading the view from its nib.
     [self reloadData];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"changedAccount" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"incomingNotification" object:nil];
+
     
 }
 
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"changedAccount" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"incomingNotification" object:nil];
 
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"changedAccount"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
 }
 
 -(void)reloadData{
@@ -164,14 +178,9 @@
         
         if([[item objectForKey:@"url"] isEqualToString:@"Auth:"]){
             
-            if ( [[self notificare] isLoggedIn] ) {
-                //
-                NSMutableDictionary * theItem = [NSMutableDictionary dictionaryWithDictionary:item];
-                [theItem setValue:LSSTRING(@"menu_item_user") forKey:@"label"];
-                [menuItems addObject:theItem];
-            } else {
-                [menuItems addObject:item];
-            }
+            NSMutableDictionary * theItem = [NSMutableDictionary dictionaryWithDictionary:item];
+            [theItem setValue:LSSTRING(@"menu_item_user") forKey:@"label"];
+            [menuItems addObject:theItem];
             
         } else if([[item objectForKey:@"url"] isEqualToString:@"IBAction:openInbox"]){
  

@@ -34,7 +34,7 @@
 		</dict>
 		<dict>
 			<key>label</key>
-			<string>menu_item_signin</string>
+			<string>menu_item_user</string>
 			<key>url</key>
 			<string>Auth:</string>
 		</dict>

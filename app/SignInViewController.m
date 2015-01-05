@@ -80,11 +80,7 @@
         
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+
 }
 
 
@@ -157,6 +153,8 @@
                 [[self notificare] registerDevice:[[self notificare] deviceTokenData] withUserID:[user objectForKey:@"userID"] withUsername:[user objectForKey:@"userName"] completionHandler:^(NSDictionary *info) {
     
                     [[self signinButton] setEnabled:YES];
+                    
+                    
                 } errorHandler:^(NSError *error) {
                     //
                      APP_ALERT_DIALOG(LSSTRING(@"error_signin"));
@@ -164,13 +162,14 @@
                     [[self signinButton] setEnabled:YES];
                 }];
                 
-                if(![user objectForKey:@"token"] || [[user objectForKey:@"token"] class] == [NSNull class] || [user objectForKey:@"token"] == nil){
+                if(![user objectForKey:@"token"] && [[user objectForKey:@"token"] class] == [NSNull class] && [user objectForKey:@"token"] == nil){
                     [[self notificare] generateAccessToken:^(NSDictionary *info) {
                         //
                     } errorHandler:^(NSError *error) {
                         //
                     }];
                 }
+                
                 
             } errorHandler:^(NSError *error) {
                 
@@ -179,8 +178,6 @@
                 APP_ALERT_DIALOG(LSSTRING(@"error_signin"));
     
             }];
-            
-            
             
             
         } errorHandler:^(NSError *error) {
@@ -232,7 +229,25 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+    
     [self resetForm];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"rangingBeacons"
+                                                  object:nil];
+    
 }
 
 -(void)resetForm{

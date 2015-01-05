@@ -71,12 +71,7 @@
 
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedLocationUpdates) name:@"startedLocationUpdate" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+
     
     [self showTutorial];
 }
@@ -104,7 +99,7 @@
 -(void)startedLocationUpdates{
     
     float width = [[UIScreen mainScreen] bounds].size.width;
-    [[self scrollView] setContentOffset:CGPointMake((width + 1) * 2, 0) animated:NO];
+    [[self scrollView] setContentOffset:CGPointMake(width * 2, 0) animated:NO];
     [[self scrollView] setScrollEnabled:NO];
     
     [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:2.0];
@@ -125,10 +120,35 @@
         [self showLoadingView];
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedLocationUpdates) name:@"startedLocationUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
     
 }
 
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"rangingBeacons"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"registeredDevice"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"startedLocationUpdate"
+                                                  object:nil];
+    
+}
 
 
 

@@ -82,26 +82,14 @@
     [[self passwordConfirm] setPlaceholder:LSSTRING(@"placeholder_confirm_password")];
     [[self signupButton] setTitle:LSSTRING(@"button_signup") forState:UIControlStateNormal];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+
     
     [self setViewCenter:[[self view] center]];
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    [self resetForm];
-}
+
 
 -(IBAction)createAccount:(id)sender{
     
@@ -119,11 +107,11 @@
         APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
         [[self signupButton] setEnabled:YES];
     } else {
-        NSMutableDictionary * params = [NSMutableDictionary dictionary];
-        [params setObject:[[self email] text] forKey:@"email"];
-        [params setObject:[[self password] text] forKey:@"password"];
-        [params setObject:[[self name] text] forKey:@"userName"];
-        [[self notificare] createAccount:params completionHandler:^(NSDictionary *info) {
+        
+        [[self notificare] createAccount:[[self email] text]
+                                withName:[[self name] text]
+                             andPassword:[[self password] text]
+                       completionHandler:^(NSDictionary *info) {
 
             APP_ALERT_DIALOG(LSSTRING(@"success_create_account"));
 
@@ -214,6 +202,37 @@
     [[self infoLabel] setText:@""];
     
 }
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+    [self resetForm];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidShowNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {

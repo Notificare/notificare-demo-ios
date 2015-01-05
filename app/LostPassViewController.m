@@ -86,9 +86,7 @@
         APP_ALERT_DIALOG(LSSTRING(@"error_forgotpass_invalid_email"));
         [[self forgotPassButton] setEnabled:YES];
     } else {
-        NSMutableDictionary * params = [NSMutableDictionary dictionary];
-        [params setObject:[[self email] text] forKey:@"email"];
-        [[self notificare] sendPassword:params completionHandler:^(NSDictionary *info) {
+        [[self notificare] sendPassword:[[self email] text] completionHandler:^(NSDictionary *info) {
 
             APP_ALERT_DIALOG(LSSTRING(@"success_forgotpass"));
             [[self forgotPassButton] setEnabled:YES];
@@ -137,6 +135,12 @@
     [super viewWillAppear:animated];
     
     [self resetForm];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+
 }
 
 - (void)didReceiveMemoryWarning

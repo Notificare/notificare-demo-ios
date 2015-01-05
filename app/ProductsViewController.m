@@ -37,10 +37,7 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reloadData];
-}
+
 
 
 -(void)reloadData{
@@ -56,7 +53,7 @@
             [[self tableView] reloadData];
             [[self loadingView] removeFromSuperview];
         }
-        
+
     } errorHandler:^(NSError *error) {
         //
     }];
@@ -75,7 +72,6 @@
     [title setTextColor:ICONS_COLOR];
     [[self navigationItem] setTitleView:title];
     
-    
     [self setLoadingView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
     
     [self setEmptyMessage:[[UILabel alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
@@ -86,6 +82,7 @@
     [[self loadingView] setBackgroundColor:[UIColor whiteColor]];
     [[self loadingView] addSubview:[self emptyMessage]];
     [[self view] addSubview:[self loadingView]];
+    
     
     [self setupNavigationBar];
     
@@ -101,12 +98,7 @@
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"reloadProducts" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+
 }
 
 
@@ -157,18 +149,43 @@
 
 #pragma mark - Table delegates
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [[self navSections] count];
+    return ([[self navSections] count] == 0) ? 1 : [[self navSections] count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [[[self navSections] objectAtIndex:section] count];
+    return ([[self navSections] count] == 0) ? 1 : [[[self navSections] objectAtIndex:section] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    
+    
+    if([[self navSections] count] == 0){
+        
+        static NSString* cellType = @"EmptyBeaconsCell";
+        EmptyBeaconsCell * cell = (EmptyBeaconsCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
+        
+        if (cell == nil) {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellType owner:nil options:nil];
+            cell = (EmptyBeaconsCell*)[nib objectAtIndex:0];
+        }
+        
+        
+        UILabel * label = (UILabel *)[cell viewWithTag:100];
+        
+        [label setText:LSSTRING(@"empty_products_text")];
+        
+        [label setFont:MONTSERRAT_BOLD_FONT(14)];
+        [label setTextColor:[UIColor grayColor]];
+        
+        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+        
+    } else {
     
         static NSString* cellType = @"ProductCell";
         ProductCell * cell = (ProductCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
@@ -247,7 +264,7 @@
     
     
     return cell;
-    
+    }
 }
 
 
@@ -309,6 +326,7 @@
     NSError * error;
     NSArray * directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:&error];
 
+    NSLog(@"%@", directoryContents);
     if(error){
         APP_ALERT_DIALOG(LSSTRING(@"disabled_for_demo_in_app_purchases"));
         
@@ -326,6 +344,36 @@
 -(IBAction)closeProductView:(id)sender{
     [[self productView] removeFromSuperview];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self reloadData];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"reloadProducts" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"reloadProducts"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"rangingBeacons"
+                                                  object:nil];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

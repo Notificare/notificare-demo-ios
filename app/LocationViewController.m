@@ -71,10 +71,7 @@
         
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateMap) name:@"gotRegions" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+
 }
 
 -(void)setupNavigationBar{
@@ -256,8 +253,30 @@
     [super viewWillAppear:animated];
     
     [self populateMap];
+    
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateMap) name:@"gotRegions" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
 }
 
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"gotRegions"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"rangingBeacons"
+                                                  object:nil];
+}
 
 - (void)didReceiveMemoryWarning
 {

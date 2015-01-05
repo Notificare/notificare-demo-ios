@@ -96,9 +96,7 @@
         [[self resetPassButton] setEnabled:YES];
     } else {
 
-        NSMutableDictionary * params = [NSMutableDictionary dictionary];
-        [params setObject:[[self password] text] forKey:@"password"];
-        [[self notificare] resetPassword:params withToken:[self token] completionHandler:^(NSDictionary *info) {
+        [[self notificare] resetPassword:[[self password] text] withToken:[self token] completionHandler:^(NSDictionary *info) {
             APP_ALERT_DIALOG(LSSTRING(@"success_resetpass"));
             [[self resetPassButton] setEnabled:YES];
             [[self password] setText:@""];
@@ -146,7 +144,14 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    
     [self resetForm];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
