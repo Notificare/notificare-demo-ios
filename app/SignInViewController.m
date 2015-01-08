@@ -150,19 +150,9 @@
             [[self notificare] fetchAccountDetails:^(NSDictionary *info) {
                 
                 NSDictionary * user = [info objectForKey:@"user"];
-                [[self notificare] registerDevice:[[self notificare] deviceTokenData] withUserID:[user objectForKey:@"userID"] withUsername:[user objectForKey:@"userName"] completionHandler:^(NSDictionary *info) {
-    
-                    [[self signinButton] setEnabled:YES];
+
+                if(![user objectForKey:@"token"] || [[user objectForKey:@"token"] class] == [NSNull class] || [user objectForKey:@"token"] == nil){
                     
-                    
-                } errorHandler:^(NSError *error) {
-                    //
-                     APP_ALERT_DIALOG(LSSTRING(@"error_signin"));
-;
-                    [[self signinButton] setEnabled:YES];
-                }];
-                
-                if(![user objectForKey:@"token"] && [[user objectForKey:@"token"] class] == [NSNull class] && [user objectForKey:@"token"] == nil){
                     [[self notificare] generateAccessToken:^(NSDictionary *info) {
                         //
                     } errorHandler:^(NSError *error) {

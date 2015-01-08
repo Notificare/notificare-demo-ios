@@ -28,6 +28,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+    
     if([[[Configuration shared] getProperty:@"testflight"] length] > 0){
         [TestFlight takeOff:[[Configuration shared] getProperty:@"testflight"]];
     }
@@ -55,6 +56,8 @@
     [self setNotificarePushLib:[NotificarePushLib shared]];
 
  
+    NSLog(@"Test: %@",[[NotificarePushLib shared] sdkVersion]);
+    
     IIViewDeckController* deckController = [self generateControllerStack];
     self.leftController = deckController.leftController;
     self.centerController = deckController.centerController;
@@ -171,7 +174,7 @@
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
                 [[self deckController] setCenterController:[self centerController]];
                 
-                APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
+                //APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
                 
             } else if ([[item objectForKey:@"url"] hasPrefix:@"MainView:"]){
                 

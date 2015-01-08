@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTc-O2-aFe">
-                    <rect key="frame" x="33" y="315" width="255" height="108"/>
+                    <rect key="frame" x="33" y="325" width="255" height="108"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="108" id="397-Lk-Mew"/>
                     </constraints>
@@ -28,7 +28,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OPF-nI-4hm">
-                    <rect key="frame" x="33" y="272" width="255" height="30"/>
+                    <rect key="frame" x="33" y="282" width="255" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="USo-b3-q97"/>
                     </constraints>
@@ -37,7 +37,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FS-7Z-tyw" customClass="FormButton">
-                    <rect key="frame" x="20" y="447" width="280" height="60"/>
+                    <rect key="frame" x="20" y="457" width="280" height="60"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="w8B-Mg-tng"/>
@@ -50,7 +50,7 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TutorialDialogIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="t8T-92-9PV">
-                    <rect key="frame" x="85" y="78" width="150" height="149"/>
+                    <rect key="frame" x="85" y="98" width="150" height="149"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="150" id="GWL-CA-bBQ"/>
                         <constraint firstAttribute="height" constant="149" id="hSQ-0N-jT3"/>
@@ -63,12 +63,12 @@
                 <constraint firstItem="OPF-nI-4hm" firstAttribute="leading" secondItem="fTc-O2-aFe" secondAttribute="leading" id="5dP-fY-Kvs"/>
                 <constraint firstAttribute="centerX" secondItem="6FS-7Z-tyw" secondAttribute="centerX" id="Be1-K1-sVU"/>
                 <constraint firstItem="6FS-7Z-tyw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="BzS-xx-9Od"/>
-                <constraint firstItem="t8T-92-9PV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="78" id="GAB-im-97R"/>
+                <constraint firstItem="t8T-92-9PV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="98" id="GAB-im-97R"/>
                 <constraint firstItem="6FS-7Z-tyw" firstAttribute="centerX" secondItem="fTc-O2-aFe" secondAttribute="centerX" id="JIf-IN-oAB"/>
                 <constraint firstItem="OPF-nI-4hm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="33" id="MVZ-o2-OzG"/>
                 <constraint firstItem="OPF-nI-4hm" firstAttribute="trailing" secondItem="fTc-O2-aFe" secondAttribute="trailing" id="Siz-Jf-QBy"/>
                 <constraint firstItem="fTc-O2-aFe" firstAttribute="top" secondItem="OPF-nI-4hm" secondAttribute="bottom" constant="13" id="gE8-gs-SeS"/>
-                <constraint firstItem="OPF-nI-4hm" firstAttribute="top" secondItem="t8T-92-9PV" secondAttribute="bottom" constant="45" id="oBT-MN-WbR"/>
+                <constraint firstItem="OPF-nI-4hm" firstAttribute="top" secondItem="t8T-92-9PV" secondAttribute="bottom" constant="35" id="oBT-MN-WbR"/>
                 <constraint firstItem="OPF-nI-4hm" firstAttribute="centerX" secondItem="t8T-92-9PV" secondAttribute="centerX" id="oXe-L4-Ghb"/>
                 <constraint firstItem="6FS-7Z-tyw" firstAttribute="top" secondItem="fTc-O2-aFe" secondAttribute="bottom" constant="24" id="rPJ-Vc-Gh5"/>
             </constraints>

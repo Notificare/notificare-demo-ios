@@ -31,6 +31,55 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setViewsArray:[NSMutableArray array]];
+
+    [[self scrollView] setPagingEnabled:YES];
+    //float width = [[UIScreen mainScreen] bounds].size.width;
+    self.scrollView.contentSize = CGSizeMake([[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+    [[self scrollView] setShowsHorizontalScrollIndicator:NO];
+    [[self scrollView] setShowsVerticalScrollIndicator:NO];
+    [[self scrollView] setScrollsToTop:NO];
+    [[self scrollView] setDelegate:self];
+    [[self scrollView] setScrollEnabled:NO];
+    
+    
+    PageOneViewController * pageOne = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
+    
+    PageTwoViewController * pageTwo = [[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil];
+    
+    PageThreeViewController * pageThree = [[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil];
+    
+    [self setPageOneController:pageOne];
+    [self setPageTwoController:pageTwo];
+    [self setPageThreeController:pageThree];
+    
+    [[self viewsArray] addObject:[self pageOneController]];
+    [[self viewsArray] addObject:[self pageTwoController]];
+    [[self viewsArray] addObject:[self pageThreeController]];
+    [self loadScrollViewWithPage:0];
+    
+//    CGRect frame = self.view.frame;
+//    frame.origin.x = 0;
+//    frame.origin.y = 0;
+//    [[[self viewsArray] objectAtIndex:0] view].frame = frame;
+//    [[[self viewsArray] objectAtIndex:1] view].frame = frame;
+//    [[[self viewsArray] objectAtIndex:2] view].frame = frame;
+    
+    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+    
+    if([settings boolForKey:@"tutorialUserRegistered"] && [[self notificare] checkLocationUpdates]){
+        [self startedLocationUpdates];
+        [self showLoadingView];
+    }
+    
+    if([settings boolForKey:@"tutorialUserRegistered"] && ![[self notificare] checkLocationUpdates]){
+        [self registeredDevice];
+        [self showLoadingView];
+    }
+
+    
+    
     UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
     [title setText:@"Notificare"];
     [title setFont:LATO_LIGHT_FONT(20)];
@@ -70,17 +119,13 @@
     
 
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
-    
 
-    
-    [self showTutorial];
 }
 
 -(void)registeredDevice{
 
-    float width = [[UIScreen mainScreen] bounds].size.width;
-    [[self scrollView] setContentOffset:CGPointMake(width * 1, 0) animated:NO];
-    
+    [self loadScrollViewWithPage:1];
+  
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     [settings setBool:YES forKey:@"tutorialUserRegistered"];
     [settings synchronize];
@@ -98,16 +143,23 @@
 
 -(void)startedLocationUpdates{
     
-    float width = [[UIScreen mainScreen] bounds].size.width;
-    [[self scrollView] setContentOffset:CGPointMake(width * 2, 0) animated:NO];
-    [[self scrollView] setScrollEnabled:NO];
-    
+    [self loadScrollViewWithPage:2];
+
     [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:2.0];
+}
+
+-(void)initViewsForMainViewController{
+    [self setViewsArray:[NSMutableArray array]];
+    [[self viewsArray] addObject:[self pageOneController]];
+    [[self viewsArray] addObject:[self pageTwoController]];
+    [[self viewsArray] addObject:[self pageThreeController]];
+    [self loadScrollViewWithPage:0];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 
+    
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     
     if([settings boolForKey:@"tutorialUserRegistered"] && [[self notificare] checkLocationUpdates]){
@@ -150,46 +202,6 @@
     
 }
 
-
-
--(void)showTutorial{
-    
-
-    [self setViewsArray:[NSMutableArray array]];
-    
-    PageOneViewController * pageOne = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
-    
-    PageTwoViewController * pageTwo = [[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil];
-    
-    PageThreeViewController * pageThree = [[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil];
-    
-    [self setPageOneController:pageOne];
-    [self setPageTwoController:pageTwo];
-    [self setPageThreeController:pageThree];
-    
-    [[self viewsArray] addObject:[self pageOneController]];
-    [[self viewsArray] addObject:[self pageTwoController]];
-    [[self viewsArray] addObject:[self pageThreeController]];
-    
-    // a page is the width of the scroll view
-    [[self scrollView] setPagingEnabled:YES];
-    float width = [[UIScreen mainScreen] bounds].size.width;
-    self.scrollView.contentSize = CGSizeMake(width * [[self viewsArray] count], [[UIScreen mainScreen] bounds].size.height);
-    [[self scrollView] setShowsHorizontalScrollIndicator:NO];
-    [[self scrollView] setShowsVerticalScrollIndicator:NO];
-    [[self scrollView] setScrollsToTop:NO];
-    [[self scrollView] setDelegate:self];
-    [[self scrollView] setScrollEnabled:NO];
-    
-    [[self pageControl] setNumberOfPages:[[self viewsArray] count]];
-    [[self pageControl] setCurrentPage:0];
-    
-    [self loadScrollViewWithPage:0];
-    [self loadScrollViewWithPage:1];
-    
-    [[self scrollView] setBackgroundColor:WILD_SAND_COLOR];
-
-}
 
 
 
@@ -240,65 +252,26 @@
 }
 
 
-
-- (void)scrollViewDidScroll:(UIScrollView *)sender
-{
-    
-    // We don't want a "feedback loop" between the UIPageControl and the scroll delegate in
-    // which a scroll event generated from the user hitting the page control triggers updates from
-    // the delegate method. We use a boolean to disable the delegate logic when the page control is used.
-    if ([self pageControlUsed]) {
-        // do nothing - the scroll was initiated from the page control, not the user dragging
-        return;
-    }
-    
-    // Switch the indicator when more than 50% of the previous/next page is visible
-    float width = [[UIScreen mainScreen] bounds].size.width;
-    int page = floor((self.scrollView.contentOffset.x - width / 2) / width) + 1;
-    [[self pageControl] setCurrentPage:page];
-    
-    // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
-    [self loadScrollViewWithPage:page - 1];
-    [self loadScrollViewWithPage:page];
-    [self loadScrollViewWithPage:page + 1];
-    
-}
-
-// At the begin of scroll dragging, reset the boolean used when scrolls originate from the UIPageControl
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [self setPageControlUsed:NO];
-}
-
-// At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self setPageControlUsed:NO];
-}
-
 - (void)loadScrollViewWithPage:(int)page
 {
+    
     if (page < 0){
         return;
     }
+    
     if (page >= [[self viewsArray] count]){
         return;
     }
-    
-    
-    
+
     // replace the placeholder if necessary
-    
     if ((NSNull *)[[self viewsArray] objectAtIndex:page] == [NSNull null]) {
         [[self viewsArray] replaceObjectAtIndex:page withObject:[[self viewsArray] objectAtIndex:page]];
     }
     // add the controller's view to the scroll view
     if ([[self viewsArray] objectAtIndex:page] != nil) {
-        CGRect frame = self.view.frame;
-        float width = [[UIScreen mainScreen] bounds].size.width;
-        frame.origin.x = width * page;
-        frame.origin.y = 0;
-        [[[self viewsArray] objectAtIndex:page] view].frame = frame;
+        for(UIView *subview in [[self scrollView]  subviews]) {
+            [subview removeFromSuperview];
+        }
         [[self scrollView] addSubview:[[[self viewsArray] objectAtIndex:page] view]];
     }
     
