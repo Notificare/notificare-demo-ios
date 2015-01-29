@@ -20,6 +20,7 @@
 #import "NSData+Hex.h"
 #import "TestFlight.h"
 #import "Configuration.h"
+#import "NotificareDevice.h"
 
 
 
@@ -54,9 +55,6 @@
     [[NotificarePushLib shared] handleOptions:launchOptions];
     
     [self setNotificarePushLib:[NotificarePushLib shared]];
-
- 
-    NSLog(@"Test: %@",[[NotificarePushLib shared] sdkVersion]);
     
     IIViewDeckController* deckController = [self generateControllerStack];
     self.leftController = deckController.leftController;
@@ -97,11 +95,8 @@
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     
-    [settings setBool:NO forKey:@"re.notifica.office.prod2"];
-    [settings synchronize];
-    
     if([settings boolForKey:@"tutorialUserRegistered"]){
-        // Device
+
         [[NotificarePushLib shared] registerForNotifications];
     }
 
@@ -174,7 +169,7 @@
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
                 [[self deckController] setCenterController:[self centerController]];
                 
-                //APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
+                APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
                 
             } else if ([[item objectForKey:@"url"] hasPrefix:@"MainView:"]){
                 
@@ -231,12 +226,25 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToRequestAccessNotification:(NSError *)error{
-    //NSLog(@"didFailToRequestAccessNotification: %@",error);
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     
-    SignInViewController * signInView = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-    UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:signInView];
-    [self setCenterController:navigationController];
-    [[self deckController] setCenterController:[self centerController]];
+    if([settings boolForKey:@"tutorialUserRegistered"]){
+        
+        SignInViewController * signInView = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:signInView];
+        [self setCenterController:navigationController];
+        [[self deckController] setCenterController:[self centerController]];
+        
+    } else {
+        
+        MainViewController * prods = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+        
+        [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
+        [[self deckController] setCenterController:[self centerController]];
+    }
+    
+    
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changedAccount" object:nil];
 }
 
@@ -282,11 +290,10 @@
 
         if([[NotificarePushLib shared] checkLocationUpdates]){
             [[NotificarePushLib shared] startLocationUpdates];
-            
         }
-        
-
+    
         [self addTags];
+
         
     } errorHandler:^(NSError *error) {
         //
@@ -369,14 +376,11 @@
 // For iOS7 up - No inbox
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
 
-     
      [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
-         //
+
          completionHandler(UIBackgroundFetchResultNewData);
      } errorHandler:^(NSError *error) {
-         //
-         
-         
+
          completionHandler(UIBackgroundFetchResultNoData);
      }];
  }

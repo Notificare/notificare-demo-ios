@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "Configuration.h"
 #import "RegionsMarker.h"
+#import "NotificarePushLib.h"
 
 #define MAP_PADDING 20
 
@@ -25,6 +26,9 @@
 
 - (AppDelegate *)appDelegate {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+- (NotificarePushLib *)notificare {
+    return (NotificarePushLib *)[[self appDelegate] notificarePushLib];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -53,8 +57,12 @@
     
     
     [[self mapView] setDelegate:self];
-    [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
-    [[self mapView] setShowsUserLocation:YES];
+    
+    if([[self notificare] checkLocationUpdates]){
+        [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+        [[self mapView] setShowsUserLocation:YES];
+    }
+
     [[self mapView] setMapType:MKMapTypeStandard];
 
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
