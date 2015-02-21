@@ -18,5 +18,7 @@
 @property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
 @property (nonatomic, strong) IBOutlet UIButton * badgeButton;
 @property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
+@property (nonatomic, strong) NSMutableArray * circles;
+@property (nonatomic, strong) NSMutableArray * markers;
 
 @end

@@ -151,7 +151,7 @@
                 
                 NSDictionary * user = [info objectForKey:@"user"];
 
-                if(![user objectForKey:@"token"] || [[user objectForKey:@"token"] class] == [NSNull class] || [user objectForKey:@"token"] == nil){
+                if([[user objectForKey:@"token"] isKindOfClass:[NSNull class]]){
                     
                     [[self notificare] generateAccessToken:^(NSDictionary *info) {
                         //
