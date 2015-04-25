@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "Configuration.h"
 #import "RegionsMarker.h"
+#import "NotificarePushLib.h"
 
 #define MAP_PADDING 20
 
@@ -25,6 +26,9 @@
 
 - (AppDelegate *)appDelegate {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+- (NotificarePushLib *)notificare {
+    return (NotificarePushLib *)[[self appDelegate] notificarePushLib];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -53,10 +57,14 @@
     
     
     [[self mapView] setDelegate:self];
-    [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
-    [[self mapView] setShowsUserLocation:YES];
+    
+    if([[self notificare] checkLocationUpdates]){
+        [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+        [[self mapView] setShowsUserLocation:YES];
+    }
+    
     [[self mapView] setMapType:MKMapTypeStandard];
-
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         
         [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
@@ -71,7 +79,7 @@
         
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
-
+    
 }
 
 -(void)setupNavigationBar{
@@ -121,6 +129,9 @@
 
 -(void)populateMap{
     
+    [[self mapView] removeOverlays:[self circles]];
+    [[self mapView] removeAnnotations:[self markers]];
+    
     NSMutableArray * markers = [NSMutableArray array];
     NSMutableArray * regions = [NSMutableArray array];
     
@@ -140,7 +151,8 @@
         
         
     }
-    
+    [self setCircles:regions];
+    [self setMarkers:markers];
     [[self mapView] addOverlays:regions];
     [[self mapView] addAnnotations:markers];
     //[self setRegion:[self mapView]];
@@ -148,7 +160,7 @@
 
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-
+    
     
     static NSString *identifier = @"RegionsMarker";
     
@@ -161,7 +173,7 @@
     [annotationView setEnabled:YES];
     [annotationView setCanShowCallout:YES];
     [annotationView setImage:(annotation == [mapView userLocation]) ? [UIImage imageNamed:@"MapUserMarker"] : nil];
-
+    
     [annotationView setAnnotation:annotation];
     [annotationView setRightCalloutAccessoryView:[UIButton buttonWithType:UIButtonTypeDetailDisclosure]];
     
@@ -179,7 +191,7 @@
 
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-
+    
 }
 
 
