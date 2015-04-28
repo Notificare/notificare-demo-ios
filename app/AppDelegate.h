@@ -15,11 +15,14 @@
 @class LeftViewController;
 @class IIViewDeckController;
 @class MainViewController;
+@class PageOneViewController;
+@class PageTwoViewController;
+@class PageThreeViewController;
 @class LocationViewController;
 @class SignInViewController;
 @class UserDetailsViewController;
 @class ResetPassViewController;
-//@class ProductsViewController;
+@class PageOneViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, NotificarePushLibDelegate>
 
@@ -45,6 +48,6 @@
 
 
 -(void)handleNavigation:(NSDictionary *)item;
-//-(void)openBeacon:(NSDictionary *)info;
+-(void)refreshMainController;
 
 @end

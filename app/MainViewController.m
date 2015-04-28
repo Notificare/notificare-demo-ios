@@ -54,31 +54,8 @@
     [self setPageTwoController:pageTwo];
     [self setPageThreeController:pageThree];
     
-    [[self viewsArray] addObject:[self pageOneController]];
-    [[self viewsArray] addObject:[self pageTwoController]];
-    [[self viewsArray] addObject:[self pageThreeController]];
-    [self loadScrollViewWithPage:0];
-    
-//    CGRect frame = self.view.frame;
-//    frame.origin.x = 0;
-//    frame.origin.y = 0;
-//    [[[self viewsArray] objectAtIndex:0] view].frame = frame;
-//    [[[self viewsArray] objectAtIndex:1] view].frame = frame;
-//    [[[self viewsArray] objectAtIndex:2] view].frame = frame;
-    
-    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
-    
-    if([settings boolForKey:@"tutorialUserRegistered"] && [[self notificare] checkLocationUpdates]){
-        [self startedLocationUpdates];
-        [self showLoadingView];
-    }
-    
-    if([settings boolForKey:@"tutorialUserRegistered"] && ![[self notificare] checkLocationUpdates]){
-        [self registeredDevice];
-        [self showLoadingView];
-    }
+    [self initViewsForMainViewController];
 
-    
     
     UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
     [title setText:@"Notificare"];
@@ -124,7 +101,7 @@
 
 -(void)registeredDevice{
 
-    [self loadScrollViewWithPage:1];
+    [[self navigationController] pushViewController:[self pageTwoController] animated:YES];
   
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     [settings setBool:YES forKey:@"tutorialUserRegistered"];
@@ -143,22 +120,17 @@
 
 -(void)startedLocationUpdates{
     
-    [self loadScrollViewWithPage:2];
+    [self hideLoadingView];
+    [[self navigationController] pushViewController:[self pageThreeController] animated:YES];
 
-    [self performSelector:@selector(hideLoadingView) withObject:nil afterDelay:2.0];
 }
 
--(void)initViewsForMainViewController{
-    [self setViewsArray:[NSMutableArray array]];
-    [[self viewsArray] addObject:[self pageOneController]];
-    [[self viewsArray] addObject:[self pageTwoController]];
-    [[self viewsArray] addObject:[self pageThreeController]];
-    [self loadScrollViewWithPage:0];
-}
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 
+    
     
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     
@@ -174,9 +146,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedLocationUpdates) name:@"startedLocationUpdate" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedLocationUpdates) name:@"startedLocationUpdate" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
     
 }
@@ -192,13 +164,13 @@
                                                     name:@"rangingBeacons"
                                                   object:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"registeredDevice"
-                                                  object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:@"startedLocationUpdate"
-                                                  object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:@"registeredDevice"
+//                                                  object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:@"startedLocationUpdate"
+//                                                  object:nil];
     
 }
 
@@ -252,31 +224,9 @@
 }
 
 
-- (void)loadScrollViewWithPage:(int)page
-{
+-(void)initViewsForMainViewController{
     
-    if (page < 0){
-        return;
-    }
-    
-    if (page >= [[self viewsArray] count]){
-        return;
-    }
-
-    // replace the placeholder if necessary
-    if ((NSNull *)[[self viewsArray] objectAtIndex:page] == [NSNull null]) {
-        [[self viewsArray] replaceObjectAtIndex:page withObject:[[self viewsArray] objectAtIndex:page]];
-    }
-    // add the controller's view to the scroll view
-    if ([[self viewsArray] objectAtIndex:page] != nil) {
-        for(UIView *subview in [[self scrollView]  subviews]) {
-            [subview removeFromSuperview];
-        }
-        [[self scrollView] addSubview:[[[self viewsArray] objectAtIndex:page] view]];
-    }
-    
-    
-    
+    //[[self navigationController] pushViewController:[self pageOneController] animated:YES];
 }
 
 

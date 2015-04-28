@@ -9,6 +9,7 @@
 #import "PageOneViewController.h"
 #import "AppDelegate.h"
 #import "NotificarePushLib.h"
+#import "PageTwoViewController.h"
 
 @interface PageOneViewController ()
 
@@ -43,18 +44,60 @@
     
     [[self button] setTitle:LSSTRING(@"tutorial_button_page_one") forState:UIControlStateNormal];
     
+    [self setPageTwoController:[[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil]];
+    
+    [[self navigationItem] setHidesBackButton:YES];
+    [[self navigationItem] setLeftBarButtonItem:nil];
+    [[self navigationItem] setRightBarButtonItem:nil];
+    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:nil]];
+    
+    //For iOS6
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
+        
+        
+        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+        
+    } else {
+        
+        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
+    }
+    
+    
+    [[self view] setBackgroundColor:WILD_SAND_COLOR];
 }
-
 
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
+    [[self navigationItem] setHidesBackButton:YES];
+    [[self navigationItem] setLeftBarButtonItem:nil];
+    [[self navigationItem] setRightBarButtonItem:nil];
+    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:nil]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"registeredDevice"
+                                                  object:nil];
     
 }
 
 -(IBAction)registerForNotifications:(id)sender{
     [[self notificare] registerForNotifications];
+}
+
+-(void)registeredDevice{
+    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+    [settings setBool:YES forKey:@"tutorialUserRegistered"];
+    [settings synchronize];
+    [[self navigationController] pushViewController:[self pageTwoController] animated:YES];
 }
 
 

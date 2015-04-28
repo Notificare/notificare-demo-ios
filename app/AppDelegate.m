@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "IIViewDeckController.h"
 #import "MainViewController.h"
+#import "PageOneViewController.h"
+#import "PageTwoViewController.h"
+#import "PageThreeViewController.h"
 #import "WebViewController.h"
 #import "RightViewController.h"
 #import "LeftViewController.h"
@@ -44,7 +47,7 @@
         //[UIImageView setDefaultEngine:[self apiEngine]];
     }
 
-    
+
     [self setCachedNotifications:[NSMutableArray array]];
     [self setBeacons:[NSMutableArray array]];
     [self setRegions:[NSMutableArray array]];
@@ -61,18 +64,59 @@
     self.centerController = deckController.centerController;
     [self.window setRootViewController:deckController];
     
+
+    //[self performSelector:@selector(createNotification) withObject:nil afterDelay:4.0];
     
     [self.window makeKeyAndVisible];
     return YES;
 }
 
 
+//-(void)createNotification{
+//    UIApplication* app = [UIApplication sharedApplication];
+//    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+//    localNotification.fireDate = [NSDate new];
+//    localNotification.alertBody = @"MY Body ";
+//    localNotification.alertAction = @"My Title";
+//    localNotification.userInfo = @{@"id":@"54c6a6ba8333b10a315e80e1"};
+//    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+//    localNotification.soundName = UILocalNotificationDefaultSoundName;
+//    
+//    [app scheduleLocalNotification:localNotification];
+//}
+
 - (IIViewDeckController*)generateControllerStack {
     
     [self setLeftController:[[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil]];
     [self setRightController:[[RightViewController alloc] initWithNibName:@"RightViewController" bundle:nil]];
-    MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-    [self setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+    
+    
+    NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+    
+   
+    
+    if(![settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
+        PageOneViewController * controller = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
+        [self setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+    }
+    
+    if([settings boolForKey:@"tutorialUserRegistered"] && [[NotificarePushLib shared] checkLocationUpdates]){
+        PageThreeViewController * controller = [[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil];
+        [self setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+    }
+    
+    if([settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
+        
+        PageTwoViewController * controller = [[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil];
+        [self setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+        
+        
+        
+    }
+    
+    
+    
+   
     [self setDeckController:[[IIViewDeckController alloc] initWithCenterViewController:[self centerController]
                                                                     leftViewController:[self leftController]
                                                                    rightViewController:[self rightController]]];
@@ -94,15 +138,28 @@
 #else
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+
+    
+    [settings setBool:NO forKey:@"re.notifica.office.prod2"];
+    [settings synchronize];
     
     if([settings boolForKey:@"tutorialUserRegistered"]){
 
         [[NotificarePushLib shared] registerForNotifications];
     }
 
+    //NSLog(@"%@",[[NotificarePushLib shared] myPasses]);
     
 #endif
     
+}
+
+
+-(void)refreshMainController{
+//    IIViewDeckController* deckController = [self generateControllerStack];
+//    self.leftController = deckController.leftController;
+//    self.centerController = deckController.centerController;
+//    [self.window setRootViewController:deckController];
 }
 
 
@@ -169,15 +226,31 @@
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
                 [[self deckController] setCenterController:[self centerController]];
                 
-                APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
+                //APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
                 
             } else if ([[item objectForKey:@"url"] hasPrefix:@"MainView:"]){
+            
+                
+                NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+                
+                if(![settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
+                    PageOneViewController * controller = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
+                    [[self deckController] setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+                }
                 
                 
-                MainViewController * prods = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
                 
-                [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
-                [[self deckController] setCenterController:[self centerController]];
+                if([settings boolForKey:@"tutorialUserRegistered"] && [[NotificarePushLib shared] checkLocationUpdates]){
+                    
+                    PageThreeViewController * controller = [[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil];
+                    [[self deckController] setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+                }
+                
+                if([settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
+                    
+                    PageTwoViewController * controller = [[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil];
+                    [[self deckController] setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+                }
                 
             }
             
@@ -236,11 +309,27 @@
         [[self deckController] setCenterController:[self centerController]];
         
     } else {
+
+        NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
         
-        MainViewController * prods = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+        if(![settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
+            PageOneViewController * controller = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
+            [[self deckController] setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+        }
         
-        [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
-        [[self deckController] setCenterController:[self centerController]];
+        
+        
+        if([settings boolForKey:@"tutorialUserRegistered"] && [[NotificarePushLib shared] checkLocationUpdates]){
+            
+            PageThreeViewController * controller = [[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil];
+            [[self deckController] setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+        }
+        
+        if([settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
+            
+            PageTwoViewController * controller = [[PageTwoViewController alloc] initWithNibName:@"PageTwoViewController" bundle:nil];
+            [[self deckController] setCenterController:[[UINavigationController alloc] initWithRootViewController:controller]];
+        }
     }
     
     
@@ -516,14 +605,14 @@
 //Use this delegate to know when a user entered a region. Notificare will automatically handle the triggers.
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
+    //NSLog(@"didEnterRegion: %@", region);
     
 }
 
 //Use this delegate to know when a user exited a region. Notificare will automatically handle the triggers.
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didExitRegion:(CLRegion *)region{
-    
-    //NSLog(@"didExitRegion: %@", region);
+
     
     if([region isKindOfClass:[CLBeaconRegion class]]){
         [[self beacons] removeAllObjects];
@@ -533,7 +622,7 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didStartMonitoringForRegion:(CLRegion *)region{
-    //NSLog(@"didStartMonitoringForRegion: %@", region);
+   // NSLog(@"didStartMonitoringForRegion: %@", region);
     
     if(![region isKindOfClass:[CLBeaconRegion class]]){
         

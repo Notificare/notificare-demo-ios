@@ -165,16 +165,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-//    if([[self navSections] count] > 0){
-//        
-//        NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
-//
-//        if(![[item notification] isKindOfClass:[NSNull class]]){
-//            [[self notificare] openBeaconMessage:item];
-//            [self showLoadingScreen];
-//        }
-//
-//    }
+    if([[self navSections] count] > 0){
+        
+        NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+
+        if(![[item notification] isKindOfClass:[NSNull class]]){
+            [[self notificare] openNotificareBeacon:item];
+            [self showLoadingScreen];
+        }
+
+    }
     
 }
 
@@ -209,6 +209,10 @@
 
     [[self tableView] reloadData];
     
+    [self setLoadingScreen:[[UIView alloc] initWithFrame:CGRectMake(0 , 0 , [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height)]];
+    
+
+    
 
 }
 
@@ -235,6 +239,15 @@
     [self setTimer:[self createTimer]];
     
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingScreen) name:@"closedNotification" object:nil];
+    
+    UIActivityIndicatorView * indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    
+    [indicator setHidden:YES];
+    [indicator setCenter:CGPointMake( [[UIScreen mainScreen] bounds].size.width /2-5, [[UIScreen mainScreen] bounds].size.height /2-5)];
+    [indicator  setContentMode:UIViewContentModeCenter];
+    
+    [[self loadingScreen] addSubview:indicator];
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BadgeLabel.h"
 #import <MessageUI/MessageUI.h>
 
 @interface PageThreeViewController : UIViewController <MFMailComposeViewControllerDelegate>
@@ -18,6 +19,10 @@
 @property(nonatomic, strong) IBOutlet UIButton * buttonDashboard;
 @property(nonatomic, strong) IBOutlet UIButton * buttonMail;
 @property (strong, nonatomic) MFMailComposeViewController *mailComposer;
+@property (nonatomic, strong) IBOutlet UIView * badge;
+@property (nonatomic, strong) IBOutlet BadgeLabel * badgeNr;
+@property (nonatomic, strong) IBOutlet UIButton * badgeButton;
+@property (nonatomic, strong) IBOutlet UIImageView * buttonIcon;
 
 -(IBAction)goToFacebook:(id)sender;
 -(IBAction)goToTwitter:(id)sender;

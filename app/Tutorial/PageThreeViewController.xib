@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageThreeViewController">
             <connections>
+                <outlet property="badge" destination="W6p-PR-4vu" id="rs1-tc-mZV"/>
+                <outlet property="badgeButton" destination="LAt-HN-dUK" id="PJN-oQ-rql"/>
+                <outlet property="badgeNr" destination="vVF-gd-Eau" id="ufL-4l-Gbb"/>
                 <outlet property="buttonDashboard" destination="XBD-jG-wgO" id="miH-iu-ccQ"/>
                 <outlet property="buttonFacebook" destination="Qsn-fh-79s" id="Qet-dA-vaI"/>
+                <outlet property="buttonIcon" destination="xw0-vy-cCg" id="e8H-Wj-WdM"/>
                 <outlet property="buttonMail" destination="9Nk-sH-Nxy" id="hwU-CO-nsD"/>
                 <outlet property="message" destination="yHc-y6-Rn3" id="gqt-J6-Ij5"/>
                 <outlet property="view" destination="hZA-rW-u1H" id="AQf-Vc-Pnn"/>
@@ -26,7 +30,7 @@
                         <constraint firstAttribute="height" constant="100" id="tNb-Yf-hjv"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHp-3P-wGs">
@@ -35,7 +39,7 @@
                         <constraint firstAttribute="width" constant="280" id="sxe-2F-zcf"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsn-fh-79s">
@@ -58,7 +62,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBD-jG-wgO" customClass="FormButton">
                     <rect key="frame" x="20" y="477" width="280" height="60"/>
-                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="Yhg-ju-83F"/>
                     </constraints>
@@ -103,9 +107,47 @@
             </constraints>
             <point key="canvasLocation" x="139" y="154"/>
         </view>
+        <view contentMode="scaleToFill" id="W6p-PR-4vu">
+            <rect key="frame" x="0.0" y="0.0" width="32" height="24"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="xw0-vy-cCg">
+                    <rect key="frame" x="3" y="4" width="22" height="15"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVF-gd-Eau" customClass="BadgeLabel">
+                    <rect key="frame" x="10" y="-3" width="22" height="20"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAt-HN-dUK">
+                    <rect key="frame" x="0.0" y="-1" width="30" height="25"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="LAt-HN-dUK" firstAttribute="leading" secondItem="W6p-PR-4vu" secondAttribute="leading" id="1Fl-RN-Wxl"/>
+                <constraint firstAttribute="bottom" secondItem="vVF-gd-Eau" secondAttribute="bottom" constant="7" id="5Tu-IC-O0H"/>
+                <constraint firstItem="LAt-HN-dUK" firstAttribute="top" secondItem="W6p-PR-4vu" secondAttribute="top" constant="-1" id="Ig9-Yn-x6L"/>
+                <constraint firstItem="xw0-vy-cCg" firstAttribute="leading" secondItem="W6p-PR-4vu" secondAttribute="leading" constant="3" id="MZR-Hg-VOo"/>
+                <constraint firstItem="LAt-HN-dUK" firstAttribute="centerY" secondItem="xw0-vy-cCg" secondAttribute="centerY" id="TiL-sb-CFt"/>
+                <constraint firstAttribute="bottom" secondItem="LAt-HN-dUK" secondAttribute="bottom" id="Ui9-P9-0Fr"/>
+                <constraint firstItem="vVF-gd-Eau" firstAttribute="leading" secondItem="W6p-PR-4vu" secondAttribute="leading" constant="10" id="YoK-aP-1yl"/>
+                <constraint firstAttribute="trailing" secondItem="vVF-gd-Eau" secondAttribute="trailing" id="a0k-nN-rA7"/>
+                <constraint firstItem="vVF-gd-Eau" firstAttribute="top" secondItem="W6p-PR-4vu" secondAttribute="top" constant="-3" id="r2i-ow-HjV"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="369" y="110"/>
+        </view>
     </objects>
     <resources>
         <image name="Facebook.png" width="45" height="45"/>
+        <image name="LeftMenuIcon.png" width="22" height="15"/>
         <image name="Mail.png" width="45" height="45"/>
         <image name="TutorialDoneIcon.png" width="150" height="150"/>
         <image name="Twitter.png" width="45" height="45"/>

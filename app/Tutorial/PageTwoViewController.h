@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class PageThreeViewController;
+
 @interface PageTwoViewController : UIViewController
 
 
@@ -15,6 +17,7 @@
 @property(nonatomic, strong) IBOutlet UILabel * message;
 @property(nonatomic, strong) IBOutlet UIButton * button;
 @property(nonatomic, strong) IBOutlet UIImageView * image;
+@property(nonatomic, strong) PageThreeViewController * pageThreeController;
 
 -(IBAction)startLocationUpdates:(id)sender;
 

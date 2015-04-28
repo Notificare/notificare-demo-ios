@@ -9,9 +9,10 @@
 #import "PageTwoViewController.h"
 #import "AppDelegate.h"
 #import "NotificarePushLib.h"
+#import "PageThreeViewController.h"
 
 @interface PageTwoViewController ()
-
+    @property (nonatomic, assign) BOOL done;
 @end
 
 @implementation PageTwoViewController
@@ -42,7 +43,28 @@
     
     [[self button] setTitle:LSSTRING(@"tutorial_button_page_two") forState:UIControlStateNormal];
     
-
+    [self setPageThreeController:[[PageThreeViewController alloc] initWithNibName:@"PageThreeViewController" bundle:nil]];
+    
+    [[self navigationItem] setHidesBackButton:YES];
+    [[self navigationItem] setLeftBarButtonItem:nil];
+    [[self navigationItem] setRightBarButtonItem:nil];
+    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:nil]];
+    
+    //For iOS6
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
+        
+        
+        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+        
+    } else {
+        
+        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
+    }
+    
+    
+    [[self view] setBackgroundColor:WILD_SAND_COLOR];
 }
 
 -(IBAction)startLocationUpdates:(id)sender{
@@ -50,10 +72,39 @@
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     if([settings boolForKey:@"tutorialUserRegistered"]){
         [[self notificare] startLocationUpdates];
+        //[[self appDelegate] refreshMainController];
     } else {
         APP_ALERT_DIALOG(@"You need to enable push notifications for this app first.");
     }
+
+}
+
+
+-(void)startedLocationUpdates{
     
+    if(![self done]){
+        [[self navigationController] pushViewController:[self pageThreeController] animated:YES];
+        [self setDone:YES];
+    }
+    //[[self navigationController] pushViewController:[self pageThreeController] animated:YES];
+    //[[self appDelegate] refreshMainController];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[self navigationItem] setHidesBackButton:YES];
+    [[self navigationItem] setLeftBarButtonItem:nil];
+    [[self navigationItem] setRightBarButtonItem:nil];
+    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:nil]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startedLocationUpdates) name:@"startedLocationUpdate" object:nil];
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"startedLocationUpdate"
+                                                  object:nil];
     
 }
 

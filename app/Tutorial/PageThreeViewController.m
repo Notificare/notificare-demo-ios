@@ -8,6 +8,9 @@
 
 #import "PageThreeViewController.h"
 #import "Configuration.h"
+#import "AppDelegate.h"
+#import "NotificarePushLib.h"
+#import "IIViewDeckController.h"
 
 @interface PageThreeViewController ()
 
@@ -15,8 +18,24 @@
 
 @implementation PageThreeViewController
 
+
+- (AppDelegate *)appDelegate {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+- (NotificarePushLib *)notificare {
+    return (NotificarePushLib *)[[self appDelegate] notificarePushLib];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
+    [title setText:@"Notificare"];
+    [title setFont:LATO_LIGHT_FONT(20)];
+    [title setTextAlignment:NSTextAlignmentCenter];
+    [title setTextColor:ICONS_COLOR];
+    [[self navigationItem] setTitleView:title];
     
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
     
@@ -33,7 +52,65 @@
     
     [[self buttonDashboard] setTitle:LSSTRING(@"tutorial_button_page_three") forState:UIControlStateNormal];
     
+    [self setupNavigationBar];
+    
+    //For iOS6
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
+        
+        
+        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+        
+    } else {
+        
+        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
+    }
+    
+    
+    [[self view] setBackgroundColor:WILD_SAND_COLOR];
 }
+
+-(void)setupNavigationBar{
+    int count = [[[self appDelegate] notificarePushLib] myBadge];
+    
+    if(count > 0){
+        [[self buttonIcon] setTintColor:ICONS_COLOR];
+        [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
+        
+        NSString * badge = [NSString stringWithFormat:@"%i", count];
+        [[self badgeNr] setText:badge];
+        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
+        [leftButton setTarget:[self viewDeckController]];
+        [leftButton setAction:@selector(toggleLeftView)];
+        [leftButton setTintColor:ICONS_COLOR];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
+    } else {
+        
+        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
+        [leftButton setTintColor:ICONS_COLOR];
+        [[self navigationItem] setLeftBarButtonItem:leftButton];
+        
+    }
+    
+    
+    
+    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
+    
+    
+    [rightButton setTintColor:ICONS_COLOR];
+    
+    if([[[self appDelegate] beacons] count] > 0){
+        [[self navigationItem] setRightBarButtonItem:rightButton];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:nil];
+    }
+    
+    
+    
+}
+
 
 -(IBAction)openMail:(id)sender{
     
@@ -112,6 +189,36 @@
             break;
     }
 
+}
+
+-(void)changeBadge{
+    
+    [self setupNavigationBar];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupNavigationBar) name:@"rangingBeacons" object:nil];
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"incomingNotification"
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"rangingBeacons"
+                                                  object:nil];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
