@@ -72,7 +72,7 @@
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     if([settings boolForKey:@"tutorialUserRegistered"]){
         [[self notificare] startLocationUpdates];
-        //[[self appDelegate] refreshMainController];
+        [[self button] setUserInteractionEnabled:NO];
     } else {
         APP_ALERT_DIALOG(@"You need to enable push notifications for this app first.");
     }
@@ -86,8 +86,7 @@
         [[self navigationController] pushViewController:[self pageThreeController] animated:YES];
         [self setDone:YES];
     }
-    //[[self navigationController] pushViewController:[self pageThreeController] animated:YES];
-    //[[self appDelegate] refreshMainController];
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{

@@ -90,7 +90,9 @@
 }
 
 -(IBAction)registerForNotifications:(id)sender{
+    [[self button] setUserInteractionEnabled:NO];
     [[self notificare] registerForNotifications];
+    
 }
 
 -(void)registeredDevice{
