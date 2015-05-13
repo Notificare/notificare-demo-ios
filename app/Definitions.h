@@ -41,6 +41,10 @@
 #define PRODUCT_CELLHEIGHT 100
 #define EMPTY_PRODUCT_CELLHEIGHT 480
 
+#define LOG_HEADER_HEIGHT 0
+#define LOG_CELLHEIGHT 80
+#define EMPTY_LOG_CELLHEIGHT 480
+
 #define MAIN_COLOR [UIColor colorWithRed:61.0/255.0 green:59.0/255 blue:55.0/255.0 alpha:1.0]
 #define ALTO_COLOR [UIColor colorWithRed:218.0/255.0 green:218.0/255 blue:218.0/255.0 alpha:1.0]
 #define FACEBOOK_COLOR [UIColor colorWithRed:59.0/255.0 green:89.0/255 blue:152.0/255.0 alpha:1.0]

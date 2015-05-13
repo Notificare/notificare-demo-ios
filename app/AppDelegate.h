@@ -23,6 +23,7 @@
 @class UserDetailsViewController;
 @class ResetPassViewController;
 @class PageOneViewController;
+@class LogViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, NotificarePushLibDelegate>
 
@@ -35,6 +36,7 @@
 
 @property (strong, nonatomic) NSMutableArray * regions;
 @property (strong, nonatomic) NSMutableArray * beacons;
+@property (strong, nonatomic) NSMutableArray * log;
 
 @property (assign, nonatomic) BOOL isLocationServicesOn;
 @property (assign, nonatomic) BOOL supportsBeacons;

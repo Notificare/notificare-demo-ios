@@ -62,9 +62,9 @@
         [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
         [[self mapView] setShowsUserLocation:YES];
     }
-    
+
     [[self mapView] setMapType:MKMapTypeStandard];
-    
+
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         
         [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
@@ -79,7 +79,7 @@
         
         [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     }
-    
+
 }
 
 -(void)setupNavigationBar{
@@ -160,7 +160,7 @@
 
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    
+
     
     static NSString *identifier = @"RegionsMarker";
     
@@ -173,7 +173,7 @@
     [annotationView setEnabled:YES];
     [annotationView setCanShowCallout:YES];
     [annotationView setImage:(annotation == [mapView userLocation]) ? [UIImage imageNamed:@"MapUserMarker"] : nil];
-    
+
     [annotationView setAnnotation:annotation];
     [annotationView setRightCalloutAccessoryView:[UIButton buttonWithType:UIButtonTypeDetailDisclosure]];
     
@@ -191,7 +191,7 @@
 
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    
+
 }
 
 

@@ -20,6 +20,7 @@
 #import "UserDetailsViewController.h"
 #import "ResetPassViewController.h"
 #import "ProductsViewController.h"
+#import "LogViewController.h"
 #import "NSData+Hex.h"
 #import "TestFlight.h"
 #import "Configuration.h"
@@ -48,6 +49,7 @@
     }
 
 
+    [self setLog:[NSMutableArray array]];
     [self setCachedNotifications:[NSMutableArray array]];
     [self setBeacons:[NSMutableArray array]];
     [self setRegions:[NSMutableArray array]];
@@ -148,7 +150,7 @@
         [[NotificarePushLib shared] registerForNotifications];
     }
 
-    //NSLog(@"%@",[[NotificarePushLib shared] myPasses]);
+    NSLog(@"%@",[[NotificarePushLib shared] applicationInfo]);
     
 #endif
     
@@ -228,6 +230,15 @@
                 
                 //APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
                 
+            }  else if ([[item objectForKey:@"url"] hasPrefix:@"Log:"]){
+                
+                
+                LogViewController * log = [[LogViewController alloc] initWithNibName:@"LogViewController" bundle:nil];
+                
+                [self setCenterController:[[UINavigationController alloc] initWithRootViewController:log]];
+                [[self deckController] setCenterController:[self centerController]];
+                
+                
             } else if ([[item objectForKey:@"url"] hasPrefix:@"MainView:"]){
             
                 
@@ -283,6 +294,12 @@
     [[NotificarePushLib shared] openBeacons];
 }
 
+-(void)addToLog:(NSDictionary *)event{
+    NSMutableDictionary * tempLog = [NSMutableDictionary dictionaryWithDictionary:event];
+    [tempLog setObject:[NSDate new] forKey:@"date"];
+    [[self log] addObject:tempLog];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadLog" object:nil];
+}
 
 #pragma Notificare OAuth2 delegates
 
@@ -296,6 +313,13 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changedAccount" object:nil];
     
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didChangeAccountNotification" forKey:@"event"];
+    if(![info isKindOfClass:[NSNull class]]){
+        [tmpLog setObject:info forKey:@"data"];
+    }
+    
+    [self addToLog:tmpLog];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToRequestAccessNotification:(NSError *)error{
@@ -335,6 +359,14 @@
     
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changedAccount" object:nil];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didFailToRequestAccessNotification" forKey:@"event"];
+    if(error){
+        [tmpLog setObject:error forKey:@"data"];
+    }
+    
+    [self addToLog:tmpLog];
 }
 
 
@@ -354,6 +386,11 @@
         APP_ALERT_DIALOG(LSSTRING(@"error_validate"));
         
     }];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didReceiveActivationToken" forKey:@"event"];
+    [tmpLog setObject:@{@"token": token} forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveResetPasswordToken:(NSString *)token{
@@ -367,6 +404,10 @@
     [resetPassView setToken:token];
     [navigationController pushViewController:resetPassView animated:YES];
     
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didReceiveResetPasswordToken" forKey:@"event"];
+    [tmpLog setObject:@{@"token": token} forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 #pragma APNS Delegates
@@ -389,6 +430,9 @@
       //  [self registerForAPNS];
         
     }];
+    
+    
+    
     
 }
 
@@ -432,6 +476,10 @@
         completion();
     }];
 
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"handleActionWithIdentifier" forKey:@"event"];
+    [tmpLog setObject:userInfo forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 #endif
 /////////////////////////////////
@@ -439,7 +487,10 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
     
-   // [self registerForAPNS];
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didFailToRegisterForRemoteNotificationsWithError" forKey:@"event"];
+    [tmpLog setObject:[error userInfo] forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 
@@ -449,6 +500,10 @@
     
     [[NotificarePushLib shared] openNotification:userInfo];
     
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didReceiveRemoteNotification" forKey:@"event"];
+    [tmpLog setObject:userInfo forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 
@@ -472,6 +527,11 @@
 
          completionHandler(UIBackgroundFetchResultNoData);
      }];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didReceiveRemoteNotification" forKey:@"event"];
+    [tmpLog setObject:userInfo forKey:@"data"];
+    [self addToLog:tmpLog];
  }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
@@ -516,27 +576,27 @@
 #pragma Notificare delegates
 
 - (void)notificarePushLib:(NotificarePushLib *)library willOpenNotification:(NotificareNotification *)notification{
-    //NSLog(@"willOpenNotification%@",notification);
+
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(NotificareNotification *)notification{
-    //NSLog(@"didOpenNotification%@",notification);
+ 
     
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCloseNotification:(NotificareNotification *)notification{
-    //NSLog(@"didCloseNotification%@",notification);
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closedNotification" object:nil];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToOpenNotification:(NotificareNotification *)notification{
-    //NSLog(@"didFailToOpenNotification%@",notification);
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closedNotification" object:nil];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library willExecuteAction:(NotificareNotification *)notification{
-    //NSLog(@"%@",notification);
+
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didExecuteAction:(NSDictionary *)info{
@@ -570,10 +630,16 @@
     } else {
         [self setIsLocationServicesOn:NO];
     }
+    
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToStartLocationServiceWithError:(NSError *)error{
     [self setIsLocationServicesOn:NO];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didFailToStartLocationServiceWithError" forKey:@"event"];
+    [tmpLog setObject:[error userInfo] forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
@@ -583,11 +649,24 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"startedLocationUpdate" object:nil];
     }
     
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didUpdateLocations" forKey:@"event"];
+    [tmpLog setObject:locations forKey:@"data"];
+    [self addToLog:tmpLog];
+    
 }
 
 //Use this delegate to know if any region failed to be monitored
 - (void)notificarePushLib:(NotificarePushLib *)library monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
-    //NSLog(@"monitoringDidFailForRegion: %@ %@", region, error);
+    
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    [regionObj setObject:error forKey:@"error"];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"monitoringDidFailForRegion" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 //iOS 7 only delegate. When on iOS7 this delegate will give a status of a monitored region
@@ -600,12 +679,41 @@
         [self setSupportsBeacons:YES];
     }
     
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    switch (state) {
+        case CLRegionStateInside:
+            [regionObj setObject:@"CLRegionStateInside" forKey:@"state"];
+            break;
+            
+        case CLRegionStateOutside:
+            [regionObj setObject:@"CLRegionStateOutside" forKey:@"state"];
+            break;
+        case CLRegionStateUnknown:
+            [regionObj setObject:@"CLRegionStateUnknown" forKey:@"state"];
+            break;
+        default:
+            break;
+    }
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didDetermineState" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
+    
 }
 
 //Use this delegate to know when a user entered a region. Notificare will automatically handle the triggers.
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
-    //NSLog(@"didEnterRegion: %@", region);
+    
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didEnterRegion" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
     
 }
 
@@ -618,6 +726,14 @@
         [[self beacons] removeAllObjects];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     }
+    
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didExitRegion" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
     
 }
 
@@ -633,13 +749,29 @@
         }
         
     }
+    
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didStartMonitoringForRegion" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
 }
 
 
 //iOS 7 only delegate. Use this delegate to know when ranging beacons for a CLBeaconRegion failed.
 - (void)notificarePushLib:(NotificarePushLib *)library rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
-    //NSLog(@"rangingBeaconsDidFailForRegion: %@", error);
-    //NSLog(@"rangingBeaconsDidFailForRegion: %@ %@", region, error);
+    
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    [regionObj setObject:error forKey:@"error"];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"rangingBeaconsDidFailForRegion" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
+    
 }
 
 //iOS 7 only delegate. Use this delegate to know when beacons have been found according to the proximity you set in the dashboard or API.
@@ -652,6 +784,14 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
+    
+    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
+    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"didRangeBeacons" forKey:@"event"];
+    [tmpLog setObject:regionObj forKey:@"data"];
+    [self addToLog:tmpLog];
 
 }
 

@@ -7,8 +7,9 @@
 "why_location_updates_text" = "We would like to use your location to easily provide you maps, directions, updates and alerts based on your location.";
 
 /* Predefined tags in User Preferences, insert more for any key you add to NotificareTags.plist  */
-"tag_something" = "Text to be shown in the user preferences";
-"tag_something2" = "Text to be shown in the user preferences";
+"tag_press" = "Send me all your press releases";
+"tag_events" = "Let me know all about your events";
+"tag_newsletter" = "Yes, include me in your newsletter";
 
 /* User Prefences headers & text */
 "pref_header_notifications" = "Notifications";

@@ -297,7 +297,7 @@
             APP_ALERT_DIALOG(LSSTRING(@"error_password_changepass"));
         } else if (![[[alertView textFieldAtIndex:0] text] isEqualToString:[[alertView textFieldAtIndex:1] text]]) {
             APP_ALERT_DIALOG(LSSTRING(@"error_create_account_passwords_match"));
-        } else if (![[[alertView textFieldAtIndex:0] text] length] > 4) {
+        } else if ([[[alertView textFieldAtIndex:0] text] length] <= 4) {
             APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
         } else {
             [[self notificare] changePassword:[NSString stringWithFormat:@"%@", [[alertView textFieldAtIndex:0] text]] completionHandler:^(NSDictionary *info) {

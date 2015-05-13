@@ -23,7 +23,7 @@
 "menu_item_signin" = "Sign in";
 "menu_item_user" = "User Profile";
 "menu_item_inbox" = "Inbox";
-"menu_item_beacons" = "Beacons";
+"menu_item_beacons" = "iBeacons";
 "menu_item_products" = "Products";
 
 "title_signin" = "Sign in";
@@ -115,4 +115,9 @@
 
 "force_signin_text" = "You have been disconnected, please sign in again.";
 
-"alert_inapp_purchase_demo" ="This add-on is not available for this demo app. Please send us your device identifier so we can include you in a Testflight in-app purchase demo app.";
+"title_log" = "Debug Console";
+"menu_item_log" = "Debug";
+"success_log_sent" = "Device log sent successully";
+"error_log_sent" = "Could not send device log at this moment";
+"text_log_subject" = "Device Log";
+"text_log_body" = "Please find my device log attached.";
