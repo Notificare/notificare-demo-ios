@@ -315,9 +315,9 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didChangeAccountNotification" forKey:@"event"];
-    if(![info isKindOfClass:[NSNull class]] || info != nil){
-        [tmpLog setObject:info forKey:@"data"];
-    }
+//    if(![info isKindOfClass:[NSNull class]] || info != nil){
+//        [tmpLog setObject:info forKey:@"data"];
+//    }
     
     [self addToLog:tmpLog];
 }
@@ -362,9 +362,9 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToRequestAccessNotification" forKey:@"event"];
-    if(![error isKindOfClass:[NSNull class]] || error != nil){
-        [tmpLog setObject:error forKey:@"data"];
-    }
+//    if(![error isKindOfClass:[NSNull class]] || error != nil){
+//        [tmpLog setObject:error forKey:@"data"];
+//    }
     
     [self addToLog:tmpLog];
 }
@@ -389,7 +389,7 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveActivationToken" forKey:@"event"];
-    [tmpLog setObject:@{@"token": token} forKey:@"data"];
+//    [tmpLog setObject:@{@"token": token} forKey:@"data"];
     [self addToLog:tmpLog];
 }
 
@@ -406,7 +406,7 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveResetPasswordToken" forKey:@"event"];
-    [tmpLog setObject:@{@"token": token} forKey:@"data"];
+//    [tmpLog setObject:@{@"token": token} forKey:@"data"];
     [self addToLog:tmpLog];
 }
 
