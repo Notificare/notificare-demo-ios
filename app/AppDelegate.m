@@ -74,19 +74,6 @@
 }
 
 
-//-(void)createNotification{
-//    UIApplication* app = [UIApplication sharedApplication];
-//    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-//    localNotification.fireDate = [NSDate new];
-//    localNotification.alertBody = @"MY Body ";
-//    localNotification.alertAction = @"My Title";
-//    localNotification.userInfo = @{@"id":@"54c6a6ba8333b10a315e80e1"};
-//    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-//    localNotification.soundName = UILocalNotificationDefaultSoundName;
-//
-//    [app scheduleLocalNotification:localNotification];
-//}
-
 - (IIViewDeckController*)generateControllerStack {
     
     [self setLeftController:[[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil]];
@@ -228,7 +215,7 @@
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:prods]];
                 [[self deckController] setCenterController:[self centerController]];
                 
-                //APP_ALERT_DIALOG(LSSTRING(@"alert_inapp_purchase_demo"));
+                APP_ALERT_DIALOG(LSSTRING(@"disabled_for_demo_in_app_purchases"));
                 
             }  else if ([[item objectForKey:@"url"] hasPrefix:@"Log:"]){
                 
@@ -315,9 +302,7 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didChangeAccountNotification" forKey:@"event"];
-//    if(![info isKindOfClass:[NSNull class]] || info != nil){
-//        [tmpLog setObject:info forKey:@"data"];
-//    }
+    [tmpLog setObject:[NSString stringWithFormat:@"Account: %@",info] forKey:@"data"];
     
     [self addToLog:tmpLog];
 }
@@ -362,9 +347,7 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToRequestAccessNotification" forKey:@"event"];
-//    if(![error isKindOfClass:[NSNull class]] || error != nil){
-//        [tmpLog setObject:error forKey:@"data"];
-//    }
+    [tmpLog setObject:[NSString stringWithFormat:@"Error: %@",[error description]] forKey:@"data"];
     
     [self addToLog:tmpLog];
 }
@@ -389,7 +372,8 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveActivationToken" forKey:@"event"];
-//    [tmpLog setObject:@{@"token": token} forKey:@"data"];
+    [tmpLog setObject:[NSString stringWithFormat:@"Token: %@",token] forKey:@"data"];
+    
     [self addToLog:tmpLog];
 }
 
@@ -406,7 +390,8 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveResetPasswordToken" forKey:@"event"];
-//    [tmpLog setObject:@{@"token": token} forKey:@"data"];
+    [tmpLog setObject:[NSString stringWithFormat:@"Token: %@",token] forKey:@"data"];
+    
     [self addToLog:tmpLog];
 }
 
@@ -478,9 +463,8 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"handleActionWithIdentifier" forKey:@"event"];
-    if(![userInfo isKindOfClass:[NSNull class]] || userInfo != nil){
-        [tmpLog setObject:userInfo forKey:@"data"];
-    }
+    [tmpLog setObject:[NSString stringWithFormat:@"Action: %@",identifier] forKey:@"data"];
+    
     
     [self addToLog:tmpLog];
 }
@@ -492,9 +476,7 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToRegisterForRemoteNotificationsWithError" forKey:@"event"];
-    if(![error isKindOfClass:[NSNull class]] || error != nil){
-        [tmpLog setObject:error forKey:@"data"];
-    }
+    [tmpLog setObject:[NSString stringWithFormat:@"Error: %@",[error description]] forKey:@"data"];
     
     [self addToLog:tmpLog];
 }
@@ -516,8 +498,7 @@
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveWebsocketNotification:(NSDictionary *)info {
-    
-    [[NotificarePushLib shared] openNotification:info];
+    [self createNotification:info];
     
 }
 
@@ -552,12 +533,25 @@
 
 
 
+
+
+-(void)createNotification:(NSDictionary*)notification{
+    UIApplication* app = [UIApplication sharedApplication];
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate new];
+    localNotification.alertBody = [notification objectForKey:@"alert"];
+    localNotification.alertAction = @"OK";
+    localNotification.userInfo = notification;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    [app scheduleLocalNotification:localNotification];
+}
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     
-    if([notification userInfo] && [[notification userInfo] objectForKey:@"notification"]){
-        [[NotificarePushLib shared] openNotification:@{@"id":[[notification userInfo] objectForKey:@"notification"]}];
-    }
-    
+    NSMutableDictionary * payload = [NSMutableDictionary dictionaryWithDictionary:[notification userInfo]];
+    [payload setObject:@{@"alert":[[notification userInfo] objectForKey:@"alert"]} forKey:@"aps"];
+    [[NotificarePushLib shared] openNotification:payload];
     
 }
 
@@ -649,9 +643,8 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToStartLocationServiceWithError" forKey:@"event"];
-    if(![error isKindOfClass:[NSNull class]] || error != nil){
-        [tmpLog setObject:[error userInfo] forKey:@"data"];
-    }
+    [tmpLog setObject:[NSString stringWithFormat:@"Error: %@",[error description]] forKey:@"data"];
+    
     
     [self addToLog:tmpLog];
 }
@@ -675,14 +668,10 @@
 //Use this delegate to know if any region failed to be monitored
 - (void)notificarePushLib:(NotificarePushLib *)library monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
     
-    NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
-    if(![error isKindOfClass:[NSNull class]] || error != nil){
-        [regionObj setObject:error forKey:@"error"];
-    }
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"monitoringDidFailForRegion" forKey:@"event"];
-    [tmpLog setObject:regionObj forKey:@"data"];
+    [tmpLog setObject:[NSString stringWithFormat:@"Region: %@ - Error: %@", [region identifier],[error description]] forKey:@"data"];
+    
     [self addToLog:tmpLog];
 }
 
@@ -697,7 +686,9 @@
     }
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
+    
     switch (state) {
         case CLRegionStateInside:
             [regionObj setObject:@"CLRegionStateInside" forKey:@"state"];
@@ -725,7 +716,9 @@
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
+    
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didEnterRegion" forKey:@"event"];
@@ -745,7 +738,8 @@
     }
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didExitRegion" forKey:@"event"];
@@ -768,7 +762,7 @@
     }
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
+    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didStartMonitoringForRegion" forKey:@"event"];
@@ -781,10 +775,8 @@
 - (void)notificarePushLib:(NotificarePushLib *)library rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
-    if(![error isKindOfClass:[NSNull class]] || error != nil){
-        [regionObj setObject:error forKey:@"error"];
-    }
+    
+    [regionObj setObject:[NSString stringWithFormat:@"Region: %@ - Error: %@", [region identifier], [error description]] forKey:@"region"];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"rangingBeaconsDidFailForRegion" forKey:@"event"];
@@ -805,7 +797,8 @@
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    [regionObj setObject:[region identifier] forKey:@"region"];
+    
+    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didRangeBeacons" forKey:@"event"];
