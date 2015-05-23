@@ -22,7 +22,6 @@
 #import "ProductsViewController.h"
 #import "LogViewController.h"
 #import "NSData+Hex.h"
-#import "TestFlight.h"
 #import "Configuration.h"
 #import "NotificareDevice.h"
 
@@ -32,11 +31,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    
-    if([[[Configuration shared] getProperty:@"testflight"] length] > 0){
-        [TestFlight takeOff:[[Configuration shared] getProperty:@"testflight"]];
-    }
+
     
     if([[[Configuration shared] getProperty:@"host"] length] > 0){
         [self setApiEngine:[[ApiEngine alloc]
@@ -73,6 +68,19 @@
     return YES;
 }
 
+
+//-(void)createNotification{
+//    UIApplication* app = [UIApplication sharedApplication];
+//    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+//    localNotification.fireDate = [NSDate new];
+//    localNotification.alertBody = @"MY Body ";
+//    localNotification.alertAction = @"My Title";
+//    localNotification.userInfo = @{@"id":@"54c6a6ba8333b10a315e80e1"};
+//    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+//    localNotification.soundName = UILocalNotificationDefaultSoundName;
+//
+//    [app scheduleLocalNotification:localNotification];
+//}
 
 - (IIViewDeckController*)generateControllerStack {
     
@@ -122,7 +130,7 @@
 #if TARGET_IPHONE_SIMULATOR
     
     //Simulator
-    [[NotificarePushLib shared] registerForWebsockets];
+    [[NotificarePushLib shared] registerUserNotifications];
     
 #else
     
@@ -451,6 +459,13 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
     
     
+#if TARGET_IPHONE_SIMULATOR
+    
+    //Simulator
+    [[NotificarePushLib shared] registerForWebsockets];
+    
+#endif
+    
 }
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completion{
@@ -490,14 +505,15 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveRemoteNotification" forKey:@"event"];
-    if(![userInfo isKindOfClass:[NSNull class]] || userInfo != nil){
-        [tmpLog setObject:userInfo forKey:@"data"];
+    if([userInfo objectForKey:@"id"]){
+        [tmpLog setObject:[userInfo objectForKey:@"id"] forKey:@"data"];
     }
     [self addToLog:tmpLog];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveWebsocketNotification:(NSDictionary *)info {
+    NSLog(@"%@", info);
     [self createNotification:info];
     
 }
@@ -519,8 +535,8 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveRemoteNotification" forKey:@"event"];
-    if(![userInfo isKindOfClass:[NSNull class]] || userInfo != nil){
-        [tmpLog setObject:userInfo forKey:@"data"];
+    if([userInfo objectForKey:@"id"]){
+        [tmpLog setObject:[userInfo objectForKey:@"id"] forKey:@"data"];
     }
     
     [self addToLog:tmpLog];
@@ -541,7 +557,7 @@
     localNotification.fireDate = [NSDate new];
     localNotification.alertBody = [notification objectForKey:@"alert"];
     localNotification.alertAction = @"OK";
-    localNotification.userInfo = notification;
+    localNotification.userInfo = @{@"id":[notification objectForKey:@"id"],@"aps":@{@"alert":[notification objectForKey:@"alert"]}};
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     [app scheduleLocalNotification:localNotification];
@@ -549,9 +565,9 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     
-    NSMutableDictionary * payload = [NSMutableDictionary dictionaryWithDictionary:[notification userInfo]];
-    [payload setObject:@{@"alert":[[notification userInfo] objectForKey:@"alert"]} forKey:@"aps"];
-    [[NotificarePushLib shared] openNotification:payload];
+    //    NSMutableDictionary * payload = [NSMutableDictionary dictionaryWithDictionary:[notification userInfo]];
+    //    [payload setObject:@{@"alert":[[notification userInfo] objectForKey:@"alert"]} forKey:@"aps"];
+    [[NotificarePushLib shared] openNotification:[notification userInfo]];
     
 }
 
@@ -658,8 +674,8 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didUpdateLocations" forKey:@"event"];
-    if(![locations isKindOfClass:[NSNull class]] || locations != nil){
-        [tmpLog setObject:locations forKey:@"data"];
+    if([locations count] > 0){
+        [tmpLog setObject:[NSString stringWithFormat:@"%lu locations",(unsigned long)[locations count]] forKey:@"data"];
     }
     [self addToLog:tmpLog];
     
