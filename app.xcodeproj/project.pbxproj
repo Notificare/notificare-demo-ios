@@ -83,6 +83,10 @@
 		408385A218FF404E000DC352 /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408385A118FF404E000DC352 /* RightViewController.xib */; };
 		408385A418FF4092000DC352 /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408385A318FF4092000DC352 /* LeftViewController.xib */; };
 		408385A618FF446C000DC352 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 408385A518FF446C000DC352 /* Localizable.strings */; };
+		408E24B71B1862DB00CAC275 /* LogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408E24B11B1862DB00CAC275 /* LogCell.xib */; };
+		408E24B81B1862DB00CAC275 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 408E24B21B1862DB00CAC275 /* LogViewController.m */; };
+		408E24B91B1862DB00CAC275 /* LogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 408E24B51B1862DB00CAC275 /* LogCell.m */; };
+		408E24BA1B1862DB00CAC275 /* LogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 408E24B61B1862DB00CAC275 /* LogViewController.xib */; };
 		40937C5C1927624D0004499F /* LostPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40937C5A1927624D0004499F /* LostPassViewController.m */; };
 		40937C5D1927624D0004499F /* LostPassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40937C5B1927624D0004499F /* LostPassViewController.xib */; };
 		40937C60192771290004499F /* InfoLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 40937C5F192771290004499F /* InfoLabel.m */; };
@@ -105,10 +109,6 @@
 		40961FC11A33DD73009218FF /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 40961FBF1A33DD73009218FF /* LaunchScreen.png */; };
 		40967F501A5A2660002E4AF8 /* locations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 40967F4F1A5A2660002E4AF8 /* locations.gpx */; };
 		40B702C61970302900286B7B /* BadgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 40B702C51970302900286B7B /* BadgeLabel.m */; };
-		40BB57C21B02B7A100DE74C9 /* LogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40BB57BD1B02B7A100DE74C9 /* LogCell.m */; };
-		40BB57C31B02B7A100DE74C9 /* LogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40BB57BE1B02B7A100DE74C9 /* LogCell.xib */; };
-		40BB57C41B02B7A100DE74C9 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40BB57C01B02B7A100DE74C9 /* LogViewController.m */; };
-		40BB57C51B02B7A100DE74C9 /* LogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40BB57C11B02B7A100DE74C9 /* LogViewController.xib */; };
 		40BB57CF1B02CF8400DE74C9 /* IconMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB57CC1B02CF8400DE74C9 /* IconMail.png */; };
 		40BB57D01B02CF8400DE74C9 /* IconMail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB57CD1B02CF8400DE74C9 /* IconMail@2x.png */; };
 		40BB57D11B02CF8400DE74C9 /* IconMail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB57CE1B02CF8400DE74C9 /* IconMail@3x.png */; };
@@ -297,6 +297,12 @@
 		408385A118FF404E000DC352 /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
 		408385A318FF4092000DC352 /* LeftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewController.xib; sourceTree = "<group>"; };
 		408385A518FF446C000DC352 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		408E24B11B1862DB00CAC275 /* LogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogCell.xib; sourceTree = "<group>"; };
+		408E24B21B1862DB00CAC275 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
+		408E24B31B1862DB00CAC275 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
+		408E24B41B1862DB00CAC275 /* LogCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogCell.h; sourceTree = "<group>"; };
+		408E24B51B1862DB00CAC275 /* LogCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogCell.m; sourceTree = "<group>"; };
+		408E24B61B1862DB00CAC275 /* LogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogViewController.xib; sourceTree = "<group>"; };
 		40937C591927624D0004499F /* LostPassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LostPassViewController.h; sourceTree = "<group>"; };
 		40937C5A1927624D0004499F /* LostPassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LostPassViewController.m; sourceTree = "<group>"; };
 		40937C5B1927624D0004499F /* LostPassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LostPassViewController.xib; sourceTree = "<group>"; };
@@ -326,12 +332,6 @@
 		40967F4F1A5A2660002E4AF8 /* locations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = locations.gpx; sourceTree = "<group>"; };
 		40B702C41970302900286B7B /* BadgeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeLabel.h; sourceTree = "<group>"; };
 		40B702C51970302900286B7B /* BadgeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeLabel.m; sourceTree = "<group>"; };
-		40BB57BC1B02B7A100DE74C9 /* LogCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogCell.h; path = "../../notificare-office-app/app/LogCell.h"; sourceTree = "<group>"; };
-		40BB57BD1B02B7A100DE74C9 /* LogCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogCell.m; path = "../../notificare-office-app/app/LogCell.m"; sourceTree = "<group>"; };
-		40BB57BE1B02B7A100DE74C9 /* LogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogCell.xib; path = "../../notificare-office-app/app/LogCell.xib"; sourceTree = "<group>"; };
-		40BB57BF1B02B7A100DE74C9 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogViewController.h; path = "../../notificare-office-app/app/LogViewController.h"; sourceTree = "<group>"; };
-		40BB57C01B02B7A100DE74C9 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogViewController.m; path = "../../notificare-office-app/app/LogViewController.m"; sourceTree = "<group>"; };
-		40BB57C11B02B7A100DE74C9 /* LogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LogViewController.xib; path = "../../notificare-office-app/app/LogViewController.xib"; sourceTree = "<group>"; };
 		40BB57CC1B02CF8400DE74C9 /* IconMail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconMail.png; sourceTree = "<group>"; };
 		40BB57CD1B02CF8400DE74C9 /* IconMail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconMail@2x.png"; sourceTree = "<group>"; };
 		40BB57CE1B02CF8400DE74C9 /* IconMail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconMail@3x.png"; sourceTree = "<group>"; };
@@ -664,12 +664,12 @@
 				4083856618FF11F4000DC352 /* Resources */,
 				4083849918FF015C000DC352 /* AppDelegate.h */,
 				4083849A18FF015C000DC352 /* AppDelegate.m */,
-				40BB57BC1B02B7A100DE74C9 /* LogCell.h */,
-				40BB57BD1B02B7A100DE74C9 /* LogCell.m */,
-				40BB57BE1B02B7A100DE74C9 /* LogCell.xib */,
-				40BB57BF1B02B7A100DE74C9 /* LogViewController.h */,
-				40BB57C01B02B7A100DE74C9 /* LogViewController.m */,
-				40BB57C11B02B7A100DE74C9 /* LogViewController.xib */,
+				408E24B11B1862DB00CAC275 /* LogCell.xib */,
+				408E24B21B1862DB00CAC275 /* LogViewController.m */,
+				408E24B31B1862DB00CAC275 /* LogViewController.h */,
+				408E24B41B1862DB00CAC275 /* LogCell.h */,
+				408E24B51B1862DB00CAC275 /* LogCell.m */,
+				408E24B61B1862DB00CAC275 /* LogViewController.xib */,
 				401A601F1926A53D0030AA72 /* SignInViewController.h */,
 				401A60201926A53D0030AA72 /* SignInViewController.m */,
 				401A60211926A53D0030AA72 /* SignInViewController.xib */,
@@ -1323,7 +1323,6 @@
 			files = (
 				40F226A91A2DF58B003A98B1 /* refreshButton@3x.png in Resources */,
 				4083857018FF11F4000DC352 /* Montserrat-Bold.ttf in Resources */,
-				40BB57C51B02B7A100DE74C9 /* LogViewController.xib in Resources */,
 				401D41D51A374CBB0003AF38 /* RightMenuIcon@3x.png in Resources */,
 				408385A418FF4092000DC352 /* LeftViewController.xib in Resources */,
 				4083857118FF11F4000DC352 /* Montserrat-Regular.ttf in Resources */,
@@ -1339,6 +1338,7 @@
 				40961FB81A33C672009218FF /* Twitter@2x.png in Resources */,
 				40BF79B119035BF000622FA5 /* SignalUnkown.png in Resources */,
 				408385A218FF404E000DC352 /* RightViewController.xib in Resources */,
+				408E24BA1B1862DB00CAC275 /* LogViewController.xib in Resources */,
 				408385A018FF3FE4000DC352 /* MainViewController.xib in Resources */,
 				40961FB91A33C672009218FF /* Twitter@3x.png in Resources */,
 				40F226AC1A2DF58B003A98B1 /* BackButton@3x.png in Resources */,
@@ -1355,7 +1355,6 @@
 				40ED15281B10C4A300379937 /* .gitignore in Resources */,
 				40937CE4192B84DB0004499F /* IconSignOut@2x.png in Resources */,
 				4083856F18FF11F4000DC352 /* Lato-Regular.ttf in Resources */,
-				40BB57C31B02B7A100DE74C9 /* LogCell.xib in Resources */,
 				40ED152C1B10C4A300379937 /* Notificare.plist in Resources */,
 				40BF798B1902B2C300622FA5 /* ForwardButton.png in Resources */,
 				40961FB41A33C672009218FF /* Twitter.png in Resources */,
@@ -1389,6 +1388,7 @@
 				4083859618FF3563000DC352 /* LeftMenuIcon@2x.png in Resources */,
 				4083859718FF3563000DC352 /* RightMenuIcon.png in Resources */,
 				4083858218FF152E000DC352 /* DefaultCell.xib in Resources */,
+				408E24B71B1862DB00CAC275 /* LogCell.xib in Resources */,
 				40BF79B219035BF000622FA5 /* SignalUnkown@2x.png in Resources */,
 				40BF79A2190319A700622FA5 /* MapUserMarker.png in Resources */,
 				40F226CE1A2E375F003A98B1 /* TutorialDoneIcon@2x.png in Resources */,
@@ -1439,6 +1439,7 @@
 			files = (
 				408384A118FF015C000DC352 /* MainViewController.m in Sources */,
 				40B702C61970302900286B7B /* BadgeLabel.m in Sources */,
+				408E24B81B1862DB00CAC275 /* LogViewController.m in Sources */,
 				40154D2D19BE44C600DE9941 /* IISideController.m in Sources */,
 				401A60221926A53D0030AA72 /* SignInViewController.m in Sources */,
 				40F226B81A2DFE72003A98B1 /* PageOneViewController.m in Sources */,
@@ -1465,7 +1466,6 @@
 				4083849718FF015C000DC352 /* main.m in Sources */,
 				40BF798519028E9D00622FA5 /* LocationViewController.m in Sources */,
 				401844EE19F68E47008C89BC /* ProductCell.m in Sources */,
-				40BB57C21B02B7A100DE74C9 /* LogCell.m in Sources */,
 				40937C60192771290004499F /* InfoLabel.m in Sources */,
 				40BF79961902C95F00622FA5 /* EmptyBeaconsCell.m in Sources */,
 				40F787F019DB0009009D1E51 /* GravatarHelper.m in Sources */,
@@ -1475,6 +1475,7 @@
 				4075D65119F2E94E0060A530 /* ProductsViewController.m in Sources */,
 				40154CA619BE44C600DE9941 /* MKNetworkEngine.m in Sources */,
 				40F226C21A2E23F2003A98B1 /* PageThreeViewController.m in Sources */,
+				408E24B91B1862DB00CAC275 /* LogCell.m in Sources */,
 				40154D2E19BE44C600DE9941 /* IIViewDeckController.m in Sources */,
 				4083858118FF152E000DC352 /* DefaultCell.m in Sources */,
 				40937C6C1928D6C40004499F /* UserDetailsViewController.m in Sources */,
@@ -1484,7 +1485,6 @@
 				407D350C19D1BA5A00D5B99D /* SRWebSocket.m in Sources */,
 				401A60271926D5710030AA72 /* SignUpViewController.m in Sources */,
 				40154CA119BE44C600DE9941 /* NSDate+RFC1123.m in Sources */,
-				40BB57C41B02B7A100DE74C9 /* LogViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
