@@ -62,6 +62,8 @@
     [self.window setRootViewController:deckController];
     
     
+    
+    //[[NotificarePushLib shared] notificareEngine]
     //[self performSelector:@selector(createNotification) withObject:nil afterDelay:4.0];
     
     [self.window makeKeyAndVisible];

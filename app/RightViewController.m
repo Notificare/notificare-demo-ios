@@ -87,7 +87,12 @@
         }
         
         
-        if([[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] isKindOfClass:[NotificareBeacon class]]){
+        if([self navSections] &&
+           [[self navSections] count] > 0 &&
+           [[self navSections] objectAtIndex:[indexPath section]] &&
+           [[[self navSections] objectAtIndex:[indexPath section]] count] > 0 &&
+           [[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] &&
+           [[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]] isKindOfClass:[NotificareBeacon class]]){
             
             NotificareBeacon * item = (NotificareBeacon *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
             
