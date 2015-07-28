@@ -45,11 +45,11 @@
 #define LOG_CELLHEIGHT 80
 #define EMPTY_LOG_CELLHEIGHT 480
 
-#define MAIN_COLOR [UIColor colorWithRed:61.0/255.0 green:59.0/255 blue:55.0/255.0 alpha:1.0]
+#define MAIN_COLOR [UIColor colorWithRed:35.0/255.0 green:44.0/255 blue:42.0/255.0 alpha:1.0]
 #define ALTO_COLOR [UIColor colorWithRed:218.0/255.0 green:218.0/255 blue:218.0/255.0 alpha:1.0]
 #define FACEBOOK_COLOR [UIColor colorWithRed:59.0/255.0 green:89.0/255 blue:152.0/255.0 alpha:1.0]
 #define WILD_SAND_COLOR [UIColor colorWithRed:246.0/255.0 green:246.0/255 blue:246.0/255.0 alpha:1.0]
-#define MANTIS_COLOR [UIColor colorWithRed:64.0/255.0 green:202.0/255 blue:171.0/255.0 alpha:1.0]
+#define MANTIS_COLOR [UIColor colorWithRed:39.0/255.0 green:176.0/255 blue:163.0/255.0 alpha:1.0]
 #define ICONS_COLOR [UIColor colorWithRed:255.0/255.0 green:255.0/255 blue:255.0/255.0 alpha:1.0]
 
 
