@@ -339,6 +339,7 @@
         }
     }
     
+    
 }
 
 -(IBAction)closeProductView:(id)sender{

@@ -135,27 +135,27 @@
     NSMutableArray * markers = [NSMutableArray array];
     NSMutableArray * regions = [NSMutableArray array];
     
-    for (NSDictionary * region in [[self appDelegate] regions]) {
-        
-        CLLocationCoordinate2D coordinate;
-        coordinate.latitude = [[[[region objectForKey:@"geometry"] objectForKey:@"coordinates"] objectAtIndex:1] doubleValue];
-        coordinate.longitude = [[[[region objectForKey:@"geometry"] objectForKey:@"coordinates"] objectAtIndex:0] doubleValue];
-        
-        RegionsMarker *annotation = [[RegionsMarker alloc] initWithName:[region objectForKey:@"name"] address:@"" coordinate:coordinate] ;
-        
+    NSLog(@"Regions %li regions", (unsigned long)[[[[self notificare] locationManager] monitoredRegions] count]);
+    
+    for (CLRegion * region in [[[self notificare] locationManager] monitoredRegions]) {
+
+        RegionsMarker *annotation = [[RegionsMarker alloc] initWithName:[region identifier] address:@"" coordinate:[region center]] ;
         [markers addObject:annotation];
-        
-        
-        MKCircle *circle = [MKCircle circleWithCenterCoordinate:coordinate radius:[[region objectForKey:@"distance"] doubleValue]];
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:[region center] radius:[region radius]];
         [regions addObject:circle];
         
         
     }
+    
+    
     [self setCircles:regions];
     [self setMarkers:markers];
     [[self mapView] addOverlays:regions];
     [[self mapView] addAnnotations:markers];
     //[self setRegion:[self mapView]];
+    
+    
+ 
 }
 
 

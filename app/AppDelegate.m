@@ -42,12 +42,15 @@
         
         //[UIImageView setDefaultEngine:[self apiEngine]];
     }
-    
-    
+
+
     [self setLog:[NSMutableArray array]];
     [self setCachedNotifications:[NSMutableArray array]];
     [self setBeacons:[NSMutableArray array]];
     [self setRegions:[NSMutableArray array]];
+    
+
+    
     [[NotificarePushLib shared] launch];
     [[NotificarePushLib shared] setDelegate:self];
     //[[NotificarePushLib shared] setShouldAlwaysLogBeacons:YES];
@@ -61,9 +64,11 @@
     self.centerController = deckController.centerController;
     [self.window setRootViewController:deckController];
     
+    NSLog(@"TEST: 20 August 2015 17:20");
     
-    
-    //[[NotificarePushLib shared] notificareEngine]
+    NSLog(@"FENCES: %@", [[NotificarePushLib shared] currentRegions]);
+    NSLog(@"BEACONS: %@", [[NotificarePushLib shared] currentBeacons]);
+
     //[self performSelector:@selector(createNotification) withObject:nil afterDelay:4.0];
     
     [self.window makeKeyAndVisible];
@@ -80,7 +85,7 @@
 //    localNotification.userInfo = @{@"id":@"54c6a6ba8333b10a315e80e1"};
 //    localNotification.timeZone = [NSTimeZone defaultTimeZone];
 //    localNotification.soundName = UILocalNotificationDefaultSoundName;
-//
+//    
 //    [app scheduleLocalNotification:localNotification];
 //}
 
@@ -92,7 +97,7 @@
     
     NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
     
-    
+   
     
     if(![settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
         PageOneViewController * controller = [[PageOneViewController alloc] initWithNibName:@"PageOneViewController" bundle:nil];
@@ -115,19 +120,22 @@
     
     
     
-    
+   
     [self setDeckController:[[IIViewDeckController alloc] initWithCenterViewController:[self centerController]
                                                                     leftViewController:[self leftController]
                                                                    rightViewController:[self rightController]]];
-    //deckController.rightSize = 100;
-    
-    //[[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
-    return [self deckController];
-    
+        //deckController.rightSize = 100;
+        
+        //[[self deckController] disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
+        return [self deckController];
+
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library onReady:(NSDictionary *)info{
+
+    
+    //NSLog(@"App Info: %@",[[NotificarePushLib shared] applicationInfo]);
     
 #if TARGET_IPHONE_SIMULATOR
     
@@ -137,17 +145,16 @@
 #else
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-    
+
     
     [settings setBool:NO forKey:@"re.notifica.office.prod2"];
     [settings synchronize];
     
     if([settings boolForKey:@"tutorialUserRegistered"]){
-        
+
         [[NotificarePushLib shared] registerForNotifications];
     }
-    
-    //NSLog(@"%@",[[NotificarePushLib shared] applicationInfo]);
+
     
 #endif
     
@@ -155,10 +162,10 @@
 
 
 -(void)refreshMainController{
-    //    IIViewDeckController* deckController = [self generateControllerStack];
-    //    self.leftController = deckController.leftController;
-    //    self.centerController = deckController.centerController;
-    //    [self.window setRootViewController:deckController];
+//    IIViewDeckController* deckController = [self generateControllerStack];
+//    self.leftController = deckController.leftController;
+//    self.centerController = deckController.centerController;
+//    [self.window setRootViewController:deckController];
 }
 
 
@@ -183,17 +190,17 @@
             
             if ([[item objectForKey:@"url"] hasPrefix:@"IBAction:"]){
                 //Call a method in delegate (used for the settings)
-                
+
                 NSString * method = [[item objectForKey:@"url"] stringByReplacingOccurrencesOfString:@"IBAction:" withString:@""];
                 SEL mySelector = NSSelectorFromString(method);
                 if([self respondsToSelector:mySelector]){
                     Suppressor([self performSelector:mySelector]);
                 }
-                
+  
             } else if ([[item objectForKey:@"url"] hasPrefix:@"Auth:"]){
                 //Call a method in delegate (used for the settings)
                 
-                
+
                 if([[NotificarePushLib shared] isLoggedIn]){
                     
                     UserDetailsViewController * userDetails = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
@@ -213,7 +220,7 @@
                 
                 
                 LocationViewController * map = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
-                
+
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:map]];
                 [[self deckController] setCenterController:[self centerController]];
                 
@@ -237,7 +244,7 @@
                 
                 
             } else if ([[item objectForKey:@"url"] hasPrefix:@"MainView:"]){
-                
+            
                 
                 NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
                 
@@ -267,12 +274,12 @@
         
     }];
     
-    
+
 }
 
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    [[NotificarePushLib shared]  handleOpenURL:url];
+	[[NotificarePushLib shared]  handleOpenURL:url];
     return YES;
 }
 
@@ -301,7 +308,7 @@
 #pragma Notificare OAuth2 delegates
 
 - (void)notificarePushLib:(NotificarePushLib *)library didChangeAccountNotification:(NSDictionary *)info{
-    //NSLog(@"didChangeAccountNotification: %@",info);
+    NSLog(@"didChangeAccountNotification: %@",info);
     
     UserDetailsViewController * userDetailsView = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
     UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:userDetailsView];
@@ -328,7 +335,7 @@
         [[self deckController] setCenterController:[self centerController]];
         
     } else {
-        
+
         NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
         
         if(![settings boolForKey:@"tutorialUserRegistered"] && ![[NotificarePushLib shared] checkLocationUpdates]){
@@ -383,7 +390,7 @@
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveActivationToken" forKey:@"event"];
     [tmpLog setObject:[NSString stringWithFormat:@"Token: %@",token] forKey:@"data"];
-    
+
     [self addToLog:tmpLog];
 }
 
@@ -401,7 +408,7 @@
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveResetPasswordToken" forKey:@"event"];
     [tmpLog setObject:[NSString stringWithFormat:@"Token: %@",token] forKey:@"data"];
-    
+
     [self addToLog:tmpLog];
 }
 
@@ -410,19 +417,19 @@
     
     //If you don't identify users you can just use this
     [[NotificarePushLib shared] registerDevice:deviceToken completionHandler:^(NSDictionary *info) {
-        
+
         [[NSNotificationCenter defaultCenter] postNotificationName:@"registeredDevice" object:nil];
-        
+
         if([[NotificarePushLib shared] checkLocationUpdates]){
             [[NotificarePushLib shared] startLocationUpdates];
         }
-        
+    
         [self addTags];
-        
+
         
     } errorHandler:^(NSError *error) {
         //
-        //  [self registerForAPNS];
+      //  [self registerForAPNS];
         
     }];
     
@@ -444,7 +451,7 @@
         }
         
         
-        // [self addTags];
+       // [self addTags];
         
     } errorHandler:^(NSError *error) {
         //
@@ -459,7 +466,7 @@
 ///New iOS8 delgates
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    
+
     
 #if TARGET_IPHONE_SIMULATOR
     
@@ -467,21 +474,21 @@
     [[NotificarePushLib shared] registerForWebsockets];
     
 #endif
-    
+   
 }
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completion{
-    
+
     [[NotificarePushLib shared] handleAction:identifier forNotification:userInfo withData:nil completionHandler:^(NSDictionary *info) {
         completion();
     } errorHandler:^(NSError *error) {
         completion();
     }];
-    
+
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"handleActionWithIdentifier" forKey:@"event"];
     [tmpLog setObject:[NSString stringWithFormat:@"Action: %@",identifier] forKey:@"data"];
-    
+
     
     [self addToLog:tmpLog];
 }
@@ -493,7 +500,7 @@
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToRegisterForRemoteNotificationsWithError" forKey:@"event"];
-    [tmpLog setObject:[NSString stringWithFormat:@"Error: %@",[error description]] forKey:@"data"];
+     [tmpLog setObject:[NSString stringWithFormat:@"Error: %@",[error description]] forKey:@"data"];
     
     [self addToLog:tmpLog];
 }
@@ -522,18 +529,18 @@
 
 
 
-
+ 
 // If you implement this delegate please add a remote-notification to your UIBackgroundModes in app's plist
 // For iOS7 up - No inbox
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-    
-    [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
-        
-        completionHandler(UIBackgroundFetchResultNewData);
-    } errorHandler:^(NSError *error) {
-        
-        completionHandler(UIBackgroundFetchResultNoData);
-    }];
+
+     [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
+
+         completionHandler(UIBackgroundFetchResultNewData);
+     } errorHandler:^(NSError *error) {
+
+         completionHandler(UIBackgroundFetchResultNoData);
+     }];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didReceiveRemoteNotification" forKey:@"event"];
@@ -542,7 +549,7 @@
     }
     
     [self addToLog:tmpLog];
-}
+ }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"incomingNotification" object:nil];
@@ -567,8 +574,8 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     
-    //    NSMutableDictionary * payload = [NSMutableDictionary dictionaryWithDictionary:[notification userInfo]];
-    //    [payload setObject:@{@"alert":[[notification userInfo] objectForKey:@"alert"]} forKey:@"aps"];
+//    NSMutableDictionary * payload = [NSMutableDictionary dictionaryWithDictionary:[notification userInfo]];
+//    [payload setObject:@{@"alert":[[notification userInfo] objectForKey:@"alert"]} forKey:@"aps"];
     [[NotificarePushLib shared] openNotification:[notification userInfo]];
     
 }
@@ -580,7 +587,7 @@
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     
-    
+
     //One time
     if([settings objectForKey:@"notificareAppInstall"] == nil || ![settings objectForKey:@"notificareAppInstall"]){
         
@@ -599,27 +606,27 @@
 #pragma Notificare delegates
 
 - (void)notificarePushLib:(NotificarePushLib *)library willOpenNotification:(NotificareNotification *)notification{
-    
+
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(NotificareNotification *)notification{
-    
+ 
     
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCloseNotification:(NotificareNotification *)notification{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closedNotification" object:nil];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToOpenNotification:(NotificareNotification *)notification{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"closedNotification" object:nil];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library willExecuteAction:(NotificareNotification *)notification{
-    
+
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didExecuteAction:(NSDictionary *)info{
@@ -632,6 +639,11 @@
     if([self respondsToSelector:mySelector]){
         Suppressor([self performSelector:mySelector]);
     }
+}
+
+-(void)notificarePushLib:(NotificarePushLib *)library shouldPerformSelectorWithURL:(NSURL *)url{
+
+    NSLog(@"%@ %@ %@ %@",[url host], [url path], [url query], [url pathComponents]);
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didNotExecuteAction:(NSDictionary *)info{
@@ -647,28 +659,29 @@
 
 #pragma Notificare Location delegates
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveLocationServiceAuthorizationStatus:(NSDictionary *)status{
-    if ([[status objectForKey:@"status"] isEqualToString:@"Location Services are available"]) {
-        [self setIsLocationServicesOn:YES];
-        
-    } else {
-        [self setIsLocationServicesOn:NO];
+    
+    NSLog(@"didReceiveLocationServiceAuthorizationStatus = %@",status);
+    
+    if([[NotificarePushLib shared] checkLocationUpdates]){
+        NSLog(@"checkLocationUpdates");
     }
     
+
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToStartLocationServiceWithError:(NSError *)error{
-    [self setIsLocationServicesOn:NO];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToStartLocationServiceWithError" forKey:@"event"];
     [tmpLog setObject:[NSString stringWithFormat:@"Error: %@",[error description]] forKey:@"data"];
     
-    
     [self addToLog:tmpLog];
+    
+    
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateLocations:(NSArray *)locations{
-    
+
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     if([settings boolForKey:@"tutorialUserRegistered"]){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"startedLocationUpdate" object:nil];
@@ -680,6 +693,8 @@
         [tmpLog setObject:[NSString stringWithFormat:@"%lu locations",(unsigned long)[locations count]] forKey:@"data"];
     }
     [self addToLog:tmpLog];
+    
+    
     
 }
 
@@ -697,7 +712,7 @@
 // You can request a state of a region by doing [[[NotificarePushLib shared] locationManager] requestStateForRegion:(CLRegion *) region];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-    // NSLog(@"didDetermineState: %i %@", state, region);
+   // NSLog(@"didDetermineState: %i %@", state, region);
     
     if([region isKindOfClass:[CLBeaconRegion class]]){
         [self setSupportsBeacons:YES];
@@ -709,10 +724,14 @@
     
     switch (state) {
         case CLRegionStateInside:
+            
+            
             [regionObj setObject:@"CLRegionStateInside" forKey:@"state"];
             break;
             
         case CLRegionStateOutside:
+            
+            
             [regionObj setObject:@"CLRegionStateOutside" forKey:@"state"];
             break;
         case CLRegionStateUnknown:
@@ -733,41 +752,38 @@
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didEnterRegion:(CLRegion *)region{
     
+    
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
-    
-    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
-    
-    
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didEnterRegion" forKey:@"event"];
     [tmpLog setObject:regionObj forKey:@"data"];
     [self addToLog:tmpLog];
     
+    
+
 }
+
+
 
 //Use this delegate to know when a user exited a region. Notificare will automatically handle the triggers.
 //According to the triggers created through the dashboard or API.
 - (void)notificarePushLib:(NotificarePushLib *)library didExitRegion:(CLRegion *)region{
-    
-    
-    if([region isKindOfClass:[CLBeaconRegion class]]){
-        [[self beacons] removeAllObjects];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
-    }
-    
+
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
     
-    [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
+   [regionObj setObject:[NSString stringWithFormat:@"Region: %@", [region identifier]] forKey:@"region"];
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didExitRegion" forKey:@"event"];
     [tmpLog setObject:regionObj forKey:@"data"];
     [self addToLog:tmpLog];
-    
+
 }
 
+
 - (void)notificarePushLib:(NotificarePushLib *)library didStartMonitoringForRegion:(CLRegion *)region{
-    // NSLog(@"didStartMonitoringForRegion: %@", region);
+
+    
     
     if(![region isKindOfClass:[CLBeaconRegion class]]){
         
@@ -811,7 +827,6 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     [self setBeacons:[NSMutableArray arrayWithArray:beacons]];
     
     NSMutableDictionary * regionObj = [NSMutableDictionary dictionary];
@@ -822,16 +837,18 @@
     [tmpLog setObject:@"didRangeBeacons" forKey:@"event"];
     [tmpLog setObject:regionObj forKey:@"data"];
     [self addToLog:tmpLog];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"rangingBeacons" object:nil];
     
+
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailProductTransaction:(SKPaymentTransaction *)transaction withError:(NSError *)error{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCompleteProductTransaction:(SKPaymentTransaction *)transaction{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
@@ -841,40 +858,40 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didLoadStore:(NSArray *)products{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToLoadStore:(NSError *)error{
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didStartDownloadContent:(SKPaymentTransaction *)transaction{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didPauseDownloadContent:(SKDownload *)download{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didCancelDownloadContent:(SKDownload *)download{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveProgressDownloadContent:(SKDownload *)download{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didFailDownloadContent:(SKDownload *)download{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 - (void)notificarePushLib:(NotificarePushLib *)library didFinishDownloadContent:(SKDownload *)download{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
+
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadProducts" object:nil];
 }
 
 
@@ -886,7 +903,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

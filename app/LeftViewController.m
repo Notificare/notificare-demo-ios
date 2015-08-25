@@ -138,16 +138,16 @@
     // Do any additional setup after loading the view from its nib.
     [self reloadData];
 
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"changedAccount" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"incomingNotification" object:nil];
-    
 }
 
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+//    
 //    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"changedAccount" object:nil];
 //    
