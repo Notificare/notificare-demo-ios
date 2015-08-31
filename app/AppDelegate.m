@@ -64,11 +64,10 @@
     self.centerController = deckController.centerController;
     [self.window setRootViewController:deckController];
     
-    NSLog(@"TEST: 20 August 2015 17:20");
-    
+
     NSLog(@"FENCES: %@", [[NotificarePushLib shared] currentRegions]);
     NSLog(@"BEACONS: %@", [[NotificarePushLib shared] currentBeacons]);
-
+    
     //[self performSelector:@selector(createNotification) withObject:nil afterDelay:4.0];
     
     [self.window makeKeyAndVisible];
@@ -473,9 +472,11 @@
     //Simulator
     [[NotificarePushLib shared] registerForWebsockets];
     
+    
 #endif
    
 }
+
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void (^)())completion{
 
@@ -639,6 +640,7 @@
     if([self respondsToSelector:mySelector]){
         Suppressor([self performSelector:mySelector]);
     }
+    
 }
 
 -(void)notificarePushLib:(NotificarePushLib *)library shouldPerformSelectorWithURL:(NSURL *)url{
