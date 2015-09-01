@@ -13,6 +13,10 @@
 
 @interface PageOneViewController ()
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
+
+
 @end
 
 @implementation PageOneViewController
@@ -29,6 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [[self scrollView] addSubview:[self contentView]];
+    
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
     
     [[self message] setText:LSSTRING(@"tutorial_text_page_one")];
@@ -68,6 +75,14 @@
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    CGRect viewFrame = [[self view] frame];
+    float height = MAX(568, viewFrame.size.height) - 64;
+    [[self contentView] setFrame:CGRectMake(0, 0, viewFrame.size.width, height)];
+    [[self scrollView] setContentSize:CGSizeMake(viewFrame.size.width, height)];
+}
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -78,8 +93,9 @@
     [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:nil]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registeredDevice) name:@"registeredDevice" object:nil];
-    
 }
+
+
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     
