@@ -64,10 +64,9 @@
     self.centerController = deckController.centerController;
     [self.window setRootViewController:deckController];
     
-
     NSLog(@"FENCES: %@", [[NotificarePushLib shared] currentRegions]);
     NSLog(@"BEACONS: %@", [[NotificarePushLib shared] currentBeacons]);
-    
+
     //[self performSelector:@selector(createNotification) withObject:nil afterDelay:4.0];
     
     [self.window makeKeyAndVisible];
@@ -492,6 +491,25 @@
 
     
     [self addToLog:tmpLog];
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(nullable NSString *)identifier forRemoteNotification:(nonnull NSDictionary *)userInfo withResponseInfo:(nonnull NSDictionary *)responseInfo completionHandler:(nonnull void (^)())completionHandler{
+    
+    
+    [[NotificarePushLib shared] handleAction:identifier forNotification:userInfo withData:responseInfo completionHandler:^(NSDictionary *info) {
+        completionHandler();
+    } errorHandler:^(NSError *error) {
+        completionHandler();
+    }];
+    
+    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
+    [tmpLog setObject:@"handleActionWithIdentifier" forKey:@"event"];
+    [tmpLog setObject:[NSString stringWithFormat:@"Action: %@",identifier] forKey:@"data"];
+    
+    
+    [self addToLog:tmpLog];
+    
+    
 }
 #endif
 /////////////////////////////////
