@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageThreeViewController">
@@ -14,118 +14,125 @@
                 <outlet property="buttonFacebook" destination="Qsn-fh-79s" id="Qet-dA-vaI"/>
                 <outlet property="buttonIcon" destination="xw0-vy-cCg" id="e8H-Wj-WdM"/>
                 <outlet property="buttonMail" destination="9Nk-sH-Nxy" id="hwU-CO-nsD"/>
-                <outlet property="contentView" destination="hZA-rW-u1H" id="O7k-6K-DX3"/>
                 <outlet property="message" destination="yHc-y6-Rn3" id="gqt-J6-Ij5"/>
-                <outlet property="scrollView" destination="1M1-al-Xuq" id="NH1-QN-jkO"/>
                 <outlet property="view" destination="uxF-xe-Uey" id="PNo-14-9CN"/>
                 <outlet property="welcome" destination="jHp-3P-wGs" id="sgT-Jx-Oo5"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="uxF-xe-Uey">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+            <rect key="frame" x="0.0" y="64" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1M1-al-Xuq">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <subviews>
+                        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZA-rW-u1H">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHc-y6-Rn3">
+                                    <rect key="frame" x="20" y="195" width="280" height="100"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="100" id="tNb-Yf-hjv"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHp-3P-wGs">
+                                    <rect key="frame" x="20" y="167" width="280" height="20.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="280" id="sxe-2F-zcf"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsn-fh-79s">
+                                    <rect key="frame" x="138" y="319" width="45" height="45"/>
+                                    <state key="normal" image="Facebook.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="goToFacebook:" destination="-1" eventType="touchUpInside" id="Fd3-KH-aQh"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Nk-sH-Nxy">
+                                    <rect key="frame" x="54" y="319" width="45" height="45"/>
+                                    <state key="normal" image="Mail.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="openMail:" destination="-1" eventType="touchUpInside" id="61u-Tq-7o7"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBD-jG-wgO" customClass="FormButton">
+                                    <rect key="frame" x="20" y="394" width="280" height="60"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="60" id="Yhg-ju-83F"/>
+                                    </constraints>
+                                    <state key="normal" title="Button">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="openDashboard:" destination="-1" eventType="touchUpInside" id="k35-LO-5ip"/>
+                                    </connections>
+                                </button>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TutorialDoneIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="PWi-x5-KXn">
+                                    <rect key="frame" x="85" y="9" width="150" height="150"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UwJ-4U-Vag">
+                                    <rect key="frame" x="223" y="319" width="45" height="45"/>
+                                    <state key="normal" image="Twitter.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="goToTwitter:" destination="-1" eventType="touchUpInside" id="z2W-NN-rNu"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="PWi-x5-KXn" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="9" id="1wd-ob-Zff"/>
+                                <constraint firstItem="yHc-y6-Rn3" firstAttribute="leading" secondItem="jHp-3P-wGs" secondAttribute="leading" id="4qS-Z5-snN"/>
+                                <constraint firstItem="UwJ-4U-Vag" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="319" id="89T-lW-ewk"/>
+                                <constraint firstAttribute="centerX" secondItem="Qsn-fh-79s" secondAttribute="centerX" constant="-0.5" id="Blf-t6-I0L"/>
+                                <constraint firstItem="Qsn-fh-79s" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="319" id="HXY-ue-6N1"/>
+                                <constraint firstItem="jHp-3P-wGs" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="167" id="X7p-A9-xAM"/>
+                                <constraint firstAttribute="centerX" secondItem="UwJ-4U-Vag" secondAttribute="centerX" constant="-85.5" id="cNb-33-Kna"/>
+                                <constraint firstAttribute="centerX" secondItem="PWi-x5-KXn" secondAttribute="centerX" id="egM-uc-k4h"/>
+                                <constraint firstAttribute="centerX" secondItem="jHp-3P-wGs" secondAttribute="centerX" constant="-0.5" id="gsi-hX-d3I"/>
+                                <constraint firstItem="9Nk-sH-Nxy" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="319" id="jaa-Ew-8JO"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="504" id="lGR-cl-YPv"/>
+                                <constraint firstItem="yHc-y6-Rn3" firstAttribute="top" secondItem="jHp-3P-wGs" secondAttribute="bottom" constant="8" symbolic="YES" id="nmk-AO-weH"/>
+                                <constraint firstAttribute="centerX" secondItem="9Nk-sH-Nxy" secondAttribute="centerX" constant="83.5" id="plb-5i-xQ6"/>
+                                <constraint firstItem="XBD-jG-wgO" firstAttribute="top" secondItem="UwJ-4U-Vag" secondAttribute="bottom" constant="30" id="sdu-bN-jrg"/>
+                                <constraint firstItem="yHc-y6-Rn3" firstAttribute="trailing" secondItem="XBD-jG-wgO" secondAttribute="trailing" id="wn1-I9-r7y"/>
+                                <constraint firstItem="yHc-y6-Rn3" firstAttribute="trailing" secondItem="jHp-3P-wGs" secondAttribute="trailing" id="xPI-5z-Lnj"/>
+                                <constraint firstItem="yHc-y6-Rn3" firstAttribute="leading" secondItem="XBD-jG-wgO" secondAttribute="leading" id="yE3-9T-cKB"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="hZA-rW-u1H" secondAttribute="trailing" id="cHz-WC-o91"/>
+                        <constraint firstItem="hZA-rW-u1H" firstAttribute="top" secondItem="1M1-al-Xuq" secondAttribute="top" id="d6t-7y-vlF"/>
+                        <constraint firstAttribute="bottom" secondItem="hZA-rW-u1H" secondAttribute="bottom" id="tyh-pn-DMX"/>
+                        <constraint firstItem="hZA-rW-u1H" firstAttribute="leading" secondItem="1M1-al-Xuq" secondAttribute="leading" id="wq9-Mf-KSr"/>
+                    </constraints>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="hZA-rW-u1H" firstAttribute="width" secondItem="uxF-xe-Uey" secondAttribute="width" id="1IQ-XH-pOc"/>
                 <constraint firstItem="1M1-al-Xuq" firstAttribute="top" secondItem="uxF-xe-Uey" secondAttribute="top" id="37B-0N-5e9"/>
                 <constraint firstItem="1M1-al-Xuq" firstAttribute="leading" secondItem="uxF-xe-Uey" secondAttribute="leading" id="5zP-wh-Y3J"/>
+                <constraint firstItem="hZA-rW-u1H" firstAttribute="height" secondItem="uxF-xe-Uey" secondAttribute="height" priority="750" constant="-64" id="ZCJ-ap-vtY"/>
                 <constraint firstAttribute="bottom" secondItem="1M1-al-Xuq" secondAttribute="bottom" id="fPK-a4-x4i"/>
                 <constraint firstAttribute="trailing" secondItem="1M1-al-Xuq" secondAttribute="trailing" id="ykG-kI-pxx"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="290.5" y="516"/>
-        </view>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hZA-rW-u1H">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHc-y6-Rn3">
-                    <rect key="frame" x="20" y="195.5" width="280" height="100"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="100" id="tNb-Yf-hjv"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHp-3P-wGs">
-                    <rect key="frame" x="20" y="167" width="280" height="20.5"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="280" id="sxe-2F-zcf"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsn-fh-79s">
-                    <rect key="frame" x="138" y="319" width="45" height="45"/>
-                    <state key="normal" image="Facebook.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="goToFacebook:" destination="-1" eventType="touchUpInside" id="Fd3-KH-aQh"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Nk-sH-Nxy">
-                    <rect key="frame" x="54" y="319" width="45" height="45"/>
-                    <state key="normal" image="Mail.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="openMail:" destination="-1" eventType="touchUpInside" id="61u-Tq-7o7"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBD-jG-wgO" customClass="FormButton">
-                    <rect key="frame" x="20" y="394" width="280" height="60"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="60" id="Yhg-ju-83F"/>
-                    </constraints>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="openDashboard:" destination="-1" eventType="touchUpInside" id="k35-LO-5ip"/>
-                    </connections>
-                </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TutorialDoneIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="PWi-x5-KXn">
-                    <rect key="frame" x="85" y="9" width="150" height="150"/>
-                </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UwJ-4U-Vag">
-                    <rect key="frame" x="223" y="319" width="45" height="45"/>
-                    <state key="normal" image="Twitter.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="goToTwitter:" destination="-1" eventType="touchUpInside" id="z2W-NN-rNu"/>
-                    </connections>
-                </button>
-            </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="PWi-x5-KXn" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="9" id="1wd-ob-Zff"/>
-                <constraint firstItem="yHc-y6-Rn3" firstAttribute="leading" secondItem="jHp-3P-wGs" secondAttribute="leading" id="4qS-Z5-snN"/>
-                <constraint firstItem="UwJ-4U-Vag" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="319" id="89T-lW-ewk"/>
-                <constraint firstAttribute="centerX" secondItem="Qsn-fh-79s" secondAttribute="centerX" constant="-0.5" id="Blf-t6-I0L"/>
-                <constraint firstItem="Qsn-fh-79s" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="319" id="HXY-ue-6N1"/>
-                <constraint firstItem="jHp-3P-wGs" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="167" id="X7p-A9-xAM"/>
-                <constraint firstAttribute="centerX" secondItem="UwJ-4U-Vag" secondAttribute="centerX" constant="-85.5" id="cNb-33-Kna"/>
-                <constraint firstAttribute="centerX" secondItem="PWi-x5-KXn" secondAttribute="centerX" id="egM-uc-k4h"/>
-                <constraint firstAttribute="centerX" secondItem="jHp-3P-wGs" secondAttribute="centerX" constant="-0.5" id="gsi-hX-d3I"/>
-                <constraint firstItem="9Nk-sH-Nxy" firstAttribute="top" secondItem="hZA-rW-u1H" secondAttribute="top" constant="319" id="jaa-Ew-8JO"/>
-                <constraint firstItem="yHc-y6-Rn3" firstAttribute="top" secondItem="jHp-3P-wGs" secondAttribute="bottom" constant="8" symbolic="YES" id="nmk-AO-weH"/>
-                <constraint firstAttribute="centerX" secondItem="9Nk-sH-Nxy" secondAttribute="centerX" constant="83.5" id="plb-5i-xQ6"/>
-                <constraint firstItem="XBD-jG-wgO" firstAttribute="top" secondItem="UwJ-4U-Vag" secondAttribute="bottom" constant="30" id="sdu-bN-jrg"/>
-                <constraint firstItem="yHc-y6-Rn3" firstAttribute="trailing" secondItem="XBD-jG-wgO" secondAttribute="trailing" id="wn1-I9-r7y"/>
-                <constraint firstItem="yHc-y6-Rn3" firstAttribute="trailing" secondItem="jHp-3P-wGs" secondAttribute="trailing" id="xPI-5z-Lnj"/>
-                <constraint firstItem="yHc-y6-Rn3" firstAttribute="leading" secondItem="XBD-jG-wgO" secondAttribute="leading" id="yE3-9T-cKB"/>
-            </constraints>
-            <point key="canvasLocation" x="139" y="154"/>
         </view>
         <view contentMode="scaleToFill" id="W6p-PR-4vu">
             <rect key="frame" x="0.0" y="0.0" width="32" height="24"/>
@@ -172,9 +179,4 @@
         <image name="TutorialDoneIcon.png" width="150" height="150"/>
         <image name="Twitter.png" width="45" height="45"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

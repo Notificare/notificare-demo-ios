@@ -14,9 +14,6 @@
 
 @interface PageThreeViewController ()
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UIView *contentView;
-
 @end
 
 @implementation PageThreeViewController
@@ -32,8 +29,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[self scrollView] addSubview:[self contentView]];
     
     UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
     [title setText:@"Notificare"];
@@ -205,11 +200,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    CGRect viewFrame = [[self view] frame];
-    float height = MAX(568, viewFrame.size.height) - 64;
-    [[self contentView] setFrame:CGRectMake(0, 0, viewFrame.size.width, height)];
-    [[self scrollView] setContentSize:CGSizeMake(viewFrame.size.width, height)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBadge) name:@"incomingNotification" object:nil];
 

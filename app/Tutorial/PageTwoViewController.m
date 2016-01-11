@@ -13,9 +13,6 @@
 
 @interface PageTwoViewController ()
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UIView *contentView;
-
 @property (nonatomic, assign) BOOL done;
 
 @end
@@ -33,8 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    [[self scrollView] addSubview:[self contentView]];
     
     [[self view] setBackgroundColor:WILD_SAND_COLOR];
     
@@ -100,10 +95,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    CGRect viewFrame = [[self view] frame];
-    float height = MAX(568, viewFrame.size.height) - 64;
-    [[self contentView] setFrame:CGRectMake(0, 0, viewFrame.size.width, height)];
-    [[self scrollView] setContentSize:CGSizeMake(viewFrame.size.width, height)];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
