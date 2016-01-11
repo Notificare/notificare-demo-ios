@@ -325,7 +325,7 @@
 - (void)notificarePushLib:(NotificarePushLib *)library didFailToRequestAccessNotification:(NSError *)error{
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     
-    if([settings boolForKey:@"tutorialUserRegistered"]){
+    if([settings boolForKey:@"tutorialUserRegistered"] && [[NotificarePushLib shared] checkLocationUpdates]){
         
         SignInViewController * signInView = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
         UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:signInView];
