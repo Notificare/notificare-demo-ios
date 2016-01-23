@@ -185,7 +185,7 @@
             [theItem setValue:LSSTRING(@"menu_item_user") forKey:@"label"];
             [menuItems addObject:theItem];
             
-        } else if([[item objectForKey:@"url"] isEqualToString:@"IBAction:openInbox"]){
+        } else if([[item objectForKey:@"url"] isEqualToString:@"Inbox:"]){
  
             NSMutableDictionary * theItem = [NSMutableDictionary dictionaryWithDictionary:item];
             if([[self notificare] myBadge] > 0){

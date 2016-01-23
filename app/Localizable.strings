@@ -121,3 +121,5 @@
 "error_log_sent" = "Could not send device log at this moment";
 "text_log_subject" = "Device Log";
 "text_log_body" = "Please find my device log attached.";
+"clear_all" = "Clear All";
+"empty_inbox_text" = "No messages found";

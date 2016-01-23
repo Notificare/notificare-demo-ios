@@ -21,6 +21,7 @@
 #import "ResetPassViewController.h"
 #import "ProductsViewController.h"
 #import "LogViewController.h"
+#import "InboxViewController.h"
 #import "NSData+Hex.h"
 #import "Configuration.h"
 #import "NotificareDevice.h"
@@ -232,6 +233,14 @@
                 
                 APP_ALERT_DIALOG(LSSTRING(@"disabled_for_demo_in_app_purchases"));
                 
+            } else if ([[item objectForKey:@"url"] hasPrefix:@"Inbox:"]){
+                
+                
+                InboxViewController * inbox = [[InboxViewController alloc] initWithNibName:@"InboxViewController" bundle:nil];
+                
+                [self setCenterController:[[UINavigationController alloc] initWithRootViewController:inbox]];
+                [[self deckController] setCenterController:[self centerController]];
+                
             }  else if ([[item objectForKey:@"url"] hasPrefix:@"Log:"]){
                 
                 
@@ -289,7 +298,7 @@
 }
 
 -(void)openInbox{
-    [[NotificarePushLib shared] openInbox];
+    //[[NotificarePushLib shared] openInbox];
 }
 
 -(void)openBeacons{
@@ -553,7 +562,7 @@
 // For iOS7 up - No inbox
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
 
-     [[NotificarePushLib shared] saveToInbox:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
+    [[NotificarePushLib shared] handleNotification:userInfo forApplication:application completionHandler:^(NSDictionary *info) {
 
          completionHandler(UIBackgroundFetchResultNewData);
      } errorHandler:^(NSError *error) {

@@ -42,7 +42,7 @@
 			<key>label</key>
 			<string>menu_item_inbox</string>
 			<key>url</key>
-			<string>IBAction:openInbox</string>
+			<string>Inbox:</string>
 		</dict>
 		<dict>
 			<key>label</key>
