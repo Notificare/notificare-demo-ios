@@ -116,19 +116,29 @@
     
     int count = [[NotificarePushLib shared] myBadge];
     
-    
-    if(count > 0){
-        [[self buttonIcon] setTintColor:ICONS_COLOR];
-        [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
+    if([self navSections] && [[self navSections] count] > 0 && [[[self navSections] objectAtIndex:0] count] > 0){
         
-        NSString * badge = [NSString stringWithFormat:@"%i", count];
-        [[self badgeNr] setText:badge];
+        if(count > 0){
+            
+            [[self buttonIcon] setTintColor:ICONS_COLOR];
+            [[self badgeButton] addTarget:[self viewDeckController] action:@selector(toggleLeftView) forControlEvents:UIControlEventTouchUpInside];
+            
+            NSString * badge = [NSString stringWithFormat:@"%i", count];
+            [[self badgeNr] setText:badge];
+            
+            UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
+            [leftButton setTarget:[self viewDeckController]];
+            [leftButton setAction:@selector(toggleLeftView)];
+            [leftButton setTintColor:ICONS_COLOR];
+            [[self navigationItem] setLeftBarButtonItem:leftButton];
+            
+            
+        } else {
+            UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LeftMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleLeftView)];
+            [leftButton setTintColor:ICONS_COLOR];
+            [[self navigationItem] setLeftBarButtonItem:leftButton];
+        }
         
-        UIBarButtonItem * leftButton = [[UIBarButtonItem alloc] initWithCustomView:[self badge]];
-        [leftButton setTarget:[self viewDeckController]];
-        [leftButton setAction:@selector(toggleLeftView)];
-        [leftButton setTintColor:ICONS_COLOR];
-        [[self navigationItem] setLeftBarButtonItem:leftButton];
         
         
         [[self navigationItem] setRightBarButtonItem:self.editButtonItem];
