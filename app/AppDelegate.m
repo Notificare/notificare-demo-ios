@@ -741,8 +741,10 @@
 // You can request a state of a region by doing [[[NotificarePushLib shared] locationManager] requestStateForRegion:(CLRegion *) region];
 
 - (void)notificarePushLib:(NotificarePushLib *)library didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-   // NSLog(@"didDetermineState: %i %@", state, region);
-    
+
+    if([region isKindOfClass:[CLBeaconRegion class]]){
+        NSLog(@"%@", [NSString stringWithFormat:@"didDetermineState from Beacon: %@", [region identifier]] );
+    }
     if([region isKindOfClass:[CLBeaconRegion class]]){
         [self setSupportsBeacons:YES];
     }
