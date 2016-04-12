@@ -41,16 +41,15 @@
 
 
 -(void)reloadData{
-    [self setNavSections:[NSMutableArray array]];
-    [self setSectionTitles:[NSMutableArray array]];
-    
+
     [[self sectionTitles] addObject:LSSTRING(@"menu_item_inbox")];
     
-    [[NotificarePushLib shared] fetchInbox:nil skip:nil limit:nil completionHandler:^(NSDictionary *info) {
-        
+    [[NotificarePushLib shared] fetchInbox:nil skip:[NSNumber numberWithInt:0] limit:[NSNumber numberWithInt:100] completionHandler:^(NSDictionary *info) {
+
         if([[info objectForKey:@"inbox"] count] == 0){
             [[self navSections] addObject:@[]];
         } else {
+            [[self navSections] removeAllObjects];
             [[self navSections] addObject:[info objectForKey:@"inbox"]];
             [[self loadingView] removeFromSuperview];
         }
@@ -58,13 +57,13 @@
         [[self tableView] reloadData];
         [self setupNavigationBar];
     } errorHandler:^(NSError *error) {
+        [[self navSections] removeAllObjects];
         [[self navSections] addObject:@[]];
         [[self tableView] reloadData];
     }];
     
     
 }
-
 
 - (void)viewDidLoad
 {
@@ -78,9 +77,10 @@
     [title setTextColor:ICONS_COLOR];
     [[self navigationItem] setTitleView:title];
     
+    [self setNavSections:[NSMutableArray array]];
+    [self setSectionTitles:[NSMutableArray array]];
+    
     [self showEmptyView];
-    
-    
     [self setupNavigationBar];
     
     //For iOS6
@@ -138,7 +138,7 @@
             [leftButton setTintColor:ICONS_COLOR];
             [[self navigationItem] setLeftBarButtonItem:leftButton];
         }
-        
+
         
         
         [[self navigationItem] setRightBarButtonItem:self.editButtonItem];
@@ -152,13 +152,13 @@
         [[self navigationItem] setRightBarButtonItem:nil];
         
     }
-    
-    
+
+
     
 }
 
 -(void)clearInbox{
-    
+
     [[NotificarePushLib shared] clearInbox:^(NSDictionary *info) {
         
         [self showEmptyView];
@@ -254,8 +254,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NotificareDeviceInbox * item = (NotificareDeviceInbox *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
-    
+     NotificareDeviceInbox * item = (NotificareDeviceInbox *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+
     [[self notificare] openInboxItem:item];
     
 }
@@ -269,7 +269,7 @@
         [[self navigationItem] setLeftBarButtonItem:clearButton];
         [clearButton setTintColor:ICONS_COLOR];
     } else {
-        
+    
         [self setupNavigationBar];
     }
 }
@@ -277,7 +277,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     // If row is deleted, remove it from the list.
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
+
         NotificareDeviceInbox * item = (NotificareDeviceInbox *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
         
         
@@ -304,7 +304,7 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:@"incomingNotification" object:nil];
-    
+
 }
 
 

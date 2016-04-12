@@ -24,6 +24,7 @@
 @class ResetPassViewController;
 @class PageOneViewController;
 @class LogViewController;
+@class AssetsViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, NotificarePushLibDelegate>
 

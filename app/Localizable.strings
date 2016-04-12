@@ -25,6 +25,7 @@
 "menu_item_inbox" = "Inbox";
 "menu_item_beacons" = "iBeacons";
 "menu_item_products" = "Products";
+"menu_item_assets" = "Assets";
 
 "title_signin" = "Sign in";
 "title_signup" = "Sign up";
@@ -123,3 +124,6 @@
 "text_log_body" = "Please find my device log attached.";
 "clear_all" = "Clear All";
 "empty_inbox_text" = "No messages found";
+"empty_assets_text" = "No assets found";
+"search_groups_text" = "Please type the exact group name of the asset group you want to list";
+"type_group_name" = "type a group name";

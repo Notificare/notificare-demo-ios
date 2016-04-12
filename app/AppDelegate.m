@@ -22,6 +22,7 @@
 #import "ProductsViewController.h"
 #import "LogViewController.h"
 #import "InboxViewController.h"
+#import "AssetsViewController.h"
 #import "NSData+Hex.h"
 #import "Configuration.h"
 #import "NotificareDevice.h"
@@ -41,7 +42,7 @@
         
         [[self apiEngine] useCache];
         
-        //[UIImageView setDefaultEngine:[self apiEngine]];
+        [UIImageView setDefaultEngine:[self apiEngine]];
     }
 
 
@@ -239,6 +240,14 @@
                 InboxViewController * inbox = [[InboxViewController alloc] initWithNibName:@"InboxViewController" bundle:nil];
                 
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:inbox]];
+                [[self deckController] setCenterController:[self centerController]];
+                
+            } else if ([[item objectForKey:@"url"] hasPrefix:@"Assets:"]){
+                
+                
+                AssetsViewController * assets = [[AssetsViewController alloc] initWithNibName:@"AssetsViewController" bundle:nil];
+                
+                [self setCenterController:[[UINavigationController alloc] initWithRootViewController:assets]];
                 [[self deckController] setCenterController:[self centerController]];
                 
             }  else if ([[item objectForKey:@"url"] hasPrefix:@"Log:"]){

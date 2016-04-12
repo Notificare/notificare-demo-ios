@@ -16,6 +16,12 @@
 		</dict>
 		<dict>
 			<key>label</key>
+			<string>menu_item_assets</string>
+			<key>url</key>
+			<string>Assets:</string>
+		</dict>
+		<dict>
+			<key>label</key>
 			<string>menu_item_products</string>
 			<key>url</key>
 			<string>Products:SKProduct</string>
@@ -52,7 +58,7 @@
 		</dict>
 	</array>
 	<key>host</key>
-	<string></string>
+	<string>https://push.notifica.re/status</string>
 	<key>facebook</key>
 	<string>392549870780732</string>
 	<key>twitter</key>
