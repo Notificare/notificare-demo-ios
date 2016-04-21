@@ -27,6 +27,7 @@
 			<string>re.notifica.demo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>demoapp</string>
 				<string>nc5489b42ff23e5815132b492a</string>
 				<string>nc5538bbb23a4b1ee45b243461</string>
 			</array>
@@ -42,6 +43,10 @@
 	<string>We would like to use your location to easily provide you maps, directions, updates and alerts based on your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We would like to use your location to easily provide your location in  maps or  give you directions.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>demoapp</string>
+	</array>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>

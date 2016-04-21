@@ -294,9 +294,63 @@
 }
 
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-	[[NotificarePushLib shared]  handleOpenURL:url];
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nonnull id)annotation{
+    [[NotificarePushLib shared]  handleOpenURL:url];
+    [self handleDeepLinks:url];
+    
     return YES;
+}
+
+#pragma Deep Links
+-(void)handleDeepLinks:(NSURL *)url{
+    
+    [[self deckController] toggleLeftViewAnimated:NO completion:^(IIViewDeckController *controller, BOOL success) {
+        NSMutableDictionary * nav = [NSMutableDictionary dictionary];
+        
+        if([[url path] isEqualToString:@"/inbox"]){
+            
+            [nav setObject:@"MainView:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/assets"]){
+            
+            [nav setObject:@"Assets:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/products"]){
+            
+            [nav setObject:@"Products:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/locations"]){
+            
+            [nav setObject:@"MKMapView:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/locations"]){
+            
+            [nav setObject:@"Assets:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/appsettings"]){
+            
+            [nav setObject:@"AppSettings:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/profile"]){
+            
+            [nav setObject:@"Auth:" forKey:@"url"];
+            [self handleNavigation:nav];
+            
+        } else if ([[url path] isEqualToString:@"/settings"]){
+            
+            [nav setObject:@"IBAction:openPreferences" forKey:@"url"];
+            [self handleNavigation:nav];
+    
+        }
+        
+    }];
+    
 }
 
 
@@ -649,6 +703,11 @@
 - (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(NotificareNotification *)notification{
  
     
+}
+
+- (void)notificarePushLib:(NotificarePushLib *)library didClickURL:(NSURL *)url inNotification:(NotificareNotification *)notification{
+    
+    [self handleDeepLinks:url];
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didCloseNotification:(NotificareNotification *)notification{
