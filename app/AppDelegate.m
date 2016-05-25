@@ -640,6 +640,8 @@
     }
     
     [self addToLog:tmpLog];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receivedRemoteNotification" object:nil];
  }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
