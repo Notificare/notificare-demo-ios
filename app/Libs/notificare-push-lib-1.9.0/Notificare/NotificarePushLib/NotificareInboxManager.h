@@ -62,11 +62,29 @@
 
 @interface NotificareInboxManager : NSObject
 
+/*!
+ * @brief Used to determine if NotificarePushLib should update NotificareInboxManager when handling notifications.
+ * @brief Must be set to YES after calling +sharedManager before using.
+ */
+@property (nonatomic) BOOL enabled;
+
 /*! @brief NSArray object holding NotificareManagedDeviceInbox items. */
 @property (nonatomic, copy, readonly) NSArray<NotificareManagedDeviceInbox *> *managedInboxItems;
 
-/*! @brief The delegate object implementing the NotificareInboxManagerDelegate protocol. */
-@property (nonatomic, assign) id<NotificareInboxManagerDelegate> delegate;
+/*! @brief Creates a singleton instance of NotificareInboxManager. */
++ (instancetype)sharedManager;
+
+/*!
+ * @brief Adds an object to the list of delegates.
+ * @param delegate An object implementing the NotificareInboxManagerDelegate protocol
+ */
+- (void)addDelegate:(id<NotificareInboxManagerDelegate>)delegate;
+
+/*!
+ * @brief Removes an object from the list of delegates.
+ * @param delegate An object implementing the NotificareInboxManagerDelegate protocol
+ */
+- (void)removeDelegate:(id<NotificareInboxManagerDelegate>)delegate;
 
 /*! @brief Fetches latest inbox items. */
 - (void)updateInbox;

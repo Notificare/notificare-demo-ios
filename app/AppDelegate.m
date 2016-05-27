@@ -26,7 +26,7 @@
 #import "NSData+Hex.h"
 #import "Configuration.h"
 #import "NotificareDevice.h"
-
+#import "NotificareInboxManager.h"
 
 
 @implementation AppDelegate
@@ -640,8 +640,6 @@
     }
     
     [self addToLog:tmpLog];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"receivedRemoteNotification" object:nil];
  }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
@@ -703,7 +701,6 @@
 }
 
 - (void)notificarePushLib:(NotificarePushLib *)library didOpenNotification:(NotificareNotification *)notification{
- 
     
 }
 
