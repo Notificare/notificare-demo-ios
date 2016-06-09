@@ -14,5 +14,6 @@
 @property (strong, nonatomic) NSString * attachmentURI;
 @property (strong, nonatomic) NSString * attachmentMimeType;
 
+- (void)setValuesWithAttachmentJSON:(NSDictionary *)attachmentJSON;
 
 @end

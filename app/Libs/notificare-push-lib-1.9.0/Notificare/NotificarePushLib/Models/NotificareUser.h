@@ -20,4 +20,6 @@
 @property (strong, nonatomic) NSString * userName;
 @property (nonatomic, assign) BOOL validated;
 
+- (void)setValuesWithUserJSON:(NSDictionary *)userJSON;
+
 @end

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "NotificareAction.h"
+#import "NotificareContent.h"
+#import "NotificareAttachment.h"
 
 @interface NotificareNotification : NSObject <NSCoding>
 
@@ -29,5 +32,6 @@
 @property (strong, nonatomic) NSDictionary * notificationInfo;
 @property (strong, nonatomic) NSNumber * displayMessage;
 
+- (void)setValuesWithNotificationJSON:(NSDictionary *)notificationJSON;
 
 @end

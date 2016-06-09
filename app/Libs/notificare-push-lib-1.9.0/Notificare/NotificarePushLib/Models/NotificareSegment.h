@@ -14,4 +14,7 @@
 @property (strong, nonatomic) NSString * segmentId;
 @property (assign, nonatomic) BOOL selected;
 
+- (void)setValuesWithSegmentJSON:(NSDictionary *)segmentJSON;
+- (void)setValuesWithPreferenceOptionJSON:(NSDictionary *)preferenceOptionJSON;
+
 @end

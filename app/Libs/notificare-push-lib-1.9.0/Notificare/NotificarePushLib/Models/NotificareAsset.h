@@ -16,4 +16,6 @@
 @property (strong, nonatomic) NSDictionary * assetButton;
 @property (strong, nonatomic) NSDictionary * assetMetaData;
 
+- (void)setValuesWithAssetJSON:(NSDictionary *)assetJSON andWithFetchAssetURLString:(NSString *)fetchAssetURLString;
+
 @end

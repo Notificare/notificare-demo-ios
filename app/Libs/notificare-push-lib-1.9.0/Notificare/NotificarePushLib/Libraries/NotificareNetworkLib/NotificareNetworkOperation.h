@@ -68,6 +68,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
     NotificareNetworkResponseStatusCodeUnauthorized                     = 401,
     NotificareNetworkResponseStatusCodePaymentRequired                  = 402,
     NotificareNetworkResponseStatusCodeForbidden                        = 403,
+    NotificareNetworkResponseStatusCodeNotFound                         = 404,
     NotificareNetworkResponseStatusCodeMethodNotAllowed                 = 405,
     NotificareNetworkResponseStatusCodeNotAcceptable                    = 406,
     NotificareNetworkResponseStatusCodeProxyAuthenticationRequired      = 407,

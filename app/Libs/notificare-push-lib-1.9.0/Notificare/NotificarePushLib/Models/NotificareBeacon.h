@@ -29,4 +29,6 @@
 @property (strong, nonatomic) NSString * timezone;
 @property (assign, nonatomic) BOOL triggers;
 
+- (void)setValuesWithBeaconJSON:(NSDictionary *)beaconJSON;
+
 @end
