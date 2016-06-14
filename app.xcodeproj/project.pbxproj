@@ -178,7 +178,7 @@
 		4E53466A1CF5FA3E00AF5540 /* NotificareManagedModels.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4E5346651CF5FA3E00AF5540 /* NotificareManagedModels.bundle */; };
 		4E53466B1CF5FA3E00AF5540 /* NotificareTags.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4E5346661CF5FA3E00AF5540 /* NotificareTags.plist */; };
 		4E53466D1CF5FA9000AF5540 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E53466C1CF5FA9000AF5540 /* CoreData.framework */; };
-		4E542E121D0964B1007EEEB0 /* libNotificarePushLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E542D9F1D0964B1007EEEB0 /* libNotificarePushLib.a */; };
+		4E542E1C1D103198007EEEB0 /* libNotificarePushLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E542E1B1D103198007EEEB0 /* libNotificarePushLib.a */; };
 		5D4152151CA9BE4A00167C99 /* AssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D41520F1CA9BE4A00167C99 /* AssetsViewController.m */; };
 		5D4152161CA9BE4A00167C99 /* AssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4152101CA9BE4A00167C99 /* AssetCell.xib */; };
 		5D4152171CA9BE4A00167C99 /* AssetsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4152111CA9BE4A00167C99 /* AssetsViewController.xib */; };
@@ -434,7 +434,6 @@
 		4E5346651CF5FA3E00AF5540 /* NotificareManagedModels.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NotificareManagedModels.bundle; sourceTree = "<group>"; };
 		4E5346661CF5FA3E00AF5540 /* NotificareTags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareTags.plist; sourceTree = "<group>"; };
 		4E53466C1CF5FA9000AF5540 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		4E542D9F1D0964B1007EEEB0 /* libNotificarePushLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotificarePushLib.a; sourceTree = "<group>"; };
 		4E542DA31D0964B1007EEEB0 /* ActionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionDelegate.h; sourceTree = "<group>"; };
 		4E542DA41D0964B1007EEEB0 /* ActionType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionType.h; sourceTree = "<group>"; };
 		4E542DA61D0964B1007EEEB0 /* NotificareApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareApp.h; sourceTree = "<group>"; };
@@ -517,6 +516,7 @@
 		4E542E0D1D0964B1007EEEB0 /* NotificareUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareUserViewController.h; sourceTree = "<group>"; };
 		4E542E0F1D0964B1007EEEB0 /* NotificareVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareVideo.h; sourceTree = "<group>"; };
 		4E542E111D0964B1007EEEB0 /* NotificareWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareWebView.h; sourceTree = "<group>"; };
+		4E542E1B1D103198007EEEB0 /* libNotificarePushLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotificarePushLib.a; sourceTree = "<group>"; };
 		5D41520F1CA9BE4A00167C99 /* AssetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsViewController.m; sourceTree = "<group>"; };
 		5D4152101CA9BE4A00167C99 /* AssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetCell.xib; sourceTree = "<group>"; };
 		5D4152111CA9BE4A00167C99 /* AssetsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetsViewController.xib; sourceTree = "<group>"; };
@@ -560,7 +560,7 @@
 				408384C418FF09AF000DC352 /* MobileCoreServices.framework in Frameworks */,
 				408384C218FF09A7000DC352 /* CoreLocation.framework in Frameworks */,
 				4083848D18FF015C000DC352 /* CoreGraphics.framework in Frameworks */,
-				4E542E121D0964B1007EEEB0 /* libNotificarePushLib.a in Frameworks */,
+				4E542E1C1D103198007EEEB0 /* libNotificarePushLib.a in Frameworks */,
 				4083848F18FF015C000DC352 /* UIKit.framework in Frameworks */,
 				4083848B18FF015C000DC352 /* Foundation.framework in Frameworks */,
 			);
@@ -968,7 +968,7 @@
 			isa = PBXGroup;
 			children = (
 				4E5345EE1CF5FA3E00AF5540 /* DefaultTheme.bundle */,
-				4E542D9F1D0964B1007EEEB0 /* libNotificarePushLib.a */,
+				4E542E1B1D103198007EEEB0 /* libNotificarePushLib.a */,
 				4E542DA01D0964B1007EEEB0 /* Notificare */,
 				4E5346641CF5FA3E00AF5540 /* Notificare.plist */,
 				4E5346651CF5FA3E00AF5540 /* NotificareManagedModels.bundle */,
