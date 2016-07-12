@@ -4,8 +4,9 @@
 <dict>
 	<key>tags</key>
 	<array>
-		<string>tag_something</string>
-		<string>tag_something2</string>
+		<string>tag_press</string>
+		<string>tag_events</string>
+		<string>tag_newsletter</string>
 	</array>
 </dict>
 </plist>
