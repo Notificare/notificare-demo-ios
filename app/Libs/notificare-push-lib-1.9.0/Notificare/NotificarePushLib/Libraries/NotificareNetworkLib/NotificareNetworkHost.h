@@ -12,7 +12,7 @@
 @interface NotificareNetworkHost : NSObject
 
 /*! @brief The host's domain name. Used when creating operations and to determine reachability status. */
-@property (strong, nonatomic, readonly) NSString *hostName;
+@property (strong, nonatomic, readonly, nonnull) NSString *hostName;
 
 /*! @brief The port number that will be connected to. */
 @property (nonatomic, readonly) NSUInteger portNumber;
@@ -21,13 +21,13 @@
 @property (nonatomic) BOOL isSecure;
 
 /*! @brief The base path used when creating operations. */
-@property (strong, nonatomic) NSString *basePath;
+@property (strong, nonatomic, nullable) NSString *basePath;
 
 /*! @brief Default username for operations created with this class. */
-@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic, nullable) NSString *username;
 
 /*! @brief Default password for operations created with this class. */
-@property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic, nullable) NSString *password;
 
 /*! @brief Default value for operations created with this class, determining whether basic authorization should be used. */
 @property (nonatomic) BOOL useBasicAuth;
@@ -39,14 +39,14 @@
 @property (nonatomic, readonly) BOOL isReachable;
 
 /*! @brief The completion handler to call when you finish processing the events. Calling this completion handler lets the system know that your app’s user interface is updated and a new snapshot can be taken. */
-@property (nonatomic, copy) void (^backgroundSessionCompletionHandler)(void);
+@property (nonatomic, copy, nullable) void (^backgroundSessionCompletionHandler)(void);
 
 /*!
  * @brief Creates a new NotificareNetworkHost instance with a host name.
  * @param hostName The host's domain name
  * @return The created NotificareNetworkHost instance
  */
-- (instancetype)initWithHostName:(NSString *)hostName;
+- (instancetype _Nullable)initWithHostName:(NSString * _Nonnull)hostName;
 
 /*!
  * @brief Creates a new NotificareNetworkHost instance with a host name and port number.
@@ -54,7 +54,7 @@
  * @param portNumber The port number that will be connected to.
  * @return The created NotificareNetworkHost instance.
  */
-- (instancetype)initWithHostName:(NSString *)hostName portNumber:(NSUInteger)portNumber;
+- (instancetype _Nullable)initWithHostName:(NSString * _Nonnull)hostName portNumber:(NSUInteger)portNumber;
 
 /*!
  * @brief Creates a new NotificareNetworkHost instance with a host name and SSL parameter.
@@ -62,7 +62,7 @@
  * @param isSecure BOOL value that determines if SSL will be used for operations created
  * @return The created NotificareNetworkHost instance
  */
-- (instancetype)initWithHostName:(NSString *)hostName isSecure:(BOOL)isSecure;
+- (instancetype _Nullable)initWithHostName:(NSString * _Nonnull)hostName isSecure:(BOOL)isSecure;
 
 /*!
  * @brief Creates a new NotificareNetworkHost instance with a host name, port number and SSL parameter.
@@ -71,13 +71,13 @@
  * @param isSecure BOOL value that determines if SSL will be used for operations created
  * @return The created NotificareNetworkHost instance
  */
-- (instancetype)initWithHostName:(NSString *)hostName portNumber:(NSUInteger)portNumber isSecure:(BOOL)isSecure;
+- (instancetype _Nullable)initWithHostName:(NSString * _Nonnull)hostName portNumber:(NSUInteger)portNumber isSecure:(BOOL)isSecure;
 
 /*!
  * @brief Creates a background NSURLSession, so background requests can be executed.
  * @param identifier Unique NSString for used to create background session
  */
-- (void)createBackgroundSessionWithIdentifier:(NSString *)identifier;
+- (void)createBackgroundSessionWithIdentifier:(NSString * _Nonnull)identifier;
 
 /*!
  * @brief Sets username, password and useBasicAuth properties.
@@ -85,7 +85,7 @@
  * @param password Default password for operations created with this class
  * @param useBasicAuth Default value for operations created with this class, determining whether basic authorization should be used
  */
-- (void)setUsername:(NSString *)username password:(NSString *)password useBasicAuth:(BOOL)useBasicAuth;
+- (void)setUsername:(NSString * _Nullable)username password:(NSString * _Nullable)password useBasicAuth:(BOOL)useBasicAuth;
 
 /*!
  * @brief Creates a new NotificareNetworkOperation instance.
@@ -93,7 +93,7 @@
  * @param path Path relative to hostName and basePath
  * @return The created NotificareNetworkOperation instance.
  */
-- (NotificareNetworkOperation *)operationWithHTTPMethod:(NSString *)HTTPMethod withPath:(NSString *)path;
+- (NotificareNetworkOperation * _Nullable)operationWithHTTPMethod:(NSString * _Nonnull)HTTPMethod withPath:(NSString * _Nullable)path;
 
 /*!
  * @brief Creates a new NotificareNetworkOperation instance.
@@ -102,25 +102,25 @@
  * @param URLParams URL encoded parameters that will be added to the operation's URLString
  * @return The created NotificareNetworkOperation instance.
  */
-- (NotificareNetworkOperation *)operationWithHTTPMethod:(NSString *)HTTPMethod withPath:(NSString *)path andWithURLParams:(NSDictionary<NSString *, NSString *> *)URLParams;
+- (NotificareNetworkOperation * _Nullable)operationWithHTTPMethod:(NSString * _Nonnull)HTTPMethod withPath:(NSString * _Nullable)path andWithURLParams:(NSDictionary<NSString *, NSString *> * _Nullable)URLParams;
 
 /*!
  * @brief Starts an operation if its state equals NotificareNetworkOperationStateReady. Make sure to call -buildRequest on the operation first.
  * @param operation The NotificareNetworkOperation object that should be executed
  */
-- (void)startOperation:(NotificareNetworkOperation *)operation;
+- (void)startOperation:(NotificareNetworkOperation * _Nonnull)operation;
 
 /*!
  * @brief Adds an operation to queue named "default". Will be executed when it's the first item in its queue and host is reachable.
  * @param The NotificareNetworkOperation object that will be queued
  */
-- (void)enqueueOperation:(NotificareNetworkOperation *)operation;
+- (void)enqueueOperation:(NotificareNetworkOperation * _Nonnull)operation;
 
 /*!
  * @brief Adds an operation to a named queue. Will be executed when it's the first item in its queue and host is reachable.
  * @param The NotificareNetworkOperation object that will be queued
  * @param The name of the queue that will be used
  */
-- (void)enqueueOperation:(NotificareNetworkOperation *)operation queue:(NSString *)queueName;
+- (void)enqueueOperation:(NotificareNetworkOperation * _Nonnull)operation queue:(NSString * _Nonnull)queueName;
 
 @end

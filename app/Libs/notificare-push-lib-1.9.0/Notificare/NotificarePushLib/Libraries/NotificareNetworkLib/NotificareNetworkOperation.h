@@ -112,19 +112,19 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
 @interface NotificareNetworkAttachment : NSObject
 
 /*! @brief Name parameter for multipart/form-data part. */
-@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic, nonnull) NSString *name;
 
 /*! @brief File name parameter for multipart/form-data part. */
-@property (strong, nonatomic) NSString *fileName;
+@property (strong, nonatomic, nonnull) NSString *fileName;
 
 /*! @brief Content type parameter for multipart/form-data part. */
-@property (strong, nonatomic) NSString *contentType;
+@property (strong, nonatomic, nonnull) NSString *contentType;
 
 /*! @brief Content transfer encoding parameter for multipart/form-data part. Uses "binary" if set to nil. */
-@property (strong, nonatomic) NSString *contentTransferEncoding;
+@property (strong, nonatomic, nullable) NSString *contentTransferEncoding;
 
 /*! @brief Filed contents for multipart/form-data part. */
-@property (strong, nonatomic) NSData *fileData;
+@property (strong, nonatomic, nonnull) NSData *fileData;
 
 @end
 
@@ -136,10 +136,10 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @brief HTTP method, i.e. @"POST".
  * Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (strong, nonatomic) NSString *HTTPMethod;
+@property (strong, nonatomic, nonnull) NSString *HTTPMethod;
 
 /*! @brief The full URL string including scheme, domain, path and query parameters. */
-@property (strong, nonatomic, readonly) NSString *URLString;
+@property (strong, nonatomic, readonly, nonnull) NSString *URLString;
 
 /*! @brief BOOL value that is determined by the URLString's scheme. */
 @property (nonatomic, readonly) BOOL isSecure;
@@ -167,19 +167,19 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
 @property (nonatomic) NSURLRequestCachePolicy cachePolicy;
 
 /*! @brief List of headers that will be added to the request when building. */
-@property (copy, nonatomic, readonly) NSDictionary<NSString *, NSString *> *headers;
+@property (copy, nonatomic, readonly, nonnull) NSDictionary<NSString *, NSString *> *headers;
 
 /*!
  * @brief The user name that will be used for authenticated requests.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic, nullable) NSString *username;
 
 /*!
  * @brief The password that will be used for authenticated requests.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic, nullable) NSString *password;
 
 /*!
  * @brief BOOL value determining whether or not basic authentication should be used.
@@ -194,48 +194,48 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @brief The payload or request body.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (strong, nonatomic) NSData *requestBodyData;
+@property (strong, nonatomic, nullable) NSData *requestBodyData;
 
 /*!
  * @brief NSData object to be uploaded.
  * @brief Only usable if taskType equals NotificareNetworkOperationTaskTypeUpload.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (strong, nonatomic) NSData *requestUploadData;
+@property (strong, nonatomic, nullable) NSData *requestUploadData;
 
 /*!
  * @brief NSURL file to be uploaded..
  * @brief Only usable if taskType equals NotificareNetworkOperationTaskTypeUpload.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (strong, nonatomic) NSURL *requestUploadFile;
+@property (strong, nonatomic, nullable) NSURL *requestUploadFile;
 
 /*! @brief NSURL location NotificareNetworkOperationTaskTypeDownload taskType should move its downloaded file to. */
-@property (strong, nonatomic) NSURL *downloadLocation;
+@property (strong, nonatomic, nullable) NSURL *downloadLocation;
 
 /*! 
  * @brief The NSURLRequest object as configured by this class.
  * @brief Only available after calling -buildRequest.
  */
-@property (strong, nonatomic, readonly) NSURLRequest *request;
+@property (strong, nonatomic, readonly, nullable) NSURLRequest *request;
 
 /*!
  * @brief The (initial) NSURLSessionTask object created by a NotificareNetworkHost instance.
  * @brief Available once operation has been passed to -[NotificareNetworkHost startOperation:].
  */
-@property (strong, nonatomic, readonly) NSURLSessionTask *task;
+@property (strong, nonatomic, readonly, nullable) NSURLSessionTask *task;
 
 /*! @brief Progress value for NotificareNetworkOperationTaskTypeDownload and NotificareNetworkOperationTaskTypeUpload taskTypes. */
 @property (nonatomic, readonly) double progress;
 
 /*! @brief NSHTTPURLResponse object available once task has completed. */
-@property (strong, nonatomic, readonly) NSHTTPURLResponse *HTTPResponse;
+@property (strong, nonatomic, readonly, nullable) NSHTTPURLResponse *HTTPResponse;
 
 /*! @brief Raw response data available once task has completed. */
-@property (strong, nonatomic, readonly) NSData *responseData;
+@property (strong, nonatomic, readonly, nullable) NSData *responseData;
 
 /*! @brief Error object available once task has completed with an error. */
-@property (strong, nonatomic, readonly) NSError *error;
+@property (strong, nonatomic, readonly, nullable) NSError *error;
 
 /*!
  * @brief The number of times request will be retried if there's no client error. Defaults to 0. Set to -1 for infinite.
@@ -256,7 +256,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
 @property (nonatomic) NSTimeInterval longevity;
 
 /*! @brief NSDate object created when starting or enqueuing the operation. */
-@property (strong, nonatomic, readonly) NSDate *startDate;
+@property (strong, nonatomic, readonly, nullable) NSDate *startDate;
 
 /*! @brief Denotes whether the operation has expired. */
 @property (nonatomic, readonly) BOOL isExpired;
@@ -265,13 +265,13 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @brief Code block that is executed when a task successfully completes.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (copy, nonatomic) void (^successHandler)(NotificareNetworkOperation *operation);
+@property (copy, nonatomic, nullable) void (^successHandler)( NotificareNetworkOperation * _Nonnull operation);
 
 /*!
  * @brief Code block that is executed when a task completes with an error.
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  */
-@property (copy, nonatomic) void (^errorHandler)(NotificareNetworkOperation *operation, NSError *error);
+@property (copy, nonatomic, nullable) void (^errorHandler)(NotificareNetworkOperation * _Nonnull operation, NSError * _Nonnull error);
 
 /*!
  * @brief Determines whether or not NotificareNetworkHost should wait for the host to become reachable before executing the operation.
@@ -290,7 +290,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param HTTPMethod HTTP method, i.e. @"POST"
  * @param URLString The full URL string, including scheme, domain, path and anything else
  */
-- (instancetype)initWithHTTPMethod:(NSString *)HTTPMethod andWithURLString:(NSString *)URLString;
+- (instancetype _Nullable)initWithHTTPMethod:(NSString * _Nonnull)HTTPMethod andWithURLString:(NSString * _Nonnull)URLString;
 
 /*!
  * @brief Creates a new NotificareNetworkOperation instance.
@@ -298,7 +298,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param baseURLString A URL string with a scheme, domain and path but no query string
  * @param URLParams URL encoded parameters that will add a query string to the baseURLString
  */
-- (instancetype)initWithHTTPMethod:(NSString *)HTTPMethod withBaseURLString:(NSString *)baseURLString andWithURLParams:(NSDictionary<NSString *, NSString *> *)URLParams;
+- (instancetype _Nullable)initWithHTTPMethod:(NSString * _Nonnull)HTTPMethod withBaseURLString:(NSString * _Nonnull)baseURLString andWithURLParams:(NSDictionary<NSString *, NSString *> * _Nullable)URLParams;
 
 /*!
  * @brief Method to set the URLString property.
@@ -306,7 +306,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param baseURLString A URL string with a scheme, domain and path but no query string
  * @param URLParams URL encoded parameters that will add a query string to the baseURLString
  */
-- (void)setURLString:(NSString *)baseURLString withURLParams:(NSDictionary<NSString *, NSString *> *)URLParams;
+- (void)setURLString:(NSString * _Nonnull)baseURLString withURLParams:(NSDictionary<NSString *, NSString *> * _Nullable)URLParams;
 
 /*!
  * @brief Sets a header value for a specified field.
@@ -314,21 +314,21 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param fieldValue The value to be set.
  * @parm fieldName The name of the field.
  */
-- (void)setHeader:(NSString *)fieldValue forFieldName:(NSString *)fieldName;
+- (void)setHeader:(NSString * _Nullable)fieldValue forFieldName:(NSString * _Nonnull)fieldName;
 
 /*!
  * @brief Sets multiple header values.
  * @brief Can only be added if state equals NotificareNetworkOperationStateConfig.
  * @param headers Dictionary where the key equals the header's field name and the value the header's field value.
  */
-- (void)addHeaders:(NSDictionary<NSString *, NSString *> *)headers;
+- (void)addHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers;
 
 /*!
  * @brief Removes specific header values.
  * @brief Can only be removed if state equals NotificareNetworkOperationStateConfig.
  * @param fieldNames The header field names that will be removed.
  */
-- (void)removeHeaders:(NSArray<NSString *> *)fieldNames;
+- (void)removeHeaders:(NSArray<NSString *> * _Nonnull)fieldNames;
 
 /*!
  * @brief Removes all header values.
@@ -343,7 +343,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param password The password that will be used for authenticated requests
  * @param useBasicAuth Denotes whether or not basic authentication should be used
  */
-- (void)setUsername:(NSString *)username password:(NSString *)password useBasicAuth:(BOOL)useBasicAuth;
+- (void)setUsername:(NSString * _Nullable)username password:(NSString * _Nullable)password useBasicAuth:(BOOL)useBasicAuth;
 
 /*!
  * @brief Creates a url encoded query string to use as a request body.
@@ -351,7 +351,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  * @param params Dictionary where keys will be uses for parameter names and values for parameter values
  */
-- (void)setRequestBodyDataWithParams:(NSDictionary<NSString *, NSString *> *)params;
+- (void)setRequestBodyDataWithParams:(NSDictionary<NSString *, NSString *> * _Nonnull)params;
 
 /*!
  * @brief Creates a multipart request body from parameters and attachments.
@@ -360,7 +360,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param params Dictionary where keys will be uses for parameter names and values for parameter values
  * @param attachment List of NotificareNetworkAttachment objects
  */
-- (void)setRequestBodyDataWithParams:(NSDictionary<NSString *, NSString *> *)params andWithAttachments:(NSArray<NotificareNetworkAttachment *> *)attachments;
+- (void)setRequestBodyDataWithParams:(NSDictionary<NSString *, NSString *> * _Nonnull)params andWithAttachments:(NSArray<NotificareNetworkAttachment *> * _Nonnull)attachments;
 
 /*!
  * @brief Sets request body from a JSON object.
@@ -368,7 +368,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @brief Can only be set if state equals NotificareNetworkOperationStateConfig.
  * @param JSON An object that can be converted to JSON, such as an NSArray or NSDictionary object
  */
-- (void)setRequestBodyDataWithJSON:(id)JSON;
+- (void)setRequestBodyDataWithJSON:(id _Nonnull)JSON;
 
 /*! 
  * @brief Sets request body from a UIImage object.
@@ -377,7 +377,7 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @param image The image object to be encoded
  * @param type "jpeg" or "png"
  */
-- (void)setRequestBodyDataWithImage:(UIImage *)image type:(NSString *)type;
+- (void)setRequestBodyDataWithImage:(UIImage * _Nonnull)image type:(NSString * _Nonnull)type;
 
 /*!
  * @brief Creates an NSURLRequest object based on HTTPMethod, URLString, headers and requestBody.
@@ -396,19 +396,19 @@ typedef NS_ENUM(NSInteger, NotificareNetworkResponseStatusCode) {
  * @brief Converts responseData to a UTF8 encoded string.
  * @return A UTF8 encoded NSString object.
  */
-- (NSString *)responseDataToUTF8String;
+- (NSString * _Nullable)responseDataToUTF8String;
 
 /*!
  * @brief Tries to deserialize responseData into a JSON object.
  * @return A JSON object such as an NSArray or NSDictionary object.
  */
-- (id)responseDataToJSON;
+- (id _Nullable)responseDataToJSON;
 
 /*!
  * @brief Creates a UIImage object with the responseData.
  * @return A UIImage object.
  */
-- (UIImage *)responseDataToImage;
+- (UIImage * _Nullable)responseDataToImage;
 
 
 
