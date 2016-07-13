@@ -45,6 +45,9 @@
 @property (strong, nonatomic) MFMailComposeViewController *mailComposer;
 @property (nonatomic, strong) SignInViewController * signInView;
 @property (nonatomic, strong) UserDetailsOptionsViewController * optionsView;
+@property (nonatomic, strong) UIDatePicker * startPicker;
+@property (nonatomic, strong) UIDatePicker * endPicker;
+@property (nonatomic, strong) NSMutableArray * dnd;
 
 -(IBAction)generateToken:(id)sender;
 -(IBAction)changePass:(id)sender;

@@ -127,3 +127,8 @@
 "empty_assets_text" = "No assets found";
 "search_groups_text" = "Please type the exact group name of the asset group you want to list";
 "type_group_name" = "type a group name";
+
+"title_section_do_not_disturb" = "Do Not Disturb";
+"quiet_times" = "Use Do Not Disturb";
+"start_time" = "From";
+"end_time" = "To";
