@@ -521,7 +521,7 @@
              */
             
             NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"hh:mm"];
+            [dateFormat setDateFormat:@"HH:mm"];
             NSDate *date = [dateFormat dateFromString:[NSString stringWithFormat:@"%@", [item objectForKey:@"value"]]];
             
             if ([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"start_time")]) {
@@ -835,7 +835,7 @@
             
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"hh:mm"];
+            [dateFormatter setDateFormat:@"HH:mm"];
             NSString *startTime = [dateFormatter stringFromDate:[info objectForKey:@"start"]];
             NSString *endTime = [dateFormatter stringFromDate:[info objectForKey:@"end"]];
             
@@ -889,7 +889,7 @@
                                 @"action":@""}];
         
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"hh:mm"];
+        [dateFormat setDateFormat:@"HH:mm"];
         NSDate *startTime = [dateFormat dateFromString:@"00:00"];
         NSDate *endTime = [dateFormat dateFromString:@"08:00"];
         
@@ -918,7 +918,7 @@
 -(void)timeChanged:(id)sender{
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"hh:mm"];
+    [dateFormatter setDateFormat:@"HH:mm"];
     NSString *startTime = [dateFormatter stringFromDate:self.startPicker.date];
     NSString *endTime = [dateFormatter stringFromDate:self.endPicker.date];
     
