@@ -58,6 +58,7 @@
     
     
     [[self sectionTitles] addObject:LSSTRING(@"title_section_user")];
+    [[self sectionTitles] addObject:LSSTRING(@"title_section_do_not_disturb")];
     [[self sectionTitles] addObject:LSSTRING(@"title_section_segments")];
     
     
@@ -168,7 +169,7 @@
             [[self segments] addObject:preference];
         }
         
-        [self setupTable];
+        [self loadDnD];
         
     } errorHandler:^(NSError *error) {
         [self loadSegments];
@@ -214,6 +215,7 @@
     
     
     [[self navSections] addObject:userCell];
+    [[self navSections] addObject:[self dnd]];
     [[self navSections] addObject:[self segments]];
     
     [[self tableView] reloadData];
@@ -459,6 +461,90 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
+        
+    } else if([indexPath section] == 1){
+        
+        if([indexPath row] == 0){
+            
+            static NSString* cellType = @"SegmentCell";
+            SegmentCell * cell = (SegmentCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
+            
+            if (cell == nil) {
+                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellType owner:nil options:nil];
+                cell = (SegmentCell*)[nib objectAtIndex:0];
+            }
+            
+            NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+            
+            [[cell textLabel] setText:[item objectForKey:@"label"]];
+            [[cell textLabel] setFont:LATO_LIGHT_FONT(14)];
+            
+            
+            UISwitch * notificationSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [cell setAccessoryView:notificationSwitch];
+            
+            if([[item objectForKey:@"value"] isEqualToString:@"true"]){
+                [notificationSwitch setOn:YES];
+            } else {
+                [notificationSwitch setOn:NO];
+            }
+            
+            [notificationSwitch addTarget:self action:@selector(toggleQuietTimes:) forControlEvents:UIControlEventValueChanged];
+            
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return cell;
+            
+            
+        } else {
+            
+            
+            static NSString* cellType = @"SegmentCell";
+            SegmentCell * cell = (SegmentCell *)[tableView dequeueReusableCellWithIdentifier:cellType];
+            
+            if (cell == nil) {
+                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:cellType owner:nil options:nil];
+                cell = (SegmentCell*)[nib objectAtIndex:0];
+            }
+            
+            NSDictionary * item = (NSDictionary *)[[[self navSections] objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];
+            
+            [[cell textLabel] setText:[item objectForKey:@"label"]];
+            [[cell textLabel] setFont:LATO_LIGHT_FONT(14)];
+            
+            /*
+             UILabel * accessoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+             accessoryLabel.text = [item objectForKey:@"value"];
+             accessoryLabel.font = LATO_FONT(14);
+             accessoryLabel.textAlignment = NSTextAlignmentRight;
+             [cell setAccessoryView:accessoryLabel];
+             */
+            
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"HH:mm"];
+            NSDate *date = [dateFormat dateFromString:[NSString stringWithFormat:@"%@", [item objectForKey:@"value"]]];
+            
+            if ([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"start_time")]) {
+                self.startPicker = [[UIDatePicker alloc] init];
+                self.startPicker.frame = CGRectMake(0, 0, 100, 60); // set frame as your need
+                self.startPicker.datePickerMode = UIDatePickerModeTime;
+                self.startPicker.date = date;
+                [cell setAccessoryView:[self startPicker]];
+                [[self startPicker] addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
+            } else {
+                self.endPicker = [[UIDatePicker alloc] init];
+                self.endPicker.frame = CGRectMake(0, 0, 100, 60); // set frame as your need
+                self.endPicker.datePickerMode = UIDatePickerModeTime;
+                self.endPicker.date = date;
+                [cell setAccessoryView:[self endPicker]];
+                [[self endPicker] addTarget:self action:@selector(timeChanged:) forControlEvents:UIControlEventValueChanged];
+            }
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return cell;
+            
+        }
+        
         
     } else {
         
@@ -735,6 +821,127 @@
         }
         
     }
+    
+}
+
+
+-(void)loadDnD{
+    
+    [self setDnd:[NSMutableArray array]];
+    
+    [[self notificare] fetchDoNotDisturb:^(NSDictionary *info) {
+        
+        if([info objectForKey:@"start"] && [info objectForKey:@"end"]){
+            
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"HH:mm"];
+            NSString *startTime = [dateFormatter stringFromDate:[info objectForKey:@"start"]];
+            NSString *endTime = [dateFormatter stringFromDate:[info objectForKey:@"end"]];
+            
+            
+            [[self dnd] addObject:@{@"value": @"true",
+                                    @"label":LSSTRING(@"quiet_times"),
+                                    @"action":@""}];
+            
+            [[self dnd] addObject:@{@"value": startTime,
+                                    @"label":LSSTRING(@"start_time"),
+                                    @"action":@""}];
+            
+            [[self dnd] addObject:@{@"value": endTime,
+                                    @"label":LSSTRING(@"end_time"),
+                                    @"action":@""}];
+            
+        } else {
+            
+            [[self dnd] addObject:@{@"value": @"false",
+                                    @"label":LSSTRING(@"quiet_times"),
+                                    @"action":@""}];
+        }
+        
+        
+        [self setupTable];
+        
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+
+
+-(void)toggleQuietTimes:(id)sender{
+    
+    
+    [self setDnd:[NSMutableArray array]];
+    
+    if ([(UISwitch *)sender isOn]) {
+        
+        [[self dnd] addObject:@{@"value": @"true",
+                                @"label":LSSTRING(@"quiet_times"),
+                                @"action":@""}];
+        
+        [[self dnd] addObject:@{@"value": @"00:00",
+                                @"label":LSSTRING(@"start_time"),
+                                @"action":@""}];
+        
+        [[self dnd] addObject:@{@"value": @"08:00",
+                                @"label":LSSTRING(@"end_time"),
+                                @"action":@""}];
+        
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"HH:mm"];
+        NSDate *startTime = [dateFormat dateFromString:@"00:00"];
+        NSDate *endTime = [dateFormat dateFromString:@"08:00"];
+        
+        [[self notificare] updateDoNotDisturb:startTime endTime:endTime completionHandler:^(NSDictionary *info) {
+            [self setupTable];
+        } errorHandler:^(NSError *error) {
+            
+        }];
+        
+    } else {
+        
+        [[self dnd] addObject:@{@"value": @"false",
+                                @"label":LSSTRING(@"quiet_times"),
+                                @"action":@""}];
+        
+        [[self notificare] clearDoNotDisturb:^(NSDictionary *info) {
+            [self setupTable];
+        } errorHandler:^(NSError *error) {
+            [self setupTable];
+        }];
+    }
+    
+}
+
+
+-(void)timeChanged:(id)sender{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    NSString *startTime = [dateFormatter stringFromDate:self.startPicker.date];
+    NSString *endTime = [dateFormatter stringFromDate:self.endPicker.date];
+    
+    [self setDnd:[NSMutableArray array]];
+    
+    
+    [[self dnd] addObject:@{@"value": @"true",
+                            @"label":LSSTRING(@"quiet_times"),
+                            @"action":@""}];
+    
+    [[self dnd] addObject:@{@"value": startTime,
+                            @"label":LSSTRING(@"start_time"),
+                            @"action":@""}];
+    
+    [[self dnd] addObject:@{@"value": endTime,
+                            @"label":LSSTRING(@"end_time"),
+                            @"action":@""}];
+    
+    [[self notificare] updateDoNotDisturb:self.startPicker.date endTime:self.endPicker.date completionHandler:^(NSDictionary *info) {
+        [self setupTable];
+    } errorHandler:^(NSError *error) {
+        
+    }];
     
 }
 
