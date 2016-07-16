@@ -33,7 +33,6 @@
 		4025DAE019E8A90E0071BA74 /* UserDetailsOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4025DADE19E8A90E0071BA74 /* UserDetailsOptionsViewController.m */; };
 		4025DAE119E8A90E0071BA74 /* UserDetailsOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4025DADF19E8A90E0071BA74 /* UserDetailsOptionsViewController.xib */; };
 		406DDFDB1BAB4B7100812858 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406DDFDA1BAB4B7000812858 /* SafariServices.framework */; };
-		4075D64D19F2E82E0060A530 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4075D64C19F2E82E0060A530 /* StoreKit.framework */; };
 		4075D65119F2E94E0060A530 /* ProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075D64F19F2E94E0060A530 /* ProductsViewController.m */; };
 		4075D65219F2E94E0060A530 /* ProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4075D65019F2E94E0060A530 /* ProductsViewController.xib */; };
 		407D350C19D1BA5A00D5B99D /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 407D350B19D1BA5A00D5B99D /* SRWebSocket.m */; };
@@ -179,6 +178,7 @@
 		4E5345EB1CF5FA0900AF5540 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5345E91CF5FA0900AF5540 /* InboxViewController.m */; };
 		4E5345EC1CF5FA0900AF5540 /* InboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E5345EA1CF5FA0900AF5540 /* InboxViewController.xib */; };
 		4E53466D1CF5FA9000AF5540 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E53466C1CF5FA9000AF5540 /* CoreData.framework */; };
+		4EB8C2861D3AE36B00AE0A0F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB8C2851D3AE36B00AE0A0F /* StoreKit.framework */; };
 		5D4152151CA9BE4A00167C99 /* AssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D41520F1CA9BE4A00167C99 /* AssetsViewController.m */; };
 		5D4152161CA9BE4A00167C99 /* AssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4152101CA9BE4A00167C99 /* AssetCell.xib */; };
 		5D4152171CA9BE4A00167C99 /* AssetsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4152111CA9BE4A00167C99 /* AssetsViewController.xib */; };
@@ -253,7 +253,6 @@
 		4025DADF19E8A90E0071BA74 /* UserDetailsOptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDetailsOptionsViewController.xib; sourceTree = "<group>"; };
 		4029094019DF630100C159ED /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = app.entitlements; sourceTree = "<group>"; };
 		406DDFDA1BAB4B7000812858 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		4075D64C19F2E82E0060A530 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4075D64E19F2E94E0060A530 /* ProductsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsViewController.h; sourceTree = "<group>"; };
 		4075D64F19F2E94E0060A530 /* ProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsViewController.m; sourceTree = "<group>"; };
 		4075D65019F2E94E0060A530 /* ProductsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductsViewController.xib; sourceTree = "<group>"; };
@@ -517,6 +516,7 @@
 		4E5345E91CF5FA0900AF5540 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxViewController.m; sourceTree = "<group>"; };
 		4E5345EA1CF5FA0900AF5540 /* InboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InboxViewController.xib; sourceTree = "<group>"; };
 		4E53466C1CF5FA9000AF5540 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4EB8C2851D3AE36B00AE0A0F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5D41520F1CA9BE4A00167C99 /* AssetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsViewController.m; sourceTree = "<group>"; };
 		5D4152101CA9BE4A00167C99 /* AssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetCell.xib; sourceTree = "<group>"; };
 		5D4152111CA9BE4A00167C99 /* AssetsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetsViewController.xib; sourceTree = "<group>"; };
@@ -547,7 +547,7 @@
 				4E53466D1CF5FA9000AF5540 /* CoreData.framework in Frameworks */,
 				406DDFDB1BAB4B7100812858 /* SafariServices.framework in Frameworks */,
 				40DD4C5D1A2C859800CA4683 /* ImageIO.framework in Frameworks */,
-				4075D64D19F2E82E0060A530 /* StoreKit.framework in Frameworks */,
+				4EB8C2861D3AE36B00AE0A0F /* StoreKit.framework in Frameworks */,
 				40937C681927BAD60004499F /* QuartzCore.framework in Frameworks */,
 				408384D418FF0A04000DC352 /* libz.dylib in Frameworks */,
 				408384D218FF09E6000DC352 /* CFNetwork.framework in Frameworks */,
@@ -679,10 +679,10 @@
 		4083848918FF015C000DC352 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EB8C2851D3AE36B00AE0A0F /* StoreKit.framework */,
 				4E53466C1CF5FA9000AF5540 /* CoreData.framework */,
 				406DDFDA1BAB4B7000812858 /* SafariServices.framework */,
 				40DD4C5C1A2C859800CA4683 /* ImageIO.framework */,
-				4075D64C19F2E82E0060A530 /* StoreKit.framework */,
 				40937C671927BAD60004499F /* QuartzCore.framework */,
 				408384D318FF0A04000DC352 /* libz.dylib */,
 				408384D118FF09E6000DC352 /* CFNetwork.framework */,
@@ -1364,6 +1364,9 @@
 					4083848618FF015C000DC352 = {
 						DevelopmentTeam = Y47BY73NFN;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -1708,8 +1711,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = app/app.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
 				INFOPLIST_FILE = "app/app-Info.plist";
@@ -1721,7 +1724,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "55e8aec3-beae-4001-b224-670733bae049";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1733,8 +1736,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = app/app.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
 				INFOPLIST_FILE = "app/app-Info.plist";
@@ -1746,7 +1749,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "55e8aec3-beae-4001-b224-670733bae049";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1838,8 +1841,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = app/app.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
 				INFOPLIST_FILE = "app/app-Info.plist";
@@ -1851,7 +1854,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "55e8aec3-beae-4001-b224-670733bae049";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
