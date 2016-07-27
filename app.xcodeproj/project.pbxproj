@@ -174,11 +174,11 @@
 		4E4F97861D3387EB00273E5E /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4E4F97811D3387EB00273E5E /* Notificare.plist */; };
 		4E4F97871D3387EB00273E5E /* NotificareManagedModels.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4E4F97821D3387EB00273E5E /* NotificareManagedModels.bundle */; };
 		4E4F97881D3387EB00273E5E /* NotificareTags.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4E4F97831D3387EB00273E5E /* NotificareTags.plist */; };
-		4E4F978A1D3532A300273E5E /* libNotificarePushLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4F97891D3532A300273E5E /* libNotificarePushLib.a */; };
 		4E5345EB1CF5FA0900AF5540 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5345E91CF5FA0900AF5540 /* InboxViewController.m */; };
 		4E5345EC1CF5FA0900AF5540 /* InboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E5345EA1CF5FA0900AF5540 /* InboxViewController.xib */; };
 		4E53466D1CF5FA9000AF5540 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E53466C1CF5FA9000AF5540 /* CoreData.framework */; };
 		4EB8C2861D3AE36B00AE0A0F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB8C2851D3AE36B00AE0A0F /* StoreKit.framework */; };
+		4EBB718A1D48BAAE000A0DEB /* libNotificarePushLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EBB71891D48BAAE000A0DEB /* libNotificarePushLib.a */; };
 		5D4152151CA9BE4A00167C99 /* AssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D41520F1CA9BE4A00167C99 /* AssetsViewController.m */; };
 		5D4152161CA9BE4A00167C99 /* AssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4152101CA9BE4A00167C99 /* AssetCell.xib */; };
 		5D4152171CA9BE4A00167C99 /* AssetsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4152111CA9BE4A00167C99 /* AssetsViewController.xib */; };
@@ -429,7 +429,6 @@
 		4E4F97811D3387EB00273E5E /* Notificare.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
 		4E4F97821D3387EB00273E5E /* NotificareManagedModels.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NotificareManagedModels.bundle; sourceTree = "<group>"; };
 		4E4F97831D3387EB00273E5E /* NotificareTags.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareTags.plist; sourceTree = "<group>"; };
-		4E4F97891D3532A300273E5E /* libNotificarePushLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotificarePushLib.a; sourceTree = "<group>"; };
 		4E4F97FF1D35347C00273E5E /* ActionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionDelegate.h; sourceTree = "<group>"; };
 		4E4F98001D35347C00273E5E /* ActionType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionType.h; sourceTree = "<group>"; };
 		4E4F98021D35347C00273E5E /* NotificareApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareApp.h; sourceTree = "<group>"; };
@@ -517,6 +516,7 @@
 		4E5345EA1CF5FA0900AF5540 /* InboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InboxViewController.xib; sourceTree = "<group>"; };
 		4E53466C1CF5FA9000AF5540 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4EB8C2851D3AE36B00AE0A0F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4EBB71891D48BAAE000A0DEB /* libNotificarePushLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNotificarePushLib.a; sourceTree = "<group>"; };
 		5D41520F1CA9BE4A00167C99 /* AssetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsViewController.m; sourceTree = "<group>"; };
 		5D4152101CA9BE4A00167C99 /* AssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetCell.xib; sourceTree = "<group>"; };
 		5D4152111CA9BE4A00167C99 /* AssetsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetsViewController.xib; sourceTree = "<group>"; };
@@ -560,7 +560,7 @@
 				408384C418FF09AF000DC352 /* MobileCoreServices.framework in Frameworks */,
 				408384C218FF09A7000DC352 /* CoreLocation.framework in Frameworks */,
 				4083848D18FF015C000DC352 /* CoreGraphics.framework in Frameworks */,
-				4E4F978A1D3532A300273E5E /* libNotificarePushLib.a in Frameworks */,
+				4EBB718A1D48BAAE000A0DEB /* libNotificarePushLib.a in Frameworks */,
 				4083848F18FF015C000DC352 /* UIKit.framework in Frameworks */,
 				4083848B18FF015C000DC352 /* Foundation.framework in Frameworks */,
 			);
@@ -968,7 +968,7 @@
 			isa = PBXGroup;
 			children = (
 				4E4F970D1D3387EB00273E5E /* DefaultTheme.bundle */,
-				4E4F97891D3532A300273E5E /* libNotificarePushLib.a */,
+				4EBB71891D48BAAE000A0DEB /* libNotificarePushLib.a */,
 				4E4F97FC1D35347C00273E5E /* Notificare */,
 				4E4F97811D3387EB00273E5E /* Notificare.plist */,
 				4E4F97821D3387EB00273E5E /* NotificareManagedModels.bundle */,
