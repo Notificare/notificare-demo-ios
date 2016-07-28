@@ -72,7 +72,38 @@
     //[self performSelector:@selector(createNotification) withObject:nil afterDelay:4.0];
     
     [self.window makeKeyAndVisible];
+    
+    if ([UIApplicationShortcutItem class]){
+         UIApplicationShortcutItem *shortcutItem = [launchOptions objectForKey:UIApplicationLaunchOptionsShortcutItemKey];
+         return ![self handleShortCutItem:shortcutItem];
+    }
+
+    
     return YES;
+}
+
+
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
+    [self handleShortCutItem:shortcutItem];
+}
+
+- (BOOL)handleShortCutItem:(UIApplicationShortcutItem *)shortcutItem {
+    BOOL handled = NO;
+    
+    if (shortcutItem == nil) {
+        return handled;
+    } else {
+        
+        NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"demo://notifica.re/%@", [shortcutItem type]]];
+        
+        [self handleDeepLinks:url];
+        
+        return YES;
+        
+    }
+    
+    
 }
 
 
@@ -309,7 +340,7 @@
         
         if([[url path] isEqualToString:@"/inbox"]){
             
-            [nav setObject:@"MainView:" forKey:@"url"];
+            [nav setObject:@"Inbox:" forKey:@"url"];
             [self handleNavigation:nav];
             
         } else if ([[url path] isEqualToString:@"/assets"]){
@@ -325,11 +356,6 @@
         } else if ([[url path] isEqualToString:@"/locations"]){
             
             [nav setObject:@"MKMapView:" forKey:@"url"];
-            [self handleNavigation:nav];
-            
-        } else if ([[url path] isEqualToString:@"/locations"]){
-            
-            [nav setObject:@"Assets:" forKey:@"url"];
             [self handleNavigation:nav];
             
         } else if ([[url path] isEqualToString:@"/appsettings"]){

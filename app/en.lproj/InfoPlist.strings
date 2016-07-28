@@ -3,3 +3,12 @@ NSLocationUsageDescription = "We would like to use your location to easily provi
 
 NSLocationAlwaysUsageDescription = "We will need to make use of your location to present relevant information about offers around you.";
 NSLocationWhenInUseUsageDescription = "We would like to use your location to easily provide your location in  maps or  give you directions.";
+
+
+"shortcut_title_inbox" = "Inbox";
+"shortcut_title_location" = "Locations";
+"shortcut_title_assets" = "Assets";
+"shortcut_title_products" = "Products";
+"shortcut_title_app_settings" = "App Settings";
+"shortcut_title_profile" = "My Profile";
+"shortcut_title_settings" = "Settings";

@@ -79,5 +79,40 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCloud</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_title_assets</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>assets</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeLocation</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_title_location</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>locations</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeHome</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_title_profile</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>profile</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeMessage</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>shortcut_title_inbox</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>inbox</string>
+		</dict>
+	</array>
 </dict>
 </plist>
