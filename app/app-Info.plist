@@ -35,18 +35,23 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0.0</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>demoapp</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We will need to make use of your location to present relevant information about offers around you.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We would like to use your location to easily provide you maps, directions, updates and alerts based on your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We would like to use your location to easily provide your location in  maps or  give you directions.</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>demoapp</string>
-	</array>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>
@@ -74,10 +79,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>
