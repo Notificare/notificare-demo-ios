@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManagedInboxViewController">
+            <connections>
+                <outlet property="badge" destination="WS1-XL-lQ9" id="7Ne-u6-EZ8"/>
+                <outlet property="badgeButton" destination="Da3-n9-h10" id="fyx-f5-9KH"/>
+                <outlet property="badgeNr" destination="FxJ-zU-bkL" id="vTO-4c-ukZ"/>
+                <outlet property="buttonIcon" destination="Yoy-ec-abg" id="1ot-eN-je8"/>
+                <outlet property="tableView" destination="1j4-PM-RTq" id="y59-4S-GlQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1j4-PM-RTq">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="GKV-fi-cPN"/>
+                        <outlet property="delegate" destination="-1" id="8Mc-BG-N8J"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="1j4-PM-RTq" secondAttribute="trailing" id="1TF-gy-c5j"/>
+                <constraint firstItem="1j4-PM-RTq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="8ud-RK-raS"/>
+                <constraint firstAttribute="bottom" secondItem="1j4-PM-RTq" secondAttribute="bottom" id="TRL-jQ-q1F"/>
+                <constraint firstItem="1j4-PM-RTq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cGA-Ka-6hV"/>
+            </constraints>
+            <point key="canvasLocation" x="25.5" y="51.5"/>
+        </view>
+        <view contentMode="scaleToFill" id="WS1-XL-lQ9" userLabel="Badge">
+            <rect key="frame" x="0.0" y="0.0" width="33" height="25"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yoy-ec-abg">
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FxJ-zU-bkL" customClass="BadgeLabel">
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Da3-n9-h10">
+                    <state key="normal">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Da3-n9-h10" firstAttribute="top" secondItem="WS1-XL-lQ9" secondAttribute="top" id="0hk-rr-Z9F"/>
+                <constraint firstItem="Da3-n9-h10" firstAttribute="centerX" secondItem="WS1-XL-lQ9" secondAttribute="centerX" id="4tD-4r-fDA"/>
+                <constraint firstItem="Da3-n9-h10" firstAttribute="centerY" secondItem="Yoy-ec-abg" secondAttribute="centerY" id="9m1-z9-pQk"/>
+                <constraint firstAttribute="bottom" secondItem="FxJ-zU-bkL" secondAttribute="bottom" constant="7" id="AQB-p4-D3E"/>
+                <constraint firstAttribute="trailing" secondItem="FxJ-zU-bkL" secondAttribute="trailing" id="H5U-Vz-lEy"/>
+                <constraint firstItem="Yoy-ec-abg" firstAttribute="leading" secondItem="WS1-XL-lQ9" secondAttribute="leading" constant="4" id="O26-bK-QfJ"/>
+                <constraint firstAttribute="bottom" secondItem="Da3-n9-h10" secondAttribute="bottom" id="cCq-x0-4V0"/>
+                <constraint firstItem="FxJ-zU-bkL" firstAttribute="leading" secondItem="WS1-XL-lQ9" secondAttribute="leading" constant="11" id="gxJ-5a-Ml5"/>
+                <constraint firstItem="FxJ-zU-bkL" firstAttribute="top" secondItem="WS1-XL-lQ9" secondAttribute="top" constant="-2" id="iQl-z5-v6S"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-174.5" y="100.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="LeftMenuIcon.png" width="22" height="15"/>
+    </resources>
+</document>

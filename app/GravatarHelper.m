@@ -20,7 +20,7 @@
 	
 	const char *cStr = [curatedEmail UTF8String];
     unsigned char result[16];
-    CC_MD5(cStr, strlen(cStr), result); // compute MD5
+    CC_MD5(cStr, (unsigned int)strlen(cStr), result); // compute MD5
 	
 	NSString *md5email = [NSString stringWithFormat:
 			@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",

@@ -69,17 +69,7 @@
     [self setSignUpView:[[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil]];
     [self setLostpassView:[[LostPassViewController alloc] initWithNibName:@"LostPassViewController" bundle:nil]];
     
-    //For iOS6
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
-        
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-        
-    } else {
-        
-        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
-    }
+    [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
 
 }
 

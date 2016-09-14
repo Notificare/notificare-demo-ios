@@ -114,5 +114,9 @@
 			<string>inbox</string>
 		</dict>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>We would like to use your location to easily provide your location in  maps or  give you directions.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We may need to access your photos to reply to notifications</string>
 </dict>
 </plist>

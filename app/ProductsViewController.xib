@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductsViewController">
@@ -19,70 +20,82 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="y20-Vl-7xu">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="CKA-4Y-ANm"/>
                         <outlet property="delegate" destination="-1" id="e7S-D6-bPf"/>
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="y20-Vl-7xu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="CMp-rl-76q"/>
                 <constraint firstItem="y20-Vl-7xu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Iky-gp-oBa"/>
                 <constraint firstAttribute="trailing" secondItem="y20-Vl-7xu" secondAttribute="trailing" id="Yga-Gv-CRC"/>
                 <constraint firstAttribute="bottom" secondItem="y20-Vl-7xu" secondAttribute="bottom" id="qNi-fg-sAc"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
         <view contentMode="scaleToFill" id="f70-nm-vhA">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L8h-wA-dLT">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                </imageView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zxa-1e-fkq">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L8h-wA-dLT"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zxa-1e-fkq">
                     <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="closeProductView:" destination="-1" eventType="touchUpInside" id="6FP-J8-kNb"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-            <point key="canvasLocation" x="121" y="-603"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="zxa-1e-fkq" firstAttribute="trailing" secondItem="L8h-wA-dLT" secondAttribute="trailing" id="9KH-Iw-fIk"/>
+                <constraint firstItem="L8h-wA-dLT" firstAttribute="leading" secondItem="zxa-1e-fkq" secondAttribute="leading" id="Coy-GY-uml"/>
+                <constraint firstAttribute="bottom" secondItem="L8h-wA-dLT" secondAttribute="bottom" id="Huq-Ki-J0R"/>
+                <constraint firstItem="zxa-1e-fkq" firstAttribute="top" secondItem="f70-nm-vhA" secondAttribute="top" id="MqY-2A-a5n"/>
+                <constraint firstItem="zxa-1e-fkq" firstAttribute="leading" secondItem="f70-nm-vhA" secondAttribute="leading" id="ekZ-Dc-P1a"/>
+                <constraint firstAttribute="trailing" secondItem="L8h-wA-dLT" secondAttribute="trailing" id="sIS-3q-sje"/>
+                <constraint firstItem="zxa-1e-fkq" firstAttribute="bottom" secondItem="L8h-wA-dLT" secondAttribute="bottom" id="wu6-Ud-vTQ"/>
+                <constraint firstItem="L8h-wA-dLT" firstAttribute="top" secondItem="zxa-1e-fkq" secondAttribute="top" id="xSS-SZ-wmu"/>
+            </constraints>
+            <point key="canvasLocation" x="120.5" y="-603.5"/>
         </view>
         <view contentMode="scaleToFill" id="b9O-8V-Mxu">
             <rect key="frame" x="0.0" y="0.0" width="33" height="25"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="fEk-a7-Z5X">
-                    <rect key="frame" x="4" y="5" width="22" height="15"/>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LeftMenuIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="fEk-a7-Z5X">
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raO-XG-Hy5" customClass="BadgeLabel">
-                    <rect key="frame" x="11" y="-2" width="22" height="20"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="raO-XG-Hy5" customClass="BadgeLabel">
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uc-rV-ra7">
-                    <rect key="frame" x="1" y="0.0" width="30" height="25"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9uc-rV-ra7">
                     <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="9uc-rV-ra7" secondAttribute="bottom" id="7C8-En-TTs"/>
+                <constraint firstItem="9uc-rV-ra7" firstAttribute="centerY" secondItem="fEk-a7-Z5X" secondAttribute="centerY" id="B9a-dO-brU"/>
+                <constraint firstAttribute="trailing" secondItem="raO-XG-Hy5" secondAttribute="trailing" id="QEc-n4-IPE"/>
+                <constraint firstItem="9uc-rV-ra7" firstAttribute="top" secondItem="b9O-8V-Mxu" secondAttribute="top" id="aPM-Sh-8TF"/>
+                <constraint firstItem="9uc-rV-ra7" firstAttribute="centerX" secondItem="b9O-8V-Mxu" secondAttribute="centerX" id="nPP-29-lMF"/>
+                <constraint firstAttribute="bottom" secondItem="raO-XG-Hy5" secondAttribute="bottom" constant="7" id="owA-i4-wmL"/>
+                <constraint firstItem="fEk-a7-Z5X" firstAttribute="leading" secondItem="b9O-8V-Mxu" secondAttribute="leading" constant="4" id="pyh-8b-x80"/>
+                <constraint firstItem="raO-XG-Hy5" firstAttribute="leading" secondItem="b9O-8V-Mxu" secondAttribute="leading" constant="11" id="szc-UG-yQa"/>
+                <constraint firstItem="raO-XG-Hy5" firstAttribute="top" secondItem="b9O-8V-Mxu" secondAttribute="top" constant="-2" id="uWD-wd-5fF"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="140.5" y="152.5"/>

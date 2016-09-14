@@ -58,23 +58,7 @@
     [[self toolbar] setTintColor:[UIColor blackColor]];
     [[self toolbar] setTranslucent:NO];
     
-    //For iOS6
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
-        
-        [[self toolbar] setTintColor:MAIN_COLOR];
-        
-        [[self backButton] setTintColor:[UIColor blackColor]];
-        [[self forwardButton] setTintColor:[UIColor blackColor]];
-        [[self refreshButton] setTintColor:[UIColor blackColor]];
-        
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-        
-    } else {
-        
-        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
-    }
+    [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
     
     
     [self goToUrl];

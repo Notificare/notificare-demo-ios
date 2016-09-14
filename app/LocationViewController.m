@@ -65,20 +65,10 @@
 
     [[self mapView] setMapType:MKMapTypeStandard];
 
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        
-        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
-        
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-        
-    } else {
-        
-        [[self mapView] setShowsPointsOfInterest:YES];
-        [[self mapView] setShowsBuildings:NO];
-        
-        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
-    }
+    [[self mapView] setShowsPointsOfInterest:YES];
+    [[self mapView] setShowsBuildings:NO];
+    
+    [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
 
 }
 
@@ -139,9 +129,9 @@
     
     for (CLRegion * region in [[[self notificare] locationManager] monitoredRegions]) {
 
-        RegionsMarker *annotation = [[RegionsMarker alloc] initWithName:[region identifier] address:@"" coordinate:[region center]] ;
+        RegionsMarker *annotation = [[RegionsMarker alloc] initWithName:[region identifier] address:@"" coordinate:[(CLCircularRegion *)region center]] ;
         [markers addObject:annotation];
-        MKCircle *circle = [MKCircle circleWithCenterCoordinate:[region center] radius:[region radius]];
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:[(CLCircularRegion *)region center] radius:[(CLCircularRegion *)region radius]];
         [regions addObject:circle];
         
         
@@ -181,12 +171,14 @@
     
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
-    MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay{
+    
+    MKCircleRenderer *circleView = [[MKCircleRenderer alloc] initWithOverlay:overlay];
     [circleView setFillColor:MAIN_COLOR];
     [circleView setStrokeColor:[UIColor clearColor]];
     [circleView setAlpha:0.5f];
     return circleView;
+    
 }
 
 

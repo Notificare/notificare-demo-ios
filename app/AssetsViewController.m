@@ -12,7 +12,6 @@
 #import "Configuration.h"
 #import "AssetCell.h"
 #import "NotificareAsset.h"
-#import "UIImageView+MKNetworkKitAdditions.h"
 
 @interface AssetsViewController ()
 
@@ -87,19 +86,8 @@
     
     [self setupNavigationBar];
     
-    //For iOS6
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        [[[self navigationController] navigationBar] setTintColor:MAIN_COLOR];
-        
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-        [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"Transparent"] forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-        
-    } else {
-        
-        [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
-    }
-    
-    [UIImageView setDefaultEngine:[[self appDelegate] apiEngine]];
+     [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
+
 }
 
 -(void)showEmptyView{
@@ -216,7 +204,12 @@
        [[[item assetMetaData] objectForKey:@"contentType"] isEqualToString:@"image/gif"] ||
        [[[item assetMetaData] objectForKey:@"contentType"] isEqualToString:@"image/png"]){
         
-        [image setImageFromURL:[NSURL URLWithString:[item assetUrl]] placeHolderImage:[UIImage imageNamed:@"PlaceholderImage"] animation:YES];
+        [self downloadImageWithURL:[NSURL URLWithString:[item assetUrl]]completionBlock:^(BOOL succeeded, UIImage *img) {
+            if (succeeded) {
+                
+                [image setImage:img];
+            }
+        }];
         
     } else if([[[item assetMetaData] objectForKey:@"contentType"] isEqualToString:@"video/mp4"]){
 
@@ -279,6 +272,22 @@
     }
 }
 
+
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if ( !error )
+                               {
+                                   UIImage *image = [[UIImage alloc] initWithData:data];
+                                   completionBlock(YES,image);
+                               } else{
+                                   completionBlock(NO,nil);
+                               }
+                           }];
+}
 
 
 -(void)viewWillAppear:(BOOL)animated{

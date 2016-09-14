@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "NotificarePushLib.h"
-#import "ApiEngine.h"
 
 
 @class RightViewController;
@@ -46,8 +45,6 @@
 @property (retain, nonatomic) UIViewController *centerController;
 @property (retain, nonatomic) UIViewController *leftController;
 @property (retain, nonatomic) IIViewDeckController* deckController;
-
-@property (strong, nonatomic) ApiEngine * apiEngine;
 
 
 -(void)handleNavigation:(NSDictionary *)item;

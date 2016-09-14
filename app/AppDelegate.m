@@ -22,6 +22,7 @@
 #import "ProductsViewController.h"
 #import "LogViewController.h"
 #import "InboxViewController.h"
+#import "ManagedInboxViewController.h"
 #import "AssetsViewController.h"
 #import "NSData+Hex.h"
 #import "Configuration.h"
@@ -33,18 +34,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
-    
-    if([[[Configuration shared] getProperty:@"host"] length] > 0){
-        [self setApiEngine:[[ApiEngine alloc]
-                            initWithHostName:[[Configuration shared] getProperty:@"host"]
-                            customHeaderFields:nil]];
-        
-        [[self apiEngine] useCache];
-        
-        [UIImageView setDefaultEngine:[self apiEngine]];
-    }
-
 
     [self setLog:[NSMutableArray array]];
     [self setCachedNotifications:[NSMutableArray array]];
@@ -268,7 +257,7 @@
             } else if ([[item objectForKey:@"url"] hasPrefix:@"Inbox:"]){
                 
                 
-                InboxViewController * inbox = [[InboxViewController alloc] initWithNibName:@"InboxViewController" bundle:nil];
+                ManagedInboxViewController * inbox = [[ManagedInboxViewController alloc] initWithNibName:@"ManagedInboxViewController" bundle:nil];
                 
                 [self setCenterController:[[UINavigationController alloc] initWithRootViewController:inbox]];
                 [[self deckController] setCenterController:[self centerController]];
@@ -559,8 +548,7 @@
 
 
 /////////////////////////////////
-///New iOS8 delgates
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+///Deprecated
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
 
     
@@ -609,7 +597,7 @@
     
     
 }
-#endif
+
 /////////////////////////////////
 
 
@@ -625,17 +613,6 @@
 
 
 //For iOS6 - No inbox
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
-    [[NotificarePushLib shared] openNotification:userInfo];
-    
-    NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
-    [tmpLog setObject:@"didReceiveRemoteNotification" forKey:@"event"];
-    if([userInfo objectForKey:@"id"]){
-        [tmpLog setObject:[userInfo objectForKey:@"id"] forKey:@"data"];
-    }
-    [self addToLog:tmpLog];
-}
 
 
 - (void)notificarePushLib:(NotificarePushLib *)library didReceiveWebsocketNotification:(NSDictionary *)info {
@@ -668,8 +645,19 @@
     [self addToLog:tmpLog];
  }
 
+
+-(void)notificarePushLib:(NotificarePushLib *)library willHandleNotification:(nonnull UNNotification *)notification{
+
+    [[NotificarePushLib shared] handleNotification:notification completionHandler:^(NSDictionary * _Nonnull info) {
+        //
+    } errorHandler:^(NSError * _Nonnull error) {
+        //
+    }];
+}
+
 - (void)notificarePushLib:(NotificarePushLib *)library didUpdateBadge:(int)badge{
     [[NSNotificationCenter defaultCenter] postNotificationName:@"incomingNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receivedRemoteNotification" object:nil];
 }
 
 
