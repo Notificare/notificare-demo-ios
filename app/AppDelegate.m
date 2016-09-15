@@ -154,9 +154,6 @@
 
 - (void)notificarePushLib:(NotificarePushLib *)library onReady:(NSDictionary *)info{
 
-    
-    //NSLog(@"App Info: %@",[[NotificarePushLib shared] applicationInfo]);
-    
 #if TARGET_IPHONE_SIMULATOR
     
     //Simulator
@@ -165,10 +162,6 @@
 #else
     
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-
-    
-    [settings setBool:NO forKey:@"re.notifica.office.prod2"];
-    [settings synchronize];
     
     if([settings boolForKey:@"tutorialUserRegistered"]){
 
@@ -551,14 +544,6 @@
 ///Deprecated
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
 
-    
-#if TARGET_IPHONE_SIMULATOR
-    
-    //Simulator
-    [[NotificarePushLib shared] registerForWebsockets];
-    
-    
-#endif
    
 }
 
@@ -602,6 +587,8 @@
 
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    
+    NSLog(@"%@", error);
     
     NSMutableDictionary * tmpLog = [NSMutableDictionary dictionary];
     [tmpLog setObject:@"didFailToRegisterForRemoteNotificationsWithError" forKey:@"event"];
