@@ -44,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 40)];
     [title setText:LSSTRING(@"title_user_profile")];
     [title setFont:LATO_LIGHT_FONT(20)];
@@ -65,7 +65,7 @@
     [self setupNavigationBar];
     
     [[[self navigationController] navigationBar] setBarTintColor:MAIN_COLOR];
-
+    
     [self resetForm];
     [[self password] setPlaceholder:LSSTRING(@"placeholder_newpass")];
     [[self password] setDelegate:self];
@@ -80,10 +80,10 @@
     [[self generateTokenButton] setTitle:LSSTRING(@"button_generatetoken") forState:UIControlStateNormal];
     [[self logoutButton] setTitle:LSSTRING(@"button_logout") forState:UIControlStateNormal];
     [[self logoutButton] setBackgroundColor:[UIColor redColor]];
-
+    
     [self setSignInView:[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil]];
     [self setOptionsView:[[UserDetailsOptionsViewController alloc] initWithNibName:@"UserDetailsOptionsViewController" bundle:nil]];
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -127,7 +127,7 @@
     
     [[self notificare] fetchAccountDetails:^(NSDictionary *info) {
         //
-
+        
         NotificareUser * tmpUser = [NotificareUser new];
         
         [tmpUser setUserID:[[info objectForKey:@"user"] objectForKey:@"userID"]];
@@ -139,14 +139,14 @@
         [tmpUser setValidated:[[[info objectForKey:@"user"] objectForKey:@"validated"] boolValue]];
         [tmpUser setActive:[[[info objectForKey:@"user"] objectForKey:@"active"] boolValue]];
         [self setUser:tmpUser];
-
+        
         [self loadSegments];
     } errorHandler:^(NSError *error) {
         
     }];
     
     
-
+    
 }
 
 -(void)loadSegments{
@@ -167,6 +167,86 @@
 }
 
 
+-(void)loadDnD{
+    
+    [self setDnd:[NSMutableArray array]];
+    
+    [[self notificare] fetchDoNotDisturb:^(NSDictionary *info) {
+        
+        if([info objectForKey:@"start"] && [info objectForKey:@"end"]){
+            
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"hh:mm"];
+            NSString *startTime = [dateFormatter stringFromDate:[info objectForKey:@"start"]];
+            NSString *endTime = [dateFormatter stringFromDate:[info objectForKey:@"end"]];
+            
+            
+            [[self dnd] addObject:@{@"value": @"true",
+                                    @"label":LSSTRING(@"quiet_times"),
+                                    @"action":@""}];
+            
+            [[self dnd] addObject:@{@"value": startTime,
+                                    @"label":LSSTRING(@"start_time"),
+                                    @"action":@""}];
+            
+            [[self dnd] addObject:@{@"value": endTime,
+                                    @"label":LSSTRING(@"end_time"),
+                                    @"action":@""}];
+            
+        } else {
+            
+            [[self dnd] addObject:@{@"value": @"false",
+                                    @"label":LSSTRING(@"quiet_times"),
+                                    @"action":@""}];
+        }
+        
+        
+        [self loadUserData];
+        
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+
+-(void)loadUserData{
+    
+    
+    NSMutableArray * tempUserData = [NSMutableArray array];
+    
+    [[NotificarePushLib shared] fetchUserData:^(NSDictionary * _Nonnull info) {
+        //
+        
+        for (NSMutableDictionary * field in [[[NotificarePushLib shared] applicationInfo] objectForKey:@"userDataFields"]) {
+            
+            NSMutableDictionary * tempField = [NSMutableDictionary dictionaryWithDictionary:field];
+            
+            if (![[info objectForKey:@"userData"] isKindOfClass:[NSNull class]] && [info objectForKey:@"userData"] && [[info objectForKey:@"userData"] objectForKey:[field objectForKey:@"key"]]) {
+                
+                [tempField setObject:[[info objectForKey:@"userData"] objectForKey:[field objectForKey:@"key"]] forKey:@"value"];
+                
+            } else {
+                
+                [tempField setObject:@"" forKey:@"value"];
+                
+            }
+            
+            [tempUserData addObject:tempField];
+        }
+        
+        [self setUserData:tempUserData];
+        [self setupTable];
+        
+    } errorHandler:^(NSError * _Nonnull error) {
+        //
+    }];
+    
+    
+    
+}
+
+
 -(void)setupTable{
     
     [[self activityIndicatorView] setHidden:YES];
@@ -175,7 +255,7 @@
     [self setNavSections:[NSMutableArray array]];
     
     NSMutableArray * userCell = [NSMutableArray array];
-
+    
     if([self user] && [[self user] userName] && [[self user] userID]){
         [userCell addObject:@{
                               @"name":[[self user] userName],
@@ -183,6 +263,21 @@
                               @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
                               @"label":LSSTRING(@"avatar"),
                               @"action":@""}];
+        
+        if ([self userData] && [[self userData] count] > 0) {
+            
+            for (NSDictionary * field in [self userData]) {
+                
+                [userCell addObject:@{@"name": [field objectForKey:@"key"],
+                                      @"email": [NSString stringWithFormat:@"%lu", (unsigned long) (200 +  [[self userData] indexOfObject:field])],
+                                      @"token": [field objectForKey:@"value"],
+                                      @"label": [field objectForKey:@"label"],
+                                      @"action":@"userData"}];
+                
+            }
+            
+        }
+        
         
         [userCell addObject:@{@"name":[[self user] userName],
                               @"email":[[self user] userID],
@@ -195,6 +290,7 @@
                               @"token":([[self user] accessToken]) ? [[self user] accessToken] : @"",
                               @"label":LSSTRING(@"button_generatetoken"),
                               @"action":@""}];
+        
         
         [userCell addObject:@{@"name":[[self user] userName],
                               @"email":[[self user] userID],
@@ -236,15 +332,61 @@
         
     }
     
-    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
-    
-    [rightButton setTintColor:ICONS_COLOR];
-    
-    if([[[self appDelegate] beacons] count] > 0){
+    if ([[[NotificarePushLib shared] applicationInfo] objectForKey:@"userDataFields"] && [[[[NotificarePushLib shared] applicationInfo] objectForKey:@"userDataFields"] count] > 0) {
+        
+        UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(updateUser)];
+        
+        [rightButton setTintColor:ICONS_COLOR];
         [[self navigationItem] setRightBarButtonItem:rightButton];
+        
     } else {
-        [[self navigationItem] setRightBarButtonItem:nil];
+        
+        UIBarButtonItem * rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"RightMenuIcon"] style:UIBarButtonItemStylePlain target:[self viewDeckController] action:@selector(toggleRightView)];
+        
+        
+        [rightButton setTintColor:ICONS_COLOR];
+        
+        if([[[self appDelegate] beacons] count] > 0){
+            [[self navigationItem] setRightBarButtonItem:rightButton];
+        } else {
+            [[self navigationItem] setRightBarButtonItem:nil];
+        }
+        
+        
+        
     }
+    
+    
+    
+}
+
+
+-(void)updateUser{
+    
+    
+    NSMutableDictionary * data = [NSMutableDictionary dictionary];
+    
+    for (NSDictionary * dict in [[self navSections] objectAtIndex:0]) {
+        //
+        if ([[dict objectForKey:@"action"] isEqualToString:@"userData"]) {
+            
+            UITextField *myField = (UITextField *)[self.view viewWithTag:[[dict objectForKey:@"email"] intValue]];
+            [data setObject:[myField text] forKey:[dict objectForKey:@"name"]];
+            
+            [myField resignFirstResponder];
+        }
+    }
+    
+    
+    [[NotificarePushLib shared] updateUserData:data completionHandler:^(NSDictionary * _Nonnull info) {
+        //
+        
+        APP_ALERT_DIALOG(LSSTRING(@"success_message_update_user_data"));
+    } errorHandler:^(NSError * _Nonnull error) {
+        //
+        
+        APP_ALERT_DIALOG(LSSTRING(@"error_message_update_user_data"));
+    }];
     
 }
 
@@ -272,7 +414,7 @@
 
 
 -(void)generateNewToken{
-
+    
     [[self notificare] generateAccessToken:^(NSDictionary *info) {
         [self loadAccount];
         APP_ALERT_DIALOG(LSSTRING(@"success_message_generate_token"));
@@ -302,7 +444,7 @@
         }
     }
     
-
+    
 }
 
 
@@ -313,7 +455,7 @@
     if(![self password] && ![self passwordConfirm]){
         
         [[self changePassButton] setEnabled:YES];
-         APP_ALERT_DIALOG(LSSTRING(@"error_password_changepass"));
+        APP_ALERT_DIALOG(LSSTRING(@"error_password_changepass"));
         
     }else if (![[[self password] text] isEqualToString:[[self passwordConfirm] text]]) {
         
@@ -321,7 +463,7 @@
         APP_ALERT_DIALOG(LSSTRING(@"error_create_account_passwords_match"));
         
     }else if ([[[self passwordConfirm] text] length] < 5) {
-
+        
         [[self changePassButton] setEnabled:YES];
         APP_ALERT_DIALOG(LSSTRING(@"error_create_account_small_password"));
         
@@ -341,7 +483,7 @@
         }];
         
     }
-   
+    
 }
 
 -(IBAction)logout:(id)sender{
@@ -448,6 +590,23 @@
             
             [[cell textLabel] setText:[item objectForKey:@"label"]];
             [[cell textLabel] setFont:LATO_LIGHT_FONT(14)];
+            
+            if ([[item objectForKey:@"action"] isEqualToString:@"userData"]) {
+                UITextField * field = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width /3, 30)];
+                [field setFont:LATO_FONT(14)];
+                [field setTextAlignment:NSTextAlignmentRight];
+                [field setTag:[[item objectForKey:@"email"] intValue]];
+                [field setPlaceholder:LSSTRING(@"type_something")];
+                [field setDelegate:self];
+                
+                if ([item objectForKey:@"token"]) {
+                    [field setText:[item objectForKey:@"token"]];
+                }
+                
+                [cell setAccessoryView:field];
+            }
+            
+            
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
@@ -511,7 +670,7 @@
              */
             
             NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"HH:mm"];
+            [dateFormat setDateFormat:@"hh:mm"];
             NSDate *date = [dateFormat dateFromString:[NSString stringWithFormat:@"%@", [item objectForKey:@"value"]]];
             
             if ([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"start_time")]) {
@@ -565,11 +724,11 @@
             }
             
             [mySwitch addTarget:self action:@selector(OnSegmentsChanged:) forControlEvents:UIControlEventValueChanged];
-
+            
         }
         
         if([[item preferenceType] isEqualToString:@"choice"]){
-
+            
             UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width /2, cell.frame.size.height /2)];
             
             for (NotificareSegment * seg in [item preferenceOptions]) {
@@ -582,19 +741,19 @@
                     [cell setAccessoryView:label];
                 }
             }
-
+            
         }
         
         if([[item preferenceType] isEqualToString:@"select"]){
-
+            
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             
         }
-
+        
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
-
+    
 }
 
 
@@ -715,7 +874,7 @@
         }  else if([[item objectForKey:@"label"] isEqualToString:LSSTRING(@"avatar")]){
             
             if([item objectForKey:@"token"] && [NSNull class] != [[item objectForKey:@"token"] class]){
-
+                
                 if([MFMailComposeViewController canSendMail]){
                     NSArray* recipients = [[NSString stringWithFormat:@"%@@pushmail.notifica.re", [item objectForKey:@"token"]] componentsSeparatedByString: @","];
                     [self setMailComposer:[[MFMailComposeViewController alloc] init]];
@@ -734,7 +893,7 @@
         }
         
     }
-
+    
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
@@ -746,7 +905,7 @@
                 //
                 APP_ALERT_DIALOG(LSSTRING(@"mail_success_text"));
             }];
-
+            
             break;
         case MFMailComposeResultFailed:
             
@@ -767,7 +926,7 @@
 -(NSDictionary *)checkIfActivePicker:(NSIndexPath *)indexPath{
     
     for (NSDictionary * row in [[self navSections] objectAtIndex:[indexPath section]]) {
-
+        
         if([row objectForKey:@"activePicker"]){
             return row;
         }
@@ -781,11 +940,11 @@
     
     UISwitch *tempSwitch = (UISwitch *)sender;
     NotificareUserPreference * item = [[[self navSections] objectAtIndex:[tempSwitch tag] / 100] objectAtIndex:[tempSwitch tag] % 100];
-
+    
     
     if([[item preferenceType] isEqualToString:@"single"]){
         
-            
+        
         NotificareSegment * seg = [[item preferenceOptions] objectAtIndex:0];
         
         if([tempSwitch isOn]){
@@ -814,51 +973,6 @@
     
 }
 
-
--(void)loadDnD{
-    
-    [self setDnd:[NSMutableArray array]];
-    
-    [[self notificare] fetchDoNotDisturb:^(NSDictionary *info) {
-        
-        if([info objectForKey:@"start"] && [info objectForKey:@"end"]){
-            
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"HH:mm"];
-            NSString *startTime = [dateFormatter stringFromDate:[info objectForKey:@"start"]];
-            NSString *endTime = [dateFormatter stringFromDate:[info objectForKey:@"end"]];
-            
-            
-            [[self dnd] addObject:@{@"value": @"true",
-                                    @"label":LSSTRING(@"quiet_times"),
-                                    @"action":@""}];
-            
-            [[self dnd] addObject:@{@"value": startTime,
-                                    @"label":LSSTRING(@"start_time"),
-                                    @"action":@""}];
-            
-            [[self dnd] addObject:@{@"value": endTime,
-                                    @"label":LSSTRING(@"end_time"),
-                                    @"action":@""}];
-            
-        } else {
-            
-            [[self dnd] addObject:@{@"value": @"false",
-                                    @"label":LSSTRING(@"quiet_times"),
-                                    @"action":@""}];
-        }
-        
-        
-        [self setupTable];
-        
-    } errorHandler:^(NSError *error) {
-        
-    }];
-}
-
-
-
 -(void)toggleQuietTimes:(id)sender{
     
     
@@ -879,7 +993,7 @@
                                 @"action":@""}];
         
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"HH:mm"];
+        [dateFormat setDateFormat:@"hh:mm"];
         NSDate *startTime = [dateFormat dateFromString:@"00:00"];
         NSDate *endTime = [dateFormat dateFromString:@"08:00"];
         
@@ -908,7 +1022,7 @@
 -(void)timeChanged:(id)sender{
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm"];
+    [dateFormatter setDateFormat:@"hh:mm"];
     NSString *startTime = [dateFormatter stringFromDate:self.startPicker.date];
     NSString *endTime = [dateFormatter stringFromDate:self.endPicker.date];
     
@@ -934,8 +1048,6 @@
     }];
     
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {

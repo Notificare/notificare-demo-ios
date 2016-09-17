@@ -39,6 +39,8 @@
 @property (nonatomic, strong) NSMutableArray * navSections;
 @property (nonatomic, strong) NSMutableArray * sectionTitles;
 @property (nonatomic, strong) NSMutableArray * segments;
+@property (nonatomic, strong) NSMutableArray * dnd;
+@property (nonatomic, strong) NSMutableArray * userData;
 @property (nonatomic, strong) NotificareUser * user;
 @property (nonatomic, strong) UIActivityIndicatorView * activityIndicatorView;
 @property (nonatomic, strong) UIView * loadingView;
@@ -47,7 +49,6 @@
 @property (nonatomic, strong) UserDetailsOptionsViewController * optionsView;
 @property (nonatomic, strong) UIDatePicker * startPicker;
 @property (nonatomic, strong) UIDatePicker * endPicker;
-@property (nonatomic, strong) NSMutableArray * dnd;
 
 -(IBAction)generateToken:(id)sender;
 -(IBAction)changePass:(id)sender;

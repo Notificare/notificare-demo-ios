@@ -132,3 +132,7 @@
 "quiet_times" = "Use Do Not Disturb";
 "start_time" = "From";
 "end_time" = "To";
+
+"success_message_update_user_data" = "Your profile was updated successfully!";
+"error_message_update_user_data" = "We could not update your profile at this time, please try again later!";
+"type_something" = "type a value";
