@@ -5,6 +5,9 @@ NSLocationAlwaysUsageDescription = "We will need to make use of your location to
 NSLocationWhenInUseUsageDescription = "We would like to use your location to easily provide your location in  maps or  give you directions.";
 
 
+NSCameraUsageDescription = "We would like to use the device's camera to reply to notifications.";
+NSPhotoLibraryUsageDescription = "We would like to use your photo library to reply to notifications.";
+
 "shortcut_title_inbox" = "Inbox";
 "shortcut_title_location" = "Locations";
 "shortcut_title_assets" = "Assets";
