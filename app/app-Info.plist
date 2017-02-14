@@ -27,9 +27,8 @@
 			<string>re.notifica.demo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>demoapp</string>
 				<string>nc5489b42ff23e5815132b492a</string>
-				<string>nc5538bbb23a4b1ee45b243461</string>
+				<string>demoapp</string>
 			</array>
 		</dict>
 	</array>
